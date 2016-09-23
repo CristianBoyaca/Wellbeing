@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <body>
+
+        <ui:composition template="./../../WEB-INF/faces/template/plantilla.xhtml">
+
+            <ui:define name="titulo">
+                <title>Seguridad Social</title>
+            </ui:define>
+
+            <ui:define name="content">
+                <div class="busqueda">
+                    <div class="row">
+                        <br/>
+                        <div class="col-sm-8 col-sm-offset-2">
+                            <div class="panel panel-primary">
+                                <div class="panel-heading">Seguridad Social</div>
+                                <table class="table table-bordered">
+                                    <tbody>
+                                        <tr>
+                                            <td style="text-indent:10px;">Eps:</td><td style="width: 1000px"><h:dataTable value="#{datoEmpleadoControlador.buscarInformacion()}" var="dat"><h:column><h:outputText value="#{dat.eps.nombre}" /></h:column></h:dataTable></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="text-indent:10px">Fondo de pensiones:</td><td><h:dataTable value="#{datoEmpleadoControlador.buscarInformacion()}" var="dat"><h:column><h:outputText value="#{dat.idFondo.nombreFondo}"/></h:column></h:dataTable></td></tr>
+                                        <tr>
+                                            <td style="text-indent:10px;">Caja de compensación:</td><td><h:dataTable value="#{datoEmpleadoControlador.buscarInformacion()}" var="dat"><h:column><h:outputText value="#{dat.cajaCompensacion.nombreCajaCompensacion}" /></h:column></h:dataTable></td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

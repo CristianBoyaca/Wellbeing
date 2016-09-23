@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+
+    <body>
+
+        <ui:composition template="./../../WEB-INF/faces/template/plantilla.xhtml">
+
+            <ui:define name="titulo">
+                <title>Solicitar Vacaciones</title>
+            </ui:define>
+
+            <ui:define name="content">
+                <a>#{vacacionControlador.calcularDiasVacaciones()}</a>
+                <div class="busqueda" style="height:120px">
+                    <div class="row">
+                        <br/>
+                        <div class="col-sm-10 col-sm-offset-1">
+                            <div class="panel panel-primary">
+                                <table class="table table-bordered">
+                                    <tbody>
+                                        <thead style="background-color:#006dcc;color:white">
+                                            <tr>
+                                                <th>Fecha De Ingreso</th>
+                                                <th>Días legales a solicitar en tiempo</th>
+                                            </tr>
+                                        </thead>
+                                        <tr>
+                                            <td><h:dataTable value="#{datoEmpleadoControlador.buscarInformacion()}" var="dat"><h:column><h:outputText value="#{dat.fechaIngreso}"><f:convertDateTime pattern="dd/MM/yyyy"/></h:outputText></h:column></h:dataTable></td>
+                                            <td><h:outputText value="#{vacacionControlador.vacacion.periodo}"/></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- formulario-->
+
+                <h:form id="formulario"  class="form-horizontal contenedor" style="margin-bottom:80px">
+                    <fieldset>
+                        <p:growl id="mensaje" autoUpdate="false" severity="info,fatal,warn" showSummary="true" showDetail="true"/>
+                        <!-- Form Name -->
+                        <legend style="text-align:left;text-indent: 20px"><img src="../../resources/images/logo.JPG" alt="Logo" width="30%" height="200px"/>&nbsp;&nbsp;&nbsp;&nbsp;Solicitud de vacaciones</legend>
+
+                        <!-- Text input-->
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="Solicitud"><font color="red" size="4">*</font>Solicitud:</label>  
+                            <div class="col-md-4">
+                                <h:inputText disabled="true" id="Solicitud"  value="Vacaciones" class="form-control input-md"></h:inputText>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="FechaDeInicio"><font color="red" size="4">*</font>Fecha De Inicio:</label><div class="col-md-4"> 
+                                <p:calendar  id="fechaInicio" locale="es" pattern="yyyy-MM-dd" size="24" mindate="2016-07-06" maxdate="2016-12-31" required="true" requiredMessage="Se debe seleccionar una fecha" value="#{vacacionControlador.vacacion.fechaInicial}"/><p:message for="fechaInicio"/></div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="FechaFinal"><font color="red" size="4">*</font>Fecha Final:</label><div class="col-md-4"> 
+                                <p:calendar  id="fechaFinal" locale="es" pattern="yyyy-MM-dd" size="24" mindate="2016-07-06" maxdate="2016-12-31" required="true" requiredMessage="Se debe seleccionar una fecha" value="#{vacacionControlador.vacacion.fechaFinal}"/><p:message for="fechaFinal"/></div>
+                        </div>
+
+                        <!-- Text input-->
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" ><font color="red" size="4">*</font>Identificacion:</label><div class="col-md-4"> 
+                                <h:inputText disabled="true" value="#{vacacionControlador.vacacion.identificacion}" class="form-control input-md"/></div>
+                        </div> 
+
+                        <!-- Text input-->
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="Observaciones"><font color="red" size="4"></font>Observaciones:</label><div class="col-md-4"> 
+                                <p:inputTextarea styleClass="form-control form-control input-md" id="Observaciones"  rows="3"  a:placeholder="Digite el motivo de su solicitud" cols="30" maxlength="200" value="#{observacionControlador.observacion.observacion}"></p:inputTextarea></div>
+                        </div>
+
+                        <!-- Button -->
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="Registrar"></label>
+                            <div class="col-md-4">
+                                <h:commandLink id="Registrar" onclick="#{observacionControlador.registrarObservacion(vacacionControlador.vacacion.identificacion)}" actionListener="#{vacacionControlador.registrarVacaciones()}" class="btn btn-success"><span class="glyphicon glyphicon-ok" type="submit" update="mensaje"> Registrar</span></h:commandLink>
+                            </div>
+                        </div>
+                    </fieldset>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

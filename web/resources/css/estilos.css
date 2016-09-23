@@ -1,0 +1,129 @@
+/*Cristian*/
+.cabezera{
+    background:url(../resources/images/banner.JPG);
+    width: 100%;
+    height: 180px;
+    margin:auto;
+}
+
+body {
+    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iNiIgaGVpZ2h0PSI2Ij4KPHJlY3Qgd2lkdGg9IjYiIGhlaWdodD0iNiIgZmlsbD0iI2VlZWVlZSI+PC9yZWN0Pgo8ZyBpZD0iYyI+CjxyZWN0IHdpZHRoPSIzIiBoZWlnaHQ9IjMiIGZpbGw9IiNlNmU2ZTYiPjwvcmVjdD4KPHJlY3QgeT0iMSIgd2lkdGg9IjMiIGhlaWdodD0iMiIgZmlsbD0iI2Q4ZDhkOCI+PC9yZWN0Pgo8L2c+Cjx1c2UgeGxpbms6aHJlZj0iI2MiIHg9IjMiIHk9IjMiPjwvdXNlPgo8L3N2Zz4=");
+
+}
+
+/*li a {
+    color:white;
+    background-color:#222222;
+}
+
+li a:hover {
+    background: #66CCFF;
+}
+*/
+footer{
+    background-color: black;
+    bottom: 0;
+    width: 100%;
+    height: 50px;
+    color:white;
+    position: fixed;
+}
+.contenedor{
+
+    width:800px;
+    margin: auto;
+    border-style:groove;
+    border-width:5px;
+    background-color:white;
+
+}
+a:link,a:visited, a:active {
+    color:white;
+
+}
+
+.busqueda{
+    width:970px;
+    height: 273px;
+    text-indent: 10px;
+    margin:auto;
+
+}
+
+.image {
+
+    position: relative;
+
+    width: 100%; /* for IE 6 */
+
+}
+
+
+h2 span {
+
+    color: white;
+
+
+
+    letter-spacing: -1px;
+
+    background: rgb(0, 0, 0);
+
+    background: rgba(0, 0, 0, 0.7);
+
+    padding: 10px;
+    font-size: 1.2em;
+}
+
+
+
+.vertical-offset-100{
+    padding-top:100px;
+}
+.login .user-row{
+    text-align: center;
+    font-size: 30px;
+}
+
+.login .img-responsive {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: auto;
+}
+
+.login.panel {
+    margin-bottom: 20px;
+    background-color: rgba(255, 255, 255, 0.75);
+    border: 1px solid transparent;
+    border-radius: 4px;
+    -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
+}
+.login label{
+    display: block;
+    width: 100%;
+    color: #449d44;
+    text-shadow:#4cae4c;
+    text-align: center;
+}
+.login hr{
+    margin: 5px;
+}
+
+.texto{color: white}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

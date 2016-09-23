@@ -1,0 +1,148 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <body>
+
+        <ui:composition template="./../../WEB-INF/faces/template/plantilla.xhtml">
+
+            <ui:define name="titulo">
+                <title>Actualizar Información</title>
+            </ui:define>
+
+            <ui:define name="content">
+
+
+                <div class="busqueda">    
+                    <div class="row">
+                        <br/>
+                        <div class="col-sm-8 col-sm-offset-2">
+                            <div class="panel panel-primary">
+                                <div class="panel-heading"><span class="glyphicon glyphicon-user"></span> Información Personal</div>
+                                <table class="table table-bordered">
+                                    <tbody>
+                                        <tr>
+                                            <td style="text-indent:10px;">Colaborador:</td><td><h:dataTable value="#{datoEmpleadoControlador.buscarInformacion()}" var="dat"><h:column><h:outputText value="#{dat.primerNombre} #{dat.segundoNombre} #{dat.primerApellido} #{dat.segundoApellido}" /></h:column></h:dataTable></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="text-indent:10px;">Fecha De Nacimiento:</td><td><h:dataTable value="#{datoEmpleadoControlador.buscarInformacion()}" var="dat"><h:column><h:outputText value="#{dat.fechaNacimiento}"><f:convertDateTime pattern="dd/MM/yyyy" /></h:outputText></h:column></h:dataTable></td></tr>
+                                        <tr>
+                                            <td style="text-indent:10px;">Tipo De Documento:</td><td><h:dataTable value="#{datoEmpleadoControlador.buscarInformacion()}" var="dat"><h:column><h:outputText value="#{dat.tipoDocumento.tipoDocumento}" /></h:column></h:dataTable></td></tr>
+                                        <tr>
+                                            <td style="text-indent:10px;">Numero De Documento:</td><td><h:dataTable value="#{datoEmpleadoControlador.buscarInformacion()}" var="dat"><h:column><h:outputText value="#{dat.identificacion}" /></h:column></h:dataTable></td></tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="busqueda" style="width:640px;margin-bottom:160px">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading"><span class="glyphicon glyphicon-pencil"></span> Actualizar Información</div>
+                        <h:form id="formactualizar">
+                            <c:if test="#{datoEmpleadoControlador.estado==true}">
+                                <script language="JavaScript" type="text/javascript">
+                                    $(document).ready(function () {
+                                        swal({type: "success", title: "¡Actualización exitosa!", confirmButtonText: "Aceptar", showConfirmButton: true, allowOutsideClick: true, time: 3000}, function () {
+                                            window.location.href = "../inicio.xhtml";
+                                        });
+                                    });
+                                </script> </c:if>
+                                #{datoEmpleadoControlador.cambiarEstado()}
+
+                            <p:fieldset style="background-color: white;color: black">
+                                <p:growl id="mensaje" autoUpdate="true" severity="info,fatal,warn" showSummary="true" showDetail="true"/>
+                                <h:panelGrid id="grid" columns="3">
+
+                                    <h:outputLabel  id="estado" value="Estado Civil:" style="text-indent:10px;font-weight:normal;margin-top:10px;margin-right:120px"/> 
+
+                                    <p:selectOneMenu style="width:320px;margin-top:10px" value="#{datoEmpleadoControlador.datoEmpleado.estadoCivil}">
+                                        <f:selectItems value="#{estadoCivilControlador.listarEstadosCiviles()}" var="est"  itemLabel="#{est.descripcion}"/>
+                                    </p:selectOneMenu>
+                                    <br/>
+
+
+
+                                    <h:outputLabel  value="Correo Electrónico:" style="text-indent:10px;margin-right:120px;font-weight:normal;margin-top:10px"/> 
+                                    <p:inputText style="width:320px;margin-top: 10px" type="text" maxlength="50" required="true" id="correo" value="#{datoEmpleadoControlador.datoEmpleado.emailCorporativo}" requiredMessage="Se debe ingresar un correo electrónico" validatorMessage="Correo invalido"><f:validateRegex
+                                            pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" /></p:inputText>
+                                    <p:message for="correo" />
+
+                                    <h:outputLabel  value="Teléfono:" style="text-indent:10px;margin-right:120px;font-weight:normal;margin-top:10px"/> 
+                                    <p:inputText style="width:320px;margin-top: 10px" type="text" maxlength="23" required="true" id="telefono" value="#{datoEmpleadoControlador.datoEmpleado.telefono}" requiredMessage="Se debe ingresar un numero de teléfono" validatorMessage="La dirección debe contener minimo 7 caracteres"><f:validateLength for="telefono" minimum="7" maximum="23"></f:validateLength></p:inputText>
+                                    <p:message for="telefono" />
+
+                                    <h:outputLabel  value="Dirección De Residencia:" style="text-indent:10px;margin-right:120px;font-weight:normal;margin-top:10px"/> 
+                                    <p:inputText style="width:320px;margin-top: 10px" type="text" maxlength="100" required="true" id="direccion" value="#{datoEmpleadoControlador.datoEmpleado.direccionResidencia}" requiredMessage="Se debe ingresar una dirección" validatorMessage="La dirección debe contener minimo 5 caracteres"><f:validateLength for="direccion" minimum="5" maximum="100"></f:validateLength></p:inputText>
+                                    <p:message for="direccion" />
+
+                                    <h:outputLabel for="barrio" value="Barrio:" style="text-indent:10px;margin-right:120px;font-weight:normal;margin-top:10px"/> 
+                                    <p:inputText style="width:320px;margin-top: 10px" type="text" maxlength="100" required="true" id="barrio" value="#{datoEmpleadoControlador.datoEmpleado.barrio}" requiredMessage="Se debe ingresar un barrio" validatorMessage="El barrio debe contener minimo 5 caracteres"><f:validateLength for="barrio" minimum="5" maximum="100"></f:validateLength></p:inputText>
+                                    <p:message for="barrio" />
+
+                                </h:panelGrid>
+                            </p:fieldset>
+                            <div style="text-align:center;margin:10px"> 
+                                <h:commandLink onclick=" return validar()"  actionListener="#{datoEmpleadoControlador.actualizarDatosEmpleado()}"  class="btn btn-success" id="actualizar" type="submit"><span class="glyphicon glyphicon-glyphicon glyphicon glyphicon-floppy-disk" update="mensaje,grid"> Guardar</span></h:commandLink>
+                            </div>
+                        </h:form>   
+                    </div>
+                </div>
+
+
+
+                <h:outputScript library="js" name="validCampoFranz.js"/>
+                <script type="text/javascript">
+                    $(function () {
+                        //Para escribir solo letras
+                        $("#formactualizar\\:barrio").validCampoFranz(' abcdefghijklmnñopqrstuvwxyzáéiou');
+
+                        //Para escribir solo numeros    
+                        $("#formactualizar\\:telefono").keyup(function () {
+
+                            this.value = (this.value + '').replace(/[^0-9-]/g, '');
+                        });
+                    });
+
+                </script>
+                <script>
+                    function validar() {
+                        // Expresion regular para validar el correo
+                        var regex = /[\w-\.]{2,}@([\w-]{2,}\.)*([\w-]{2,}\.)[\w-]{2,4}/;
+                        var tel = /^[0-9]{7,23}/;
+                        correo = document.getElementById("formactualizar:correo");
+                        telefono = document.getElementById("formactualizar:telefono");
+                        direccion = document.getElementById("formactualizar:direccion");
+                        barrio = document.getElementById("formactualizar:barrio");
+
+                        if (correo.value === '' || direccion.value === '' || barrio.value === '' || telefono.value === '') {
+                            swal({type: "error", title: "¡Actualización fallida!", text: "No se pueden dejar campos vacios", confirmButtonText: "Aceptar", showConfirmButton: true, allowOutsideClick: true});
+                            return false;
+                        } else {
+                            // Se utiliza la funcion test() nativa de JavaScript
+                            if (!regex.test($(correo).val().trim())) {
+                                swal({type: "error", title: "¡Actualización fallida!", text: "Dirección de correo electrónico invalida", confirmButtonText: "Aceptar", showConfirmButton: true, allowOutsideClick: true});
+                                return false;
+                            } else {
+                                if (!tel.test($(telefono).val().trim())) {
+                                    swal({type: "error", title: "¡Actualización fallida!", text: "Teléfono debe tener minimo 7 digitos", confirmButtonText: "Aceptar", showConfirmButton: true, allowOutsideClick: true});
+                                    return false;
+                                }
+                            }
+                        }
+                    }
+                </script>
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

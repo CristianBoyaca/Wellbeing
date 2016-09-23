@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <body>
+
+        <ui:composition template="./../../WEB-INF/faces/template/plantilla.xhtml">
+
+            <ui:define name="titulo">
+                <title>Cambiar Contraseña</title>
+            </ui:define>
+
+            <ui:define name="content">
+                <!-- formulario-->
+                <h:form id="formulario" a:method="post" class="form-horizontal contenedor" style="margin-bottom: 100px;margin-top: 30px">
+                    <c:if test="#{usuarioControlador.estado==1}">
+                                <script language="JavaScript" type="text/javascript">
+                                    $(document).ready(function () {
+                                        swal({type: "success", title: "¡Cambio de contraseña exitoso!", confirmButtonText: "Aceptar", showConfirmButton: true, allowOutsideClick: true, time: 3000}, function () {
+                                            window.location.href = "../inicio.xhtml";
+                                        });
+                                    });
+                                </script> </c:if>
+                         
+                      <c:if test="#{usuarioControlador.estado==2}">
+                                <script language="JavaScript" type="text/javascript">
+                                    $(document).ready(function () {
+                                        swal({type: "error",title: "¡Cambio de contraseña fallida!", text: "¡Contraseña actual incorrecta!", confirmButtonText: "Aceptar", showConfirmButton: true, allowOutsideClick: true});
+                                    });
+                                </script> </c:if>
+                    #{usuarioControlador.cambiarEstado()}
+                    <p:growl id="mensaje" autoUpdate="true" severity="info,fatal,warn" showSummary="true" showDetail="true"/>
+                    <fieldset>
+                     
+                        <!-- Form Name -->
+                        <legend style="text-align:left;margin-left: 10px"><img src="../../resources/images/logo.JPG" alt="Logo" width="30%" height="200px"/>&nbsp;&nbsp;&nbsp;&nbsp; Cambio de contraseña</legend>
+                        <!-- Text input-->
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="contraseniaActual"><font color="red" size="4">*</font>Contraseña Actual:</label>  
+                            <div class="col-md-4">
+                                <h:inputSecret id="contraseniaActual"  a:placeholder="Digite su contraseña actual" class="form-control input-md" maxlength="16" value="#{usuarioControlador.contraseniaActual}" required="true"  requiredMessage="Se debe ingresar la contraseña actual"/>
+                            </div>
+                        </div>
+
+                        <!-- Text input-->
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="contraseniaNueva"><font color="red" size="4">*</font>Contraseña Nueva:</label>  
+                            <div class="col-md-4">
+                                <h:inputSecret id="contraseniaNueva"  a:placeholder="Digite su  nueva contraseña" class="form-control input-md" maxlength="16" value="#{usuarioControlador.usuario.contrasena}" required="true"  requiredMessage="Se debe ingresar la nueva contraseña"/>
+                            </div>
+                        </div>
+
+                        <!-- Text input-->
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="confirmarContrasenia"><font color="red" size="4">*</font>Confirmar Contraseña:</label>  
+                            <div class="col-md-4">
+                                <h:inputSecret id="confirmarContrasenia" a:placeholder="Repita su nueva contraseña" class="form-control input-md" maxlength="16" value="#{usuarioControlador.confirmacionContrasenia}" required="true"  requiredMessage="Se debe ingresar la confirmación de la contraseña"/>
+                            </div>
+                        </div>
+
+
+                        <!-- Button -->
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="Guardar"></label>
+                            <div class="col-md-4">
+                                <h:commandLink onclick=" return validar()"  class="btn btn-success" actionListener="#{usuarioControlador.cambiarContraseña()}" type="submit" value="Cambiar contraseña" ></h:commandLink>
+                            </div>
+                        </div>
+                    </fieldset>
+                </h:form>
+
+                <script>
+
+                    function validar() {
+                        var val = /[\w-\.]{8}/;
+                        contraseniaActual = document.getElementById("formulario:contraseniaActual");
+                        contraseniaNueva = document.getElementById("formulario:contraseniaNueva");
+                        confirmarContrasenia = document.getElementById("formulario:confirmarContrasenia");
+                        
+
+                        if (contraseniaActual.value === '' || contraseniaNueva.value === '' || confirmarContrasenia.value === '') {
+                            swal({type: "error", title: "¡Cambio de contraseña fallida!", text: "No se pueden dejar campos vacios", confirmButtonText: "Aceptar", showConfirmButton: true, allowOutsideClick: true});
+                            return false;
+                        }
+                        if ( !val.test($(contraseniaActual).val().trim()) || !val.test($(contraseniaNueva).val().trim()) || !val.test($(confirmarContrasenia).val().trim())) {
+                                swal({type: "error", title: "¡Cambio de contraseña fallida!", text: "La contraseña debe tener minimo 8 caracteres", confirmButtonText: "Aceptar", showConfirmButton: true, allowOutsideClick: true});
+                            return false;
+                            }
+                         if ( contraseniaNueva.value===contraseniaActual.value) {
+                                swal({type: "error", title: "¡Cambio de contraseña fallida!", text: "La contraseña nueva no puede ser igual a la contraseña anterior", confirmButtonText: "Aceptar", showConfirmButton: true, allowOutsideClick: true});
+                            return false;
+                            }
+                            if ( contraseniaNueva.value!==confirmarContrasenia.value) {
+                                swal({type: "error", title: "¡Cambio de contraseña fallida!", text: "La confirmacion de la nueva contraseña no coincide con la nueva contraseña", confirmButtonText: "Aceptar", showConfirmButton: true, allowOutsideClick: true});
+                            return false;
+                            }
+                    }
+                </script>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

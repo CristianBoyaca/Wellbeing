@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../../WEB-INF/faces/template/plantilla.xhtml">
+
+            <ui:define name="titulo">
+                <title>Información Personal</title>
+            </ui:define>
+
+            <ui:define name="content">
+                  <div class="busqueda">    
+                    <div class="row">
+                        <br/>
+                        <div class="col-sm-8 col-sm-offset-2">
+                            <div class="panel panel-primary">
+                                <div class="panel-heading"><span class="glyphicon glyphicon-user"></span> Información Personal</div>
+                                <table class="table table-bordered">
+                                    <tbody>
+                                        <tr>
+                                            <td style="text-indent:10px;">Colaborador:</td><td><h:dataTable value="#{datoEmpleadoControlador.buscarInformacion()}" var="dat"><h:column><h:outputText value="#{dat.primerNombre} #{dat.segundoNombre} #{dat.primerApellido} #{dat.segundoApellido}" /></h:column></h:dataTable></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="text-indent:10px;">Fecha De Nacimiento:</td><td><h:dataTable value="#{datoEmpleadoControlador.buscarInformacion()}" var="dat"><h:column><h:outputText value="#{dat.fechaNacimiento}"><f:convertDateTime pattern="dd/MM/yyyy" /></h:outputText></h:column></h:dataTable></td></tr>
+                                        <tr>
+                                            <td style="text-indent:10px;">Tipo De Documento:</td><td><h:dataTable value="#{datoEmpleadoControlador.buscarInformacion()}" var="dat"><h:column><h:outputText value="#{dat.tipoDocumento.tipoDocumento}" /></h:column></h:dataTable></td></tr>
+                                        <tr>
+                                            <td style="text-indent:10px;">Numero De Documento:</td><td><h:dataTable value="#{datoEmpleadoControlador.buscarInformacion()}" var="dat"><h:column><h:outputText value="#{dat.identificacion}" /></h:column></h:dataTable></td></tr>
+                                        <tr>
+                                            <td style="text-indent:10px;">Estado Civil:</td><td><h:dataTable value="#{datoEmpleadoControlador.buscarInformacion()}" var="dat"><h:column><h:outputText value="#{dat.estadoCivil.descripcion}" /></h:column></h:dataTable></td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="busqueda" style="height: 150px;">
+                    <div class="row">
+                        <br/>
+                        <div class="col-sm-8 col-sm-offset-2">
+                            <div class="panel panel-primary">
+                                <div class="panel-heading"><span class="glyphicon glyphicon-book"></span> Información De Contacto</div>
+                                <table class="table table-bordered">
+                                    <tbody>
+                                        <tr>
+                                            <td style="text-indent:10px;">Correo Electrónico:</td><td><h:dataTable value="#{datoEmpleadoControlador.buscarInformacion()}" var="dat"><h:column><h:outputText value="#{dat.emailCorporativo}" /></h:column></h:dataTable></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="text-indent:10px;">Teléfono:</td><td><h:dataTable value="#{datoEmpleadoControlador.buscarInformacion()}" var="dat"><h:column><h:outputText value="#{dat.telefono}" /></h:column></h:dataTable></td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="busqueda">
+                    <div class="row">
+                        <br/>
+                        <div class="col-sm-8 col-sm-offset-2">
+                            <div class="panel panel-primary">
+                                <div class="panel-heading"><span class="glyphicon glyphicon-home"></span> Información De Residencia</div>
+                                <table class="table table-bordered">
+                                    <tbody>
+                                        <tr>
+                                            <td style="text-indent:10px;">Dirección De Residencia:</td><td><h:dataTable value="#{datoEmpleadoControlador.buscarInformacion()}" var="dat"><h:column><h:outputText value="#{dat.direccionResidencia}" /></h:column></h:dataTable></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="text-indent:10px;">Barrio:</td><td><h:dataTable value="#{datoEmpleadoControlador.buscarInformacion()}" var="dat"><h:column><h:outputText value="#{dat.barrio}" /></h:column></h:dataTable></td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <h:form>
+                                <h:dataTable var="dat" value="#{datoEmpleadoControlador.buscarInformacion()}" >
+                                    <h:column >
+                                        <h:outputText rendered="false" value="#{dat.identificacion}"></h:outputText>
+                                    </h:column>
+                                    <h:column>
+                                        <h:commandLink actionListener="#{datoEmpleadoControlador.actualizarDatosEmpleado(dat)}" action="actualizarInformacion?faces-redirect=true"  class="btn btn-warning" id="actualizar" type="submit"><span class="glyphicon glyphicon-glyphicon glyphicon glyphicon-pencil"> Editar</span></h:commandLink>
+                                    </h:column>
+                                </h:dataTable>
+                            </h:form>
+                        </div>
+                    </div>
+                </div>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

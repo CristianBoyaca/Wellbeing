@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet  name="./css/bootstrap.min.css"/>
+        <h:outputStylesheet library="css" name="estilos.css" />
+        <h:outputStylesheet library="css" name="sweetalert.css" />
+        <div id="titulo">
+            <ui:insert name="titulo">  
+                <title>Facelets Template</title>
+            </ui:insert>
+        </div>
+        <f:event type="preRenderView" listener="#{plantillaControlador.verificarSesion()}"/>
+    </h:head>
+
+    <h:body>
+        <!-- Cabezera -->
+        <div class="cabezera">
+        </div>
+        <div id="top">
+            <ui:insert name="top">          
+                <h:form>  
+                    <p:growl id="messages"/>
+                    <p:menubar model="#{permisoControlador.model}" >
+                        <f:facet name="options">
+                            <div class="texto ">
+                                <h5>Bienvenido(a)&nbsp;<h:outputText style="margin-right:10px" value=" #{datoEmpleadoControlador.buscarNombre()}"/><p:commandButton actionListener="#{usuarioControlador.cerrarSesion()}" title="Cerrar Sesión" action="/inicioSesion?faces-redirect=true" icon="ui-icon-power"/></h5>
+                            </div>
+                        </f:facet>
+                    </p:menubar>
+                </h:form>
+                <div  style="margin-bottom: 10px" id="google_translate_element"></div><script type="text/javascript">
+                    function googleTranslateElementInit() {
+                        new google.translate.TranslateElement({pageLanguage: 'es', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
+                    }
+                </script><script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+            </ui:insert>
+       </div>
+
+        <div id="content">
+            <ui:insert name="content">
+                content
+            </ui:insert>
+        </div>
+
+        <h:outputScript library="js" name="bootstrap.min.js"/>
+        <h:outputScript library="js" name="sweetalert-dev.js"/>
+        <h:outputScript library="js" name="sweetalert.min.js"/>
+        <h:outputScript library="js" name="spanischLocale.js"/>
+
+        <!-- FOOTER -->
+        <footer>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&copy; 2016 Company&nbsp;&nbsp;&nbsp;  Dirección:Calle 72# 9-55 &nbsp;&nbsp;&nbsp;Teléfono:2124299&nbsp;&nbsp;&nbsp;Correo de recursos humanos:rrhh@iskenderungroup.com</p>
+        </footer>
+    </h:body>
+
+</html>

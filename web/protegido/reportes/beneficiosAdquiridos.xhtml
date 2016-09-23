@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <body>
+
+        <ui:composition template="./../../WEB-INF/faces/template/plantilla.xhtml">
+
+            <ui:define name="titulo">
+                <title>Beneficios Adquiridos</title>
+            </ui:define>
+
+            <ui:define name="content">
+                <a>#{solicitudControlador.setTipo(1)}</a> 
+                <a>#{solicitudControlador.listar()}</a> 
+                 <c:if test="#{solicitudControlador.validador==false}">
+                    <div class="alert alert-info">
+                        <strong>¡Información!</strong> No se encuentra registrada ninguna solicitud de bonificación.
+                    </div>
+                </c:if>
+                <h:form style="margin-bottom: 40px;margin-left:30%">
+
+                    <h:panelGroup id="panel" layout="block">
+                        <p:chart type="pie" model="#{solicitudControlador.pieChartModel}" style="width:400px;height:300px" rendered="#{solicitudControlador.pieChartModel !=null}" />
+                    </h:panelGroup>  
+
+                </h:form>
+               
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../../WEB-INF/faces/template/plantilla.xhtml">
+
+            <ui:define name="titulo">
+                <title>Documentos Personales</title>
+            </ui:define>
+
+            <ui:define name="content">
+
+                <h:form  id="formcargar" class="form-horizontal contenedor" enctype="multipart/form-data" style="margin-top: 30px;width: 90%">
+                    <a>#{beneficioControlador.cargarDocumento()}</a>
+                    <a>#{documentoControlador.documento.setIdentificacion(beneficioControlador.beneficio.identificacion)}</a>
+                    <p:growl id="mensaje" autoUpdate="false" severity="info,fatal,warn" showSummary="true" showDetail="true"/>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label" ><font color="red" size="4">*</font>Nombre de archivo:</label>
+                        <h:inputText id="nombre"  value="#{documentoControlador.documento.nombre}" class="col-md-2" style="margin-top: 10px"/>
+                        <label class="col-md-2 control-label" >Seleccione un archivo:</label><div class="col-md-2"> 
+                            <p:fileUpload  id="archivo" value="#{documentoControlador.archivo}"  mode="simple" style="margin-top: 10px"/></div>
+                        <h:commandLink id="Registrar" onclick="return validar()" actionListener="#{documentoControlador.registrarDocumento()}" class="btn btn-success " style="margin-left:100px;margin-top: 10px"><span class="glyphicon glyphicon-floppy-disk" type="submit" update="mensaje">&nbsp;Guardar</span></h:commandLink>
+                    </div> 
+                </h:form>
+                <h:form class="form-horizontal contenedor" enctype="multipart/form-data" style="margin-top: 30px;width: 90%;">
+                    <p:selectOneMenu styleClass="col-md-2" style="width:320px;margin-top:10px;margin-left:20px" value="#{documentoControlador.documento.nombre}">
+                        <f:selectItems value="#{documentoControlador.listarDocumentos()}" var="doc"  itemLabel="#{doc.nombre}" itemValue="#{doc.idDocumento}"/>
+                    </p:selectOneMenu>
+                    <h:commandLink  actionListener="#{documentoControlador.descargarDocumento(documentoControlador.documento.nombre)}" class="btn btn-info " style="margin-left:100px;margin-top: 10px;margin-bottom: 10px">
+                        <p:fileDownload value="#{documentoControlador.archivo1}"/><span class="glyphicon glyphicon-download-alt" type="submit" update="mensaje">&nbsp;Descargar</span></h:commandLink>
+                        <h:commandLink  actionListener="#{documentoControlador.ver(documentoControlador.documento.nombre)}" class="btn btn-info " style="margin-left:100px"><span class="glyphicon glyphicon-eye-open" type="submit" update="mensaje">&nbsp;Ver</span></h:commandLink>
+       
+                </h:form>
+                <script>
+                    function validar() {
+
+                        nombre = document.getElementById("formcargar:nombre");
+                        archivo = document.getElementById("formcargar:archivo");
+
+                        if (nombre.value === '') {
+                            swal({type: "error", title: "¡Carga de documento no exitoso!", text: "Se debe ingresar el nombre del archivo", confirmButtonText: "Aceptar", showConfirmButton: true, allowOutsideClick: true});
+                            return false;
+                        }
+                        if (archivo.value === '') {
+                            swal({type: "error", title: "¡Carga de documento no exitoso!", text: "Se debe cargar el archivo", confirmButtonText: "Aceptar", showConfirmButton: true, allowOutsideClick: true});
+                            return false;
+
+                        }
+
+                    }
+                </script>
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

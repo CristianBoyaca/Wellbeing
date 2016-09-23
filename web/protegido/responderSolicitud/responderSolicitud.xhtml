@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <body>
+
+        <ui:composition template="./../../WEB-INF/faces/template/plantilla.xhtml">
+
+            <ui:define name="titulo">
+                <title>Responder Solicitud</title>
+            </ui:define>
+
+            <ui:define name="content">
+                 
+                <h:form class="navbar-form">
+                    <div class="page-header col-sm-12" style="background-color: whitesmoke">
+            <div class= "col-sm-6">
+                <div class="col-sm-6">
+                    <h3>Tipo solicitud
+                        <h:outputLabel class="label label-default"  value="#{solicitudControlador.solicitud.tipoSolicitud.tipoSolicitud}" >
+                    </h:outputLabel>
+                    </h3>    
+                </div>
+            </div>
+                    
+            <div class= "col-xs-6">
+                <div class="col-sm-6">
+                    <h3>Numero De Solicitud 
+                    <h:outputLabel  class="label label-default"  value="#{solicitudControlador.solicitud.idSolicitud}" ></h:outputLabel>
+                    </h3> 
+                </div>
+            </div>
+            <div class= "col-xs-6">
+               <div class="col-sm-12">
+                   <h3>Fecha de Radicación        
+                       <h:outputLabel   class="label label-default"   value="#{solicitudControlador.solicitud.fechaRadicacion}" ><f:convertDateTime pattern="MM/dd/yyyy"/>
+                       </h:outputLabel>
+                   </h3>
+                </div>
+            </div>        
+            <div class= "col-xs-6">
+                <div class="col-sm-8">
+                    <h3>Usuario  Radicador 
+                        <h:outputLabel  class="label label-default" value="#{solicitudControlador.solicitud.usuarioRadicador}"></h:outputLabel>
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+                     <div class="col-lg-6">
+                       <span class="input-group-sm">
+                           <label><h3>Decision</h3></label>
+                       </span>  
+                        <div class="input-group">
+                            <p:selectOneMenu  value="#{solicitudControlador.solicitud.decision}">
+                            <f:selectItem  itemValue="Aceptado" itemLabel="Aceptado"/>
+                            <f:selectItem  itemValue="Rechazado" itemLabel="Rechazado"/>
+                            </p:selectOneMenu>
+                        <span class="input-group-btn">
+                            <h:commandLink value="Enviar" actionListener="#{solicitudControlador.actualizarDecision()}" class="btn btn-info" type="submit"></h:commandLink>
+                        </span>
+                       </div><!-- /input-group -->
+                    </div>
+        </div>            
+                    
+        <table id="tblSolicitud" class="table table-striped" data-toggle="table" data-pagination="true" data-sort-name="Registro" data-search="true" data-sort-order="desc"  data-show-columns="true"  data-page-size="8" data-page-list="[4, 8, 16, 32, Todos]">
+                        <thead style="background-color:#006dcc">
+                            <tr>
+                                <th data-halign="center" data-align="center" data-sortable="true" data-field="Usuario">Observacion</th>
+                                <th data-halign="center" data-align="center" data-sortable="true" data-field="Rol" >Nombre</th>
+                                <th data-halign="center" data-align="center" data-sortable="true" data-field="Usuario">Fecha Observacion</th>
+                            </tr>
+                        </thead>   
+                        <tbody>
+                            <c:forEach items="#{observacionControlador.buscarObservacionPorSolicitud()}" var="observacion">
+                                <tr>
+                                    <td>#{observacion.observacion}</td>
+                                    <td>#{observacion.identificacion.primerNombre}</td>
+                                    <td><h:outputLabel   value="#{observacion.fecha}" ><f:convertDateTime pattern="MM/dd/yyyy"/>
+                                        </h:outputLabel></td>
+                                </tr>
+                            </c:forEach>
+                        </tbody>  
+                    </table>
+                  
+           <div  class="alert alert-info" style="background: " role="alert"></div> 
+            </h:form>    
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>
