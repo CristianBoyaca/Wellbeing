@@ -76,10 +76,19 @@ public class DatoEmpleadoFacade extends AbstractFacade<DatoEmpleado> {
     }
 
     public DatoEmpleado buscarPorIdentificacion(String identificacion) {
-
+        DatoEmpleado datoEmpleado=null;
+        try {
+            
+       
         Query q = em.createQuery("SELECT  d FROM DatoEmpleado d WHERE d.identificacion =?1");
         q.setParameter(1, identificacion);
-        return (DatoEmpleado) q.getResultList().get(0);
+        List<DatoEmpleado>lista=q.getResultList();
+        if (!lista.isEmpty()) {
+            datoEmpleado=lista.get(0);
+        } } catch (Exception e) {
+            throw e;
+        }
+        return datoEmpleado;
 
     }
 

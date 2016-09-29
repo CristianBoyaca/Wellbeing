@@ -30,12 +30,14 @@ public class DatoEmpleadoControlador implements Serializable {
     private DatoEmpleado datoEmpleado;
     private String nombreCompleto;
     private boolean estado;
+    private Integer validador;
     private String identificacionEmpleado;
 
     @PostConstruct()
     public void init() {
         datoEmpleado = new DatoEmpleado();
         estado = false;
+        validador = 0;
 
     }
 
@@ -63,6 +65,14 @@ public class DatoEmpleadoControlador implements Serializable {
         this.estado = estado;
     }
 
+    public Integer getValidador() {
+        return validador;
+    }
+
+    public void setValidador(Integer validador) {
+        this.validador = validador;
+    }
+
     public String getIdentificacionEmpleado() {
         return identificacionEmpleado;
     }
@@ -88,9 +98,14 @@ public class DatoEmpleadoControlador implements Serializable {
 
     public void actualizarDatosEmpleado() {
         try {
-            if (!datoEmpleado.equals("")) {
+              
+            if ((DatoEmpleado) datoEmpleadoFacade.buscarPorIdentificacion(datoEmpleado.getIdentificacion())!= null) {
                 datoEmpleadoFacade.edit(datoEmpleado);
                 estado = true;
+                limpiar();
+            } else {
+                 datoEmpleado = new DatoEmpleado();
+                validador = 2;
             }
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error", "En el momento no se pudo procesar su solicitud"));
@@ -113,12 +128,18 @@ public class DatoEmpleadoControlador implements Serializable {
 
     }
 
-    public String consultarDatosEmpleadoPorIdentificacion() {
+    public void consultarDatosEmpleadoPorIdentificacion() {
 
         this.datoEmpleado = (DatoEmpleado) datoEmpleadoFacade.buscarPorIdentificacion(this.identificacionEmpleado);
-        return "";
-        //return datoEmpleadoFacade.buscarPorIdentificacion(this.identificacionEmpleado);
+        if (this.datoEmpleado != null) {
+            validador = 1;
 
+        } else {
+            this.datoEmpleado = new DatoEmpleado();
+            validador = 2;
+        }
+
+        //return datoEmpleadoFacade.buscarPorIdentificacion(this.identificacionEmpleado);
     }
 
     public String limpiar() {
