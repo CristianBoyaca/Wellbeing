@@ -1,6 +1,6 @@
 CREATE DATABASE  IF NOT EXISTS `bdwellbeing` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `bdwellbeing`;
--- MySQL dump 10.13  Distrib 5.7.9, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.12, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: bdwellbeing
 -- ------------------------------------------------------
@@ -328,7 +328,7 @@ CREATE TABLE `datosempleados` (
 
 LOCK TABLES `datosempleados` WRITE;
 /*!40000 ALTER TABLE `datosempleados` DISABLE KEYS */;
-INSERT INTO `datosempleados` VALUES (' ','','','','',1,NULL,'',NULL,1,1,NULL,1,1,'','',1,1,1,'',1,'',NULL,NULL,NULL,'Ana  Montenegro',NULL),('1023456789','Rosa','','La Rumorosa','',1,'0096-07-31','Calle Falsa 123',NULL,1,1,2000000,1,1,'rrumorosa@gmail.com','rrumorosa@wellbeing.com',1,1,1,'56789000',1,'3456789','0016-07-02',NULL,NULL,'Sofia  Duran',NULL),('45673890','Ana ','Maria','Montenegro','Jaramillo',1,'1975-07-03','Calle 90 # 12-23','KÃ©nnedy',29,1,1200000,149,1,'atrujillo@gmail.com','anamonj@wellbeign.com',1,1,1,'1234567890',7,'1234567','2010-07-03',149,6,'Sofia Duran',3),('46784901','Sofia ',NULL,'Duran','Lopez',1,'1980-02-03','Calle 93 # 12-23','Virrey',28,2,2000000,149,1,'sduran@gmail.com','sduran@wellbeing.com',13,1,2,'2345678901',7,'6547856','2012-08-03',148,6,'Carlos Bayona',3);
+INSERT INTO `datosempleados` VALUES (' ','','','','',1,NULL,'',NULL,1,1,NULL,1,1,'','',1,1,1,'',1,'',NULL,NULL,NULL,'Ana  Montenegro',NULL),('1023456789','Rosa','','La Rumorosa','',1,'0096-07-31','Calle Falsa 123',NULL,1,1,2000000,1,1,'rrumorosa@gmail.com','rrumorosa@wellbeing.com',1,1,1,'56789000',1,'3456789','0016-07-02',NULL,NULL,'Sofia  Duran',NULL),('45673890','Ana ','Maria','Montenegro','Jaramillo',1,'1975-07-03','Calle 90 # 12-23','KÃ©nnedy',29,1,1200000,149,1,'atrujillo@gmail.com','anamonj@wellbeign.com',1,1,1,'1234567890',7,'1234567','2010-07-03',149,6,'Sofia Duran',3),('46784901','Sofia ',NULL,'Duran','Lopez',1,'1980-02-03','Calle 93 # 12-23','Virrey',28,2,2000000,149,1,'sduran@gmail.com','sduran@wellbeing.com',13,1,2,'2345678901',7,'6547856','2012-08-03',148,6,'Carlos Bayona',3),('5138143060','Jhon','Fredy','Puentes','Pardo',1,'2016-09-28','DIAG 74 # 78 h 78','Bosa Laureles',4,3,1000000,32,2,'lamparo@gmail.com','lamparo@wellbeing.com',4,2,5,'5678765',2,'747463553','2016-09-28',32,10,'46784901',3),('51381430609','Jersson','Fredy','Puentes','Pardo',1,'2016-09-28','DIAG 74 # 78 h 78','Bosa Laureles',4,3,1000000,32,2,'lamparo@gmail.com','lamparo@wellbeing.com',4,2,5,'5678765',2,'747463553','2016-09-28',32,10,'46784901',3),('513814396','Juan','Carlos','Gomez','Morales',1,'2016-09-28','DIAG 74 # 78 h 78','Bosa Laureles',4,3,1000000,32,2,'lamparo@gmail.com','lamparo@wellbeing.com',4,2,5,'5678765',2,'747463553','2016-09-28',32,10,'46784901',3),('51814396','Luz','Amparo','Alvarez',NULL,1,'2016-09-28','DIAG 74 # 78 h 78','Bosa Laureles',4,3,1000000,32,2,'lamparo@gmail.com','lamparo@wellbeing.com',4,2,5,'5678765',2,'747463553','2016-09-28',32,10,'46784901',3);
 /*!40000 ALTER TABLE `datosempleados` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -340,17 +340,53 @@ UNLOCK TABLES;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER CreacionUsuario AFTER INSERT
-ON datosempleados
-FOR EACH ROW
-begin
-declare idusuario varchar(30);
-set idusuario=concat(substr(new.primernombre,1,1),new.PrimerApellido);
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER creaUsuario 
+AFTER 
+INSERT ON datosempleados 
+FOR EACH ROW 
+BEGIN
 
-insert into usuarios
-values (idusuario,1,'12345678',new.identificacion);
 
-end */;;
+  declare usuario_var varchar(15);
+  declare jefe_var varchar(15);
+  
+  /*****extrae la primera letra del nombre y concatena por el apellido*****/
+  set usuario_var=concat(substring(new.primerNombre,1,1),new.primerApellido);
+  set jefe_var=(select u.idusuario from datosempleados d 
+				inner join usuarios u on u.DATOSEMPLEADOS_identificacion=d.identificacion
+                where d.identificacion=new.jefeInmediato);
+  /*****Validación para crear un usuario ****/
+  if exists(select * from usuarios where idusuario=usuario_var) then
+     
+        
+		set usuario_var=concat(substring(new.primerNombre,1,2),new.primerApellido);
+
+    
+        if exists(select * from usuarios where idusuario=usuario_var) then
+             
+			 set usuario_var=concat(substring(new.segundoNombre,1,2),new.primerApellido);
+		     
+             end if;
+
+     end IF;   
+        
+  /*inserto el nuevo uusario y le dejo una contraseña
+  y estado 4 que pide cambio de clave al intentar ingresar*/
+  
+  insert into usuarios (idUsuario,estado,contrasena,DATOSEMPLEADOS_identificacion)
+  values(usuario_var,4,12345678,new.identificacion);
+  
+  /*****inserto el rol por defecto al nuevo usuario*********/
+  insert into rolesdeusuario(idusuario,idrol)
+  values (usuario_var,1);
+  
+  /********actualizo el rol al usuario jefe que seleccionaron*********/
+  update rolesdeusuario
+  set idrol=2
+  where idusuario=jefe_var;
+  
+ 
+      END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
@@ -792,7 +828,7 @@ CREATE TABLE `rolesdeusuario` (
 
 LOCK TABLES `rolesdeusuario` WRITE;
 /*!40000 ALTER TABLE `rolesdeusuario` DISABLE KEYS */;
-INSERT INTO `rolesdeusuario` VALUES ('anamonj',1),('sofdurl',2);
+INSERT INTO `rolesdeusuario` VALUES ('anamonj',1),('sofdurl',2),('RLa Rumorosa',3),('LAlvarez',1),('JPuentes',1),('JePuentes',1);
 /*!40000 ALTER TABLE `rolesdeusuario` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1002,7 +1038,7 @@ CREATE TABLE `usuarios` (
 
 LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` VALUES ('anamonj',1,'12345678','45673890'),('RLa Rumorosa',1,'12345678','1023456789'),('sofdurl',1,'12345678','46784901');
+INSERT INTO `usuarios` VALUES ('anamonj',1,'12345678','45673890'),('JePuentes',4,'12345678','51381430609'),('JGomez',1,'12345678','513814396'),('JPuentes',4,'12345678','5138143060'),('LAlvarez',1,'12345678','51814396'),('RLa Rumorosa',1,'12345678','1023456789'),('sofdurl',1,'12345678','46784901');
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1120,4 +1156,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-09-27 21:10:26
+-- Dump completed on 2016-09-28 23:13:15
