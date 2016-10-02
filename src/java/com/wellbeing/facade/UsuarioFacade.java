@@ -6,6 +6,7 @@
 package com.wellbeing.facade;
 
 import com.wellbeing.entidades.DatoEmpleado;
+import com.wellbeing.entidades.Rol;
 import com.wellbeing.entidades.Usuario;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -77,16 +78,60 @@ public class UsuarioFacade extends AbstractFacade<Usuario> implements UsuarioFac
         String consulta = null;
         DatoEmpleado datoEmpleado = null;
         try {
-        TypedQuery<Usuario> usuario = em.createNamedQuery("Usuario.findByIdUsuario", Usuario.class);
-        usuario.setParameter("idUsuario", u);
+            TypedQuery<Usuario> usuario = em.createNamedQuery("Usuario.findByIdUsuario", Usuario.class);
+            usuario.setParameter("idUsuario", u);
 
-        List<Usuario> results = usuario.getResultList();
-        for (Usuario us : results) {
-            datoEmpleado = us.getDATOSEMPLEADOSidentificacion();
-        }} catch (Exception e) {
+            List<Usuario> results = usuario.getResultList();
+            for (Usuario us : results) {
+                datoEmpleado = us.getDATOSEMPLEADOSidentificacion();
+            }
+        } catch (Exception e) {
             throw e;
         }
         return datoEmpleado;
     }
 
+    @Override
+    public Rol buscarRol(String usuario) {
+        Rol rol = null;
+        try {
+
+            String consulta = "SELECT r from Usuario u JOIN u.rolList r WHERE u.idUsuario=?1";
+            Query query = em.createQuery(consulta);
+            query.setParameter(1, usuario);
+            List<Rol> roles = query.getResultList();
+            if (!roles.isEmpty()) {
+                rol = roles.get(0);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rol;
+    }
+
+    @Override
+    public String consultarCorreo(String usuario) {
+        String correo = "";
+        try {
+            Query query = em.createQuery("SELECT d.emailPersonal from DatoEmpleado d JOIN d.usuarioList u WHERE u.idUsuario=?1");
+            query.setParameter(1, usuario);
+            correo=(String)query.getSingleResult();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return correo;
+    }
+
+    public String buscarNombre(String usuario) {
+        String consulta = " ";
+
+        Query q = em.createQuery("SELECT d FROM DatoEmpleado d JOIN d.usuarioList u WHERE u.idUsuario=?1");
+        q.setParameter(1, usuario);
+        List<DatoEmpleado> results = q.getResultList();
+        for (DatoEmpleado p : results) {
+            consulta = p.getPrimerNombre() + " " + p.getPrimerApellido();
+        }
+        return consulta;
+    }
 }

@@ -19,6 +19,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -60,7 +61,7 @@ public class Usuario implements Serializable {
     private DatoEmpleado dATOSEMPLEADOSidentificacion;
     @OneToMany(mappedBy = "usuarioRadicador")
     private List<Solicitud> solicitudList;
-
+   
     public Usuario() {
     }
 
@@ -90,6 +91,14 @@ public class Usuario implements Serializable {
 
     public void setContrasena(String contrasena) {
         this.contrasena = contrasena;
+    }
+
+    public DatoEmpleado getdATOSEMPLEADOSidentificacion() {
+        return dATOSEMPLEADOSidentificacion;
+    }
+
+    public void setdATOSEMPLEADOSidentificacion(DatoEmpleado dATOSEMPLEADOSidentificacion) {
+        this.dATOSEMPLEADOSidentificacion = dATOSEMPLEADOSidentificacion;
     }
 
     @XmlTransient

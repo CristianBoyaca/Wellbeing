@@ -16,47 +16,49 @@
             </ui:define>
 
             <ui:define name="content">
-               <h:outputStylesheet library="css" name="bootstrap-table.min.css"/>
-               
-               
-    
-               <h:form id="form">
-                   <div class="container panel" style="margin-bottom:80px;margin-top: 50px">
-                        <table id="tblSolicitud" class="table table-striped" data-toggle="table" data-pagination="true" data-sort-name="Registro" data-search="true" data-sort-order="desc"  data-show-columns="true"  data-page-size="8" data-page-list="[4, 8, 16, 32, Todos]">
-                        <thead style="background-color:#006dcc">
-                            <tr>
-                                <th data-halign="center" data-align="center" data-sortable="true" data-field="Usuario">Usuario</th>
-                                <th data-halign="center" data-align="center" data-sortable="true" data-field="Rol" >Primer Nombre</th>
-                                <th data-halign="center" data-align="center" data-sortable="true" data-field="Usuario">Segundo Nombre</th>
-                                <th data-halign="center" data-align="center" data-sortable="true" data-field="Rol" >Rol</th>
-                                <th data-halign="center" data-align="center" data-sortable="true" data-field="Rol" >Actualización</th>
-                            </tr>
-                        </thead>   
-                        <tbody>
-                            <c:forEach items="#{usuarioControlador.listarUsuario()}" var="usuario">
-                                <tr>
-                                    <td>#{usuario.idUsuario}</td>
-                                    <td>#{usuario.DATOSEMPLEADOSidentificacion.primerNombre}</td>
-                                    <td>#{usuario.DATOSEMPLEADOSidentificacion.primerApellido}</td>
-                                    <td><div>
-                                            <p:selectOneMenu  value="#{usuarioControlador.rolUsuario}">
-                                                <f:selectItems value="#{rolControlador.listarRoles()}" var="rol" itemLabel="#{rol.nombre}"/>
-                                         </p:selectOneMenu>
-                                        </div>
-                                    </td>
-                                    <td>
-                                    <div>           
-                                        <h:commandLink type="button" value="Actualizar Rol" class="btn btn-primary" actionListener="#{usuarioControlador.actualizarRolUsuario(usuario)}"></h:commandLink>
-                                    </div>
-                                       </td>
-                                </tr>
-                            </c:forEach>
-                        </tbody>  
-                    </table>
-                       </div>
+                <h:outputStylesheet library="css" name="bootstrap-table.min.css"/>
+                <h:form>
+                    <p:growl autoUpdate="true" showSummary="true" showDetail="true"/>
+                    <p:dataTable id="tabla" emptyMessage="Ningun rol registrado" value="#{usuarioControlador.listarUsuario()}" 
+                                 var="usu" editable="true" editMode="cell" widgetVar="cellTabla" paginator="true" paginatorPosition="bottom" 
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="5,10,15">
+                        <p:column headerText="Usuario" filterBy="#{usu.idUsuario}" filterMatchMode="contains" style="background-color: white">
+                            <h:outputText  style="color: black" value="#{usu.idUsuario}"/>
+                        </p:column>
+
+
+                        <p:column headerText="Nombre " style="background-color: white">
+                            <h:outputText value="#{usu.DATOSEMPLEADOSidentificacion.primerNombre}" style="color: black" />
+                            <h:outputText value=" #{usu.DATOSEMPLEADOSidentificacion.primerApellido}" style="color: black" />
+                        </p:column>
+
+
+
+                        <p:column headerText="Roles" style="background-color: white">
+                            #{usuarioControlador.buscarRol(usu)}
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{usuarioControlador.rolUsuario.nombre}" style="color: black"/></f:facet>
+                                <f:facet name="input">
+                                    <p:selectOneMenu  style="width:320px;margin-top:10px" value="#{usuarioControlador.rolUsuario}">
+                                        <f:selectItems value="#{rolControlador.listarRoles()}" var="rol"  itemLabel="#{rol.nombre}"/>
+                                    </p:selectOneMenu>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+
+                        <p:column headerText="Actualización" style="background-color: white">
+                            <h:commandLink type="button" value="Actualizar Rol" class="btn btn-primary" actionListener="#{usuarioControlador.actualizarRolUsuario(usu)}"></h:commandLink>  
+                        </p:column>
+                    </p:dataTable>
+                    <p:contextMenu for="tabla" widgetVar="cMenu">   
+                        <p:menuitem value="Edit Cell" icon="ui-icon-search" onclick="PF('cellTabla').showCellEditor();return false;"/>  
+                        <p:menuitem value="Hide Menu" icon="ui-icon-close" onclick="PF('cMenu').hide()"/>  
+                    </p:contextMenu> 
                 </h:form>
+
             </ui:define>
-              
+
 
         </ui:composition>
     </body>

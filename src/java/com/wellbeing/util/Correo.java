@@ -18,35 +18,36 @@ import javax.mail.Transport;
  *
  * @author cristian
  */
-public class Correo {
+public class Correo implements ServicioCorreo{
 
     public final static String HOST_CORREO_GMAIL = "smtp.gmail.com";
-    private String correoRemitente;
-    private String contraseniaRemitente;
+    private final static String CORREO_REMITENTE="iskenderungroup@gmail.com";
+    private final static String CONTRASENIA_REMITENTE="Wellbeing2016*";
     private String correoDestinatario;
+    private String asunto;
+    private String contenido;
     private Session session;
     private MimeMessage mimeMessage;
 
     public Correo() {
     }
 
-    public Correo(String correoRemitente, String contraseniaRemitente, String correoDestinatario) {
-        this.correoRemitente = correoRemitente;
-        this.contraseniaRemitente = contraseniaRemitente;
+    public Correo(String correoDestinatario) {
         this.correoDestinatario = correoDestinatario;
     }
 
+   
     private void init() {
         try {
             Properties propiedades = new Properties();
             propiedades.setProperty("mail.smtp.host", HOST_CORREO_GMAIL);
             propiedades.setProperty("mail.smtp.starttls.enable", "true");
             propiedades.setProperty("mail.smtp.port", "587");
-            propiedades.setProperty("mail.smtp.user", this.correoRemitente);
+            propiedades.setProperty("mail.smtp.user", CORREO_REMITENTE);
             propiedades.setProperty("mail.smtp.auth", "true");
             session = Session.getDefaultInstance(propiedades);
             mimeMessage = new MimeMessage(session);
-            mimeMessage.setFrom(new InternetAddress(correoRemitente));
+            mimeMessage.setFrom(new InternetAddress(CORREO_REMITENTE));
             mimeMessage.setRecipient(Message.RecipientType.TO, new InternetAddress(correoDestinatario));
 
         } catch (Exception e) {
@@ -54,21 +55,24 @@ public class Correo {
         }
     }
 
-    public String getCorreoRemitente() {
-        return correoRemitente;
+    public String getAsunto() {
+        return asunto;
     }
 
-    public void setCorreoRemitente(String correoRemitente) {
-        this.correoRemitente = correoRemitente;
+    public void setAsunto(String asunto) {
+        this.asunto = asunto;
+    }
+    
+    
+
+    public String getContenido() {
+        return contenido;
     }
 
-    public String getContraseniaRemitente() {
-        return contraseniaRemitente;
+    public void setContenido(String contenido) {
+        this.contenido = contenido;
     }
 
-    public void setContraseniaRemitente(String contraseniaRemitente) {
-        this.contraseniaRemitente = contraseniaRemitente;
-    }
 
     public String getCorreoDestinatario() {
         return correoDestinatario;
@@ -78,14 +82,15 @@ public class Correo {
         this.correoDestinatario = correoDestinatario;
     }
 
-    public boolean enviarCorreo(String asunto, String contenido) {
+    
+    public boolean enviarCorreo() {
         try {
             init();
             mimeMessage.setSubject(asunto);
-            mimeMessage.setText(contenido);
-            //mimeMessage.setContent(contenido, "text/html");
+            //mimeMessage.setText(contenido);
+            mimeMessage.setContent(contenido, "text/html");
             Transport transport=session.getTransport("smtp");
-            transport.connect(correoRemitente,contraseniaRemitente);
+            transport.connect(CORREO_REMITENTE,CONTRASENIA_REMITENTE);
             transport.sendMessage(mimeMessage, mimeMessage.getAllRecipients());
             transport.close();
             return true;
@@ -94,5 +99,5 @@ public class Correo {
             return false;
         }
     }
-
+   
 }

@@ -19,7 +19,7 @@
             <div class="row vertical-offset-100">
                 <div class="col-md-4 col-md-offset-4">
                     <div class="panel panel-default login">
-                        
+
                         <div class="panel-body">
                             <div class="form-group" style="text-align: center">
                                 <img src="../resources/images/logo.JPG" alt="logo" width="80%" height="200px"/>
@@ -34,21 +34,51 @@
                                         <pr:message for="usuario" />
                                     </div>
                                     <div class="form-group">
-                                         <pr:outputLabel>Contraseña:</pr:outputLabel>
-                                         <h:inputText value="#{usuarioControlador.usuario.contrasena}" class="form-control" id="contrasenia"  p:placeholder="Ingrese su contraseña" p:type="password" required="true" requiredMessage="Se debe ingresar la contraseña" validatorMessage="La contraseña debe tener minimo 8 caracteres" maxlength="50" ><f:validateLength for="contrasenia" minimum="6" maximum="50"></f:validateLength></h:inputText>
+                                        <pr:outputLabel>Contraseña:</pr:outputLabel>
+                                        <h:inputText value="#{usuarioControlador.usuario.contrasena}" class="form-control" id="contrasenia"  p:placeholder="Ingrese su contraseña" p:type="password" required="true" requiredMessage="Se debe ingresar la contraseña" validatorMessage="La contraseña debe tener minimo 8 caracteres" maxlength="50" ><f:validateLength for="contrasenia" minimum="6" maximum="50"></f:validateLength></h:inputText>
                                         <pr:message for="contrasenia" />
                                     </div>
                                 </pr:fieldset>
                                 <br/>
                                 <h:commandButton class="btn btn-lg btn-success btn-block"  value="Iniciar Sesión" action="#{usuarioControlador.iniciarSesion()}"/>
-
+                                <br/>
+                                <h:link style="color:blue;margin-left:10px" value="He olvidado mi contraseña" p:href="#modal" p:data-toggle="modal"/>
                             </h:form>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-      
+
+
+        <!-- /.ventana modal -->
+
+        <div id="modal" class="modal fade">
+            <div class="modal-dialog">   
+                <div class="modal-content"> 
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                        <h3>Restablecer la contraseña</h3>
+                    </div>
+                    <div class="modal-body" style="margin-bottom:50px">
+                        <p>Podemos ayudarte a restablecer tu contraseña.Primero escribe tu usuario del sistema y clic en enviar</p>
+
+                        <h:form class="navbar-form " p:role="search">
+                             <pr:growl id="mensaje" autoUpdate="false" severity="info,fatal,warn" showSummary="true" showDetail="true"/>
+                            <div class="form-group">
+                                
+                                <h:inputText value="#{usuarioControlador.usuario.idUsuario}" class="form-control" id="usuario"  p:placeholder="Ingrese su usuario" p:type="text" required="true" requiredMessage="Se debe ingresar el usuario" validatorMessage="El usuario debe contener minimo 3 caracteres" maxlength="20"><f:validateLength for="usuario" minimum="3" maximum="20"></f:validateLength></h:inputText>
+                                <pr:message for="usuario" />
+                            </div>
+                             &nbsp;&nbsp;&nbsp;<h:commandButton class="btn btn-default" value="Enviar" action="#{usuarioControlador.recuperarContrasenia()}"/>
+                        </h:form>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <script type='text/javascript' src="https://cdn.rawgit.com/jamesallardice/Placeholders.js/master/dist/placeholders.min.js"></script> 
         <h:outputScript library="js" name="jquery.js"/>

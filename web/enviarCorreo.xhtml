@@ -17,10 +17,6 @@ and open the template in the editor.
         <h:form pa:method="post">
             <p:growl autoUpdate="true" severity="info,fatal" showSummary="true" showDetail="true"/>
             <h:panelGrid columns="2">
-                <h:outputLabel value="De:"/>
-                <p:inputText pa:placeholder="Ingrese su correo" style="width:300px" value="#{correoControlador.correo.correoRemitente}"/>
-                <h:outputLabel value="Contraseña:"/>
-                <p:password pa:placeholder="Ingrese su contraseña" style="width:300px" value="#{correoControlador.correo.contraseniaRemitente}"/>
                 <h:outputLabel value="Para:"/>
                 <p:inputText pa:placeholder="Ingrese el correo del destinatario" style="width:300px" value="#{correoControlador.correo.correoDestinatario}"/>
                 <h:outputLabel value="Asunto"/>

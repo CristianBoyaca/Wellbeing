@@ -116,7 +116,7 @@ public class Rol implements Serializable {
 
     @Override
     public String toString() {
-        return nombre;
+        return idRol+"";
     }
     
 }

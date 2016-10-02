@@ -12,7 +12,14 @@ import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import com.wellbeing.facade.UsuarioFacadeLocal;
 import com.wellbeing.entidades.Usuario;
+import com.wellbeing.util.Correo;
+import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -20,7 +27,10 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.model.SelectItem;
+import org.apache.commons.codec.digest.DigestUtils;
+import org.primefaces.component.selectonemenu.SelectOneMenu;
 
 /**
  *
@@ -34,17 +44,22 @@ public class UsuarioControlador implements Serializable {
     private UsuarioFacadeLocal usuarioFacade;
     private Usuario usuario;
     private Rol rolUsuario;
+    private List<Rol> roles;
     private String redireccion;
     private String contraseniaActual;
     private String confirmacionContrasenia;
     private Integer estado;
     private int selectedItemUsuario;
+    private CorreoControlador correoControlador;
+    private String contenido;
+    private String contrasenia;
 
     @PostConstruct
     public void init() {
         usuario = new Usuario();
         rolUsuario = new Rol();
         estado = 0;
+        correoControlador = new CorreoControlador();
     }
 
     public Usuario getUsuario() {
@@ -63,7 +78,6 @@ public class UsuarioControlador implements Serializable {
         this.rolUsuario = rolUsuario;
     }
 
-    
     public String getRedireccion() {
         return redireccion;
     }
@@ -96,19 +110,57 @@ public class UsuarioControlador implements Serializable {
         this.estado = estado;
     }
 
+    public List<Rol> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Rol> roles) {
+        this.roles = roles;
+    }
+
+    public CorreoControlador getCorreoControlador() {
+        return correoControlador;
+    }
+
+    public void setCorreoControlador(CorreoControlador correoControlador) {
+        this.correoControlador = correoControlador;
+    }
+
+    public String getContenido() {
+        return contenido;
+    }
+
+    public void setContenido(String contenido) {
+        this.contenido = contenido;
+    }
+
+    public String getContrasenia() {
+        return contrasenia;
+    }
+
+    public void setContrasenia(String contrasenia) {
+        this.contrasenia = contrasenia;
+    }
+    
+    
+
     public String iniciarSesion() {
         Usuario u = null;
         redireccion = null;
         try {
+            usuario.setContrasena(DigestUtils.md5Hex(usuario.getContrasena()));
             u = usuarioFacade.iniciarSesion(usuario);
             if (u != null) {
                 FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuario", u);
                 redireccion = "protegido/inicio?faces-redirect=true";
             } else {
+                usuario.setContrasena("");
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error", "Credenciales incorrectas"));
             }
 
         } catch (Exception e) {
+            usuario.setIdUsuario("");
+            usuario.setContrasena("");
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error", "No se puede iniciar sesión"));
         }
         return redireccion;
@@ -140,8 +192,9 @@ public class UsuarioControlador implements Serializable {
     public void cambiarContraseña() {
         try {
             cargarUsuario();
+             contraseniaActual=DigestUtils.md5Hex(contraseniaActual);
             if (!usuarioFacade.validarContraseña(usuario.getIdUsuario(), contraseniaActual).equals("")) {
-               usuario.setContrasena(confirmacionContrasenia);
+                usuario.setContrasena(DigestUtils.md5Hex(confirmacionContrasenia));
                 usuarioFacade.edit(usuario);
                 estado = 1;
             } else {
@@ -166,7 +219,7 @@ public class UsuarioControlador implements Serializable {
     }
 
     public SelectItem[] getItemsAvailableSelectOne() {
-        return JsfUtil.getSelectItems(usuarioFacade.findAll(),false);
+        return JsfUtil.getSelectItems(usuarioFacade.findAll(), false);
     }
 
     public List<Usuario> listarUsuario() {
@@ -177,7 +230,7 @@ public class UsuarioControlador implements Serializable {
         return usuarioFacade.find(id);
     }
 
-   @FacesConverter(forClass = Usuario.class)
+    @FacesConverter(forClass = Usuario.class)
     public static class UsuarioControladorConvertidor implements Converter {
 
         @Override
@@ -215,16 +268,90 @@ public class UsuarioControlador implements Serializable {
             }
         }
 
-     }
-     
-    public String actualizarRolUsuario(Usuario usuarior){
-        usuarior.getRolList().set(0, rolUsuario);
-        try {    
-        usuarioFacade.edit(usuarior);
-        FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_INFO, "Actualización","Se ha actualizado correctamente el registro"));
-        }catch(Exception e){
-        FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error","No se pudo actualizar correctamente el registro"));
     }
+
+    public void buscarRol(Usuario usuario) {
+
+        rolUsuario = usuarioFacade.buscarRol(usuario.getIdUsuario());
+    }
+
+    public String actualizarRolUsuario(Usuario u) {
+        try {
+            roles = new ArrayList<>();
+            roles.add(rolUsuario);
+            u.setRolList(roles);
+            usuarioFacade.edit(u);
+
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Actualización", "Se ha actualizado correctamente el registro"));
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error", "No se pudo actualizar correctamente el registro"));
+        }
         return "";
-}
+
+    }
+
+    public void recuperarContrasenia() {
+        try {
+            if (!usuarioFacade.consultarCorreo(usuario.getIdUsuario()).equalsIgnoreCase("")) {
+                usuario.setDATOSEMPLEADOSidentificacion(usuarioFacade.buscarDocumento(usuario.getIdUsuario()));
+                usuario.setEstado(1);
+                contrasenia=getCadenaAlfanumAleatoria(8);
+                usuario.setContrasena(DigestUtils.md5Hex(contrasenia));
+                roles = new ArrayList<>();
+                roles.add(usuarioFacade.buscarRol(usuario.getIdUsuario()));
+                usuario.setRolList(roles);
+                usuarioFacade.edit(usuario);
+                contenido = agregarHtml("/com/wellbeing/util/formatos/recordarContrasenia.xhtml");
+                contenido = contenido.replace("{nombre}",usuarioFacade.buscarNombre(usuario.getIdUsuario()));
+                contenido = contenido.replace("{usuario.contrasena}", contrasenia);
+                correoControlador.recuperarContrasenia(usuarioFacade.consultarCorreo(usuario.getIdUsuario()), contenido);
+                usuario = new Usuario();
+                
+            } else {
+                usuario.setIdUsuario("");
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error", "usuario no se encuentra registrado"));
+            }
+
+        } catch (Exception e) {
+            usuario.setIdUsuario("");
+            usuario.setContrasena("");
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error", "En el momento no se pudo procesar su solicitud"));
+        }
+
+    }
+
+    public String getCadenaAlfanumAleatoria(int longitud) {
+        String cadenaAleatoria = "";
+
+        Random r = new Random();
+        int i = 0;
+        while (i < longitud) {
+            char c = (char) r.nextInt(255);
+            if ((c >= '0' && c <= '9') || (c >= 'A' && c <= 'Z')) {
+                cadenaAleatoria += c;
+                i++;
+            }
+        }
+        return cadenaAleatoria;
+    }
+
+    public String agregarHtml(String url) {
+        InputStream is = getClass().getResourceAsStream(url);
+        BufferedInputStream bis = new BufferedInputStream(is);
+        ByteArrayOutputStream buf = new ByteArrayOutputStream();
+        int result;
+        try {
+            result = bis.read();
+            while (result != -1) {
+                byte b = (byte) result;
+                buf.write(b);
+                result = bis.read();
+            }
+            return buf.toString("UTF-8");
+        } catch (IOException iOE) {
+            iOE.printStackTrace();
+        }
+        return "";
+    }
+
 }

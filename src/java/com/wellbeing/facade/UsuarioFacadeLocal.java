@@ -6,6 +6,7 @@
 package com.wellbeing.facade;
 
 import com.wellbeing.entidades.DatoEmpleado;
+import com.wellbeing.entidades.Rol;
 import com.wellbeing.entidades.Usuario;
 import java.util.List;
 import javax.ejb.Local;
@@ -35,5 +36,8 @@ public interface UsuarioFacadeLocal {
 
     public String validarContraseña(String usuario, String contrasenia);
     public DatoEmpleado buscarDocumento(String usuario);
+    public  Rol buscarRol(String usuario);
+    public String consultarCorreo(String usuario);
+    public String buscarNombre(String usuario);
     
 }

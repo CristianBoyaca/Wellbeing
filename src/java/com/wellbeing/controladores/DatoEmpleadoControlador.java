@@ -32,7 +32,7 @@ public class DatoEmpleadoControlador implements Serializable {
     private boolean estado;
     private Integer validador;
     private String identificacionEmpleado;
-
+   
     @PostConstruct()
     public void init() {
         datoEmpleado = new DatoEmpleado();
@@ -148,5 +148,7 @@ public class DatoEmpleadoControlador implements Serializable {
         return "";
 
     }
+
+  
 
 }

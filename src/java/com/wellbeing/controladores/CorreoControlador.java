@@ -5,7 +5,11 @@
  */
 package com.wellbeing.controladores;
 
+import com.wellbeing.entidades.Usuario;
+import com.wellbeing.facade.UsuarioFacade;
 import com.wellbeing.util.Correo;
+import java.io.Serializable;
+import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
@@ -18,13 +22,13 @@ import javax.faces.context.FacesContext;
 @Named(value = "correoControlador")
 @RequestScoped
 public class CorreoControlador {
-
+   
     private Correo correo;
-    private String asunto;
-    private String contenido;
+    
+   
     
     public CorreoControlador() {
-        correo=new Correo();
+        correo = new Correo();
     }
 
     public Correo getCorreo() {
@@ -35,34 +39,27 @@ public class CorreoControlador {
         this.correo = correo;
     }
 
-    public String getAsunto() {
-        return asunto;
-    }
-
-    public void setAsunto(String asunto) {
-        this.asunto = asunto;
-    }
-
-    public String getContenido() {
-        return contenido;
-    }
-
-    public void setContenido(String contenido) {
-        this.contenido = contenido;
+    
+     
+    public void recuperarContrasenia(String correo,String contenido){
+  
+            this.correo.setCorreoDestinatario(correo);
+            this.correo.setAsunto("Recuperación De Contraseña Sistema Wellbeing");
+            this.correo.setContenido(contenido);
+            //url="formatos/recordarContrasenia.xhtml";
+            enviarMensaje(1);
+        
     }
     
-    public void enviarMensaje(){
-        if (correo.enviarCorreo(asunto, contenido)) {
-           correo.setCorreoRemitente("");
-           correo.setContraseniaRemitente("");
-           correo.setCorreoDestinatario("");
-           asunto="";
-           contenido="";
-           FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Enviado","Su mensaje ha sido enviado"));
+    public void enviarMensaje(Integer tipo) {
+        if (correo.enviarCorreo()) {
+            if(tipo==1){
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Recuperación de cuenta", "Se te ha enviado una nueva contraseña al correo electrónico personal"));
+            }
+        } else {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error", "No se pudo enviar el mensaje.Por favor contacte al administrador"));
         }
-        else{
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL,"Error","Su mensaje no se pudo enviar"));
-        }
-    
+
     }
+
 }
