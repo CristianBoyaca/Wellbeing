@@ -142,26 +142,28 @@ public class UsuarioControlador implements Serializable {
         this.contrasenia = contrasenia;
     }
     
-    
-
     public String iniciarSesion() {
         Usuario u = null;
         redireccion = null;
         try {
             usuario.setContrasena(DigestUtils.md5Hex(usuario.getContrasena()));
             u = usuarioFacade.iniciarSesion(usuario);
-            if (u != null) {
+            if (u != null && u.getEstado() != 0) {
                 FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuario", u);
-                if (u.getEstado()!=4) {
-                    redireccion = "protegido/inicio.xhtml";
+                if (u.getEstado() != 2) {
+                    redireccion = "protegido/inicio?faces-redirect=true";
+                } else {
+                    redireccion = "protegido/cambioContrasenia?faces-redirect=true";
                 }
-                else{
-                redireccion = "cambioContrasenia.xhtml";
-                }
-                
+
             } else {
+                
                 usuario.setContrasena("");
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error", "Credenciales incorrectas"));
+                if (u.getEstado() != 0) {
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error", "Credenciales incorrectas"));
+                } else {
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error", "Usuario inactivo"));
+                }
             }
 
         } catch (Exception e) {
@@ -171,7 +173,7 @@ public class UsuarioControlador implements Serializable {
         }
         return redireccion;
     }
-
+    
     public void cerrarSesion() {
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
     }
@@ -180,6 +182,7 @@ public class UsuarioControlador implements Serializable {
         try {
             Usuario u = (Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario");
             if (u != null) {
+                redireccion=redireccion.replace("?faces-redirect=true",".xhtml");
                 FacesContext.getCurrentInstance().getExternalContext().redirect("/Wellbeing/faces/"+redireccion);
             }
            

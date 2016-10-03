@@ -28,8 +28,8 @@ public class PlantillaControlador implements Serializable {
             if (u == null) {
                 FacesContext.getCurrentInstance().getExternalContext().redirect("/Wellbeing/faces/inicioSesion.xhtml");
             }
-            if(u.getEstado()==4){
-                 FacesContext.getCurrentInstance().getExternalContext().redirect("/Wellbeing/faces/cambioContrasenia.xhtml");
+            if(u.getEstado()==2){
+                 FacesContext.getCurrentInstance().getExternalContext().redirect("/Wellbeing/faces/protegido/cambioContrasenia.xhtml");
             }
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error", "No se puede puede cargar la página"));
@@ -43,7 +43,7 @@ public class PlantillaControlador implements Serializable {
             if (u == null) {
                 FacesContext.getCurrentInstance().getExternalContext().redirect("/Wellbeing/faces/inicioSesion.xhtml");
             }
-             if(u.getEstado()!=4){
+             if(u.getEstado()!=2){
                  FacesContext.getCurrentInstance().getExternalContext().redirect("/Wellbeing/faces/protegido/inicio.xhtml");
             }
             

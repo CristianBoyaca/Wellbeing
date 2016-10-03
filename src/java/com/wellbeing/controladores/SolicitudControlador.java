@@ -83,8 +83,13 @@ public class SolicitudControlador implements Serializable {
     }
 
     public List<Solicitud> buscarPorUsuario() {
-        Usuario u = (Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario");
-        solicitudes = solicitudFacade.buscarPorUsuario(u.getIdUsuario());
+        try {
+            Usuario u = (Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario");
+            solicitudes = solicitudFacade.buscarPorUsuario(u.getIdUsuario());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return solicitudes;
     }
 
