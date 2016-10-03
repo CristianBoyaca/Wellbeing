@@ -71,7 +71,7 @@
 
 
                                     <h:outputLabel  value="Correo Electrónico:" style="text-indent:10px;margin-right:120px;font-weight:normal;margin-top:10px"/> 
-                                    <p:inputText style="width:320px;margin-top: 10px" type="text" maxlength="50" required="true" id="correo" value="#{datoEmpleadoControlador.datoEmpleado.emailCorporativo}" requiredMessage="Se debe ingresar un correo electrónico" validatorMessage="Correo invalido"><f:validateRegex
+                                    <p:inputText style="width:320px;margin-top: 10px" type="text" maxlength="50" required="true" id="correo" value="#{datoEmpleadoControlador.datoEmpleado.emailPersonal}" requiredMessage="Se debe ingresar un correo electrónico" validatorMessage="Correo invalido"><f:validateRegex
                                             pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" /></p:inputText>
                                     <p:message for="correo" />
 

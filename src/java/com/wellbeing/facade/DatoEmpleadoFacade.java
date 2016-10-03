@@ -91,5 +91,5 @@ public class DatoEmpleadoFacade extends AbstractFacade<DatoEmpleado> {
         return datoEmpleado;
 
     }
-
+    
 }
