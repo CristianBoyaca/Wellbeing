@@ -7,15 +7,17 @@
       xmlns:p="http://primefaces.org/ui">
 
 
-    <body>
+    <body >
         <ui:composition template="./../../WEB-INF/faces/template/plantilla.xhtml">
             <ui:define name="titulo">
                 <title>Creaciòn de Empleado</title>
             </ui:define>
 
 
-            <ui:define name="content">              
-                <h:form class="container btn-group">
+            <ui:define name="content"> 
+                <center>
+                <h:form class="container btn-group-sm" style="background-color: rgba(255,255,255,0.7); 
+                                                       min-height: 200px; padding: 50px; text-align: center;">
                     <!--opciones del formulario-->
                     <nav class="navbar navbar-default">
                         <div class="container-fluid">
@@ -66,17 +68,17 @@
                             <label id="TipoIdentificacion" class="col-sm-1 control-label Fuente_Label"><p class="text-nowrap">Tipo Identificación</p></label>
                         </div>
                         <div class="col-sm-6">
-                            <p:selectOneMenu style="width:245px" value="#{datoEmpleadoControlador.datoEmpleado.tipoDocumento}">
+                            <p:selectOneMenu style="width:205px"  value="#{datoEmpleadoControlador.datoEmpleado.tipoDocumento}">
                                 <f:selectItems value="#{tipodocumentoControlador.listarTipos()}" var="tip" itemLabel="#{tip.tipoDocumento}"/>
                             </p:selectOneMenu>
                         </div>
                     </div>
                     <div class= "col-xs-6">
                         <div class="col-sm-4">
-                            <label id="FechaNacimiento" class="col-sm-1 control-label Fuente_Label"><p class="text-nowrap">Fecha de Nacimiento</p></label>
+                            <label id="FechaNacimiento" class="col-sm-1 control-label "><p class="text-nowrap">Fecha Nacimiento</p></label>
                         </div>
-                        <div class="col-sm-6">
-                            <p:calendar   value="#{datoEmpleadoControlador.datoEmpleado.fechaNacimiento}"><f:convertDateTime pattern="dd/MM/yyyy" /></p:calendar>
+                        <div class="col-sm-6">    
+                            <p:calendar  locale="es" value="#{datoEmpleadoControlador.datoEmpleado.fechaNacimiento}"><f:convertDateTime pattern="dd/MM/yyyy" /></p:calendar>
                         </div>
                     </div>
                     <div class= "col-xs-6">
@@ -100,7 +102,7 @@
                             <label id="CiudadExpedicionDoc" class="col-sm-1 control-label Fuente_Label"><p class="text-nowrap">Ciudad Expedicion Doc</p></label>
                         </div>
                         <div class="col-sm-6">
-                            <p:selectOneMenu  style="width:245px" value="#{datoEmpleadoControlador.datoEmpleado.ciudadExpedicionDoc}">
+                            <p:selectOneMenu  style="width:205px" value="#{datoEmpleadoControlador.datoEmpleado.ciudadExpedicionDoc}">
                                 <f:selectItems value="#{ciudadControlador.listarCiudad()}" var="ciu" itemLabel="#{ciu.nombreCiudad}"/>
                             </p:selectOneMenu>
                         </div>
@@ -120,7 +122,6 @@
                         </div>
                         <div class="col-sm-6">
                             <p:inputText  p:placeholder="4486872" maxlength="10" onkeypress="ValidaSoloNumeros()" value="#{datoEmpleadoControlador.datoEmpleado.telefono}" requiredMessage="Se debe ingresar un numero de teléfono" validatorMessage="La dirección debe contener minimo 7 caracteres"><f:validateLength for="telefono" minimum="7" maximum="23"></f:validateLength></p:inputText>                 
-
                         </div>
                     </div>
                     <div class= "col-xs-6">
@@ -128,14 +129,15 @@
                             <label id="EstadoCivil" class="col-sm-1 control-label Fuente_Label"><p class="text-nowrap">Estado Civil</p></label>
                         </div>
                         <div class="col-sm-6">
-                            <p:selectOneMenu style="width:245px" required="true" value="#{datoEmpleadoControlador.datoEmpleado.estadoCivil}">
+                            <p:selectOneMenu style="width:205px" required="true" value="#{datoEmpleadoControlador.datoEmpleado.estadoCivil}">
                                 <f:selectItems value="#{estadoCivilControlador.listarEstadosCiviles()}" var="est" itemLabel="#{est.descripcion}"/>
                             </p:selectOneMenu>
                         </div>
                     </div>
-
+                        
                     <div class="progress-bar" role="progressbar" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100" style="width: 100%; height:1px; margin:13px;">
                     </div>
+                    
                     <div class= "col-xs-6">
                         <div class="col-sm-4">
                             <label id="Salario" class="col-sm-1 control-label Fuente_Label"><p class="text-nowrap">Salario</p></label>
@@ -149,7 +151,7 @@
                             <label id="EPS" class="col-sm-1 control-label Fuente_Label"><p class="text-nowrap">EPS</p></label>
                         </div>
                         <div class="col-sm-6">
-                            <p:selectOneMenu style="width:245px" required="true" value="#{datoEmpleadoControlador.datoEmpleado.eps}" >
+                            <p:selectOneMenu style="width:205px" required="true" value="#{datoEmpleadoControlador.datoEmpleado.eps}" >
                                 <f:selectItems value="#{epsControlador.listarEps()}" var="eps" itemLabel="#{eps.nombre}"/>
                             </p:selectOneMenu>
                         </div>
@@ -168,7 +170,7 @@
                             <label id="FondoPension" class="col-sm-1 control-label Fuente_Label"><p class="text-nowrap">Fondo Pensión</p></label>
                         </div>
                         <div class="col-sm-6">
-                            <p:selectOneMenu style="width:245px"  required="true" value="#{datoEmpleadoControlador.datoEmpleado.idFondo}">
+                            <p:selectOneMenu style="width:205px"  required="true" value="#{datoEmpleadoControlador.datoEmpleado.idFondo}">
                                 <f:selectItems value="#{fondoPensionControlador.listarFondoPension()}" var="fon" itemLabel="#{fon.nombreFondo}"/>
                             </p:selectOneMenu>
                         </div>
@@ -178,7 +180,7 @@
                             <label id="FechaIngreso" class="col-sm-1 control-label Fuente_Label"><p class="text-nowrap">Fecha Ingreso</p></label>
                         </div>
                         <div class="col-sm-6">
-                            <p:calendar style="padding: 1px" p:placeholder="16/08/97" value="#{datoEmpleadoControlador.datoEmpleado.fechaIngreso}" ><f:convertDateTime pattern="dd/MM/yyyy" /></p:calendar>
+                            <p:calendar locale="es" style="padding: 1px" p:placeholder="16/08/97" value="#{datoEmpleadoControlador.datoEmpleado.fechaIngreso}" ><f:convertDateTime pattern="dd/MM/yyyy" /></p:calendar>
                         </div>
                     </div>
                     <div class= "col-xs-6">
@@ -186,7 +188,7 @@
                             <label id="Cargo" class="col-sm-1 control-label Fuente_Label"><p class="text-nowrap">Cargo</p></label>
                         </div>
                         <div class="col-sm-6">
-                            <p:selectOneMenu  style="width:245px" required="true" value="#{datoEmpleadoControlador.datoEmpleado.cargo}">
+                            <p:selectOneMenu  style="width:205px" required="true" value="#{datoEmpleadoControlador.datoEmpleado.cargo}">
                                 <f:selectItems value="#{cargoControlador.listarCargo()}" var="car" itemLabel="#{car.nombreCargo}"/>
                             </p:selectOneMenu>
                         </div>
@@ -196,7 +198,7 @@
                             <label id="Banco" class="col-sm-1 control-label Fuente_Label"><p class="text-nowrap">Banco</p></label>
                         </div>
                         <div class="col-sm-6">
-                            <p:selectOneMenu style="width:245px" required="true" value="#{datoEmpleadoControlador.datoEmpleado.idBanco}">
+                            <p:selectOneMenu style="width:205px" required="true" value="#{datoEmpleadoControlador.datoEmpleado.idBanco}">
                                 <f:selectItems value="#{bancoControlador.listarBancos()}" var="ban" itemLabel="#{ban.nombreBanco}"/>
                             </p:selectOneMenu>
                         </div>
@@ -206,7 +208,7 @@
                             <label id="Area" class="col-sm-1 control-label Fuente_Label"><p class="text-nowrap">Area</p></label>
                         </div>
                         <div class="col-sm-6">
-                            <p:selectOneMenu style="width:245px" required="true" value="#{datoEmpleadoControlador.datoEmpleado.area}">
+                            <p:selectOneMenu style="width:205px" required="true" value="#{datoEmpleadoControlador.datoEmpleado.area}">
                                 <f:selectItems value="#{areaControlador.listarAreas()}" var="are" itemLabel="#{are.nombreArea}"/>
                             </p:selectOneMenu>
                         </div>
@@ -224,7 +226,7 @@
                             <label id="CajaCompensacion" class="col-sm-1 control-label Fuente_Label"><p class="text-nowrap">Caja Compensación</p></label>
                         </div>
                         <div class="col-sm-6">
-                            <p:selectOneMenu  style="width:245px" required="true" value="#{datoEmpleadoControlador.datoEmpleado.cajaCompensacion}">
+                            <p:selectOneMenu  style="width:205px" required="true" value="#{datoEmpleadoControlador.datoEmpleado.cajaCompensacion}">
                                 <f:selectItems value="#{cajaCompensacionControlador.listarCajaCompensacion()}" var="caj" itemLabel="#{caj.nombreCajaCompensacion}"/>
                             </p:selectOneMenu>
                         </div>
@@ -234,7 +236,7 @@
                             <label id="JefeInmediato" class="col-sm-1 control-label Fuente_Label"><p class="text-nowrap">Jefe Inmediato</p></label>
                         </div>
                         <div class="col-sm-6">
-                            <p:selectOneMenu style="width:245px"  required="true" value="#{datoEmpleadoControlador.datoEmpleado.jefeInmediato}" >
+                            <p:selectOneMenu style="width:205px"  required="true" value="#{datoEmpleadoControlador.datoEmpleado.jefeInmediato}" >
                                 <f:selectItems value="#{usuarioControlador.itemsAvailableSelectOne}"/>
                             </p:selectOneMenu>
                         </div>
@@ -252,9 +254,8 @@
                         </div></div>
 
 
-
-
                 </h:form>
+                    </center>  
             </ui:define>
         </ui:composition>
     </body> 
