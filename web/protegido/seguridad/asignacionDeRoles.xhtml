@@ -22,7 +22,7 @@
                     <p:dataTable id="tabla" emptyMessage="Ningun rol registrado" value="#{usuarioControlador.listarUsuario()}" 
                                  var="usu" editable="true" editMode="cell" widgetVar="cellTabla" paginator="true" paginatorPosition="bottom" 
                                  paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                         rowsPerPageTemplate="5,10,15">
+                                 rowsPerPageTemplate="5,10,15" style="margin-bottom: 70px">
                         <p:column headerText="Usuario" filterBy="#{usu.idUsuario}" filterMatchMode="contains" style="background-color: white">
                             <h:outputText  style="color: black" value="#{usu.idUsuario}"/>
                         </p:column>
@@ -57,6 +57,31 @@
                     </p:contextMenu> 
                 </h:form>
 
+
+                <div class="modal fade" id="myModal" role="dialog">
+                    <div class="modal-dialog">
+
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">Asignación de roles</h4>
+                            </div>
+                            <div class="modal-body">
+                                <p>Para cambiar el rol,debes dar clic en la columna del rol y seleccionar un rol.Posteriormente dar clic en el boton actualizar de la fila correspondiente</p>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Aceptar</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <script>
+                    $(document).ready(function () {
+                        $("#myModal").modal("show");
+
+                    });
+                </script>
             </ui:define>
 
 

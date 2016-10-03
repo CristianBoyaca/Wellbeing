@@ -152,7 +152,13 @@ public class UsuarioControlador implements Serializable {
             u = usuarioFacade.iniciarSesion(usuario);
             if (u != null) {
                 FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuario", u);
-                redireccion = "protegido/inicio?faces-redirect=true";
+                if (u.getEstado()!=4) {
+                    redireccion = "protegido/inicio.xhtml";
+                }
+                else{
+                redireccion = "cambioContrasenia.xhtml";
+                }
+                
             } else {
                 usuario.setContrasena("");
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error", "Credenciales incorrectas"));
@@ -174,8 +180,9 @@ public class UsuarioControlador implements Serializable {
         try {
             Usuario u = (Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario");
             if (u != null) {
-                FacesContext.getCurrentInstance().getExternalContext().redirect("/Wellbeing/faces/protegido/inicio.xhtml");
+                FacesContext.getCurrentInstance().getExternalContext().redirect("/Wellbeing/faces/"+redireccion);
             }
+           
 
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error", "No se puede puede cargar la página"));
@@ -189,7 +196,7 @@ public class UsuarioControlador implements Serializable {
 
     }
 
-    public void cambiarContraseña() {
+    public void cambiarContrasenia() {
         try {
             cargarUsuario();
              contraseniaActual=DigestUtils.md5Hex(contraseniaActual);
@@ -206,6 +213,25 @@ public class UsuarioControlador implements Serializable {
 
     }
 
+    public void cambiarContraseniaTemporal() {
+        try {
+            cargarUsuario();
+             contraseniaActual=DigestUtils.md5Hex(contraseniaActual);
+            if (!contraseniaActual.equalsIgnoreCase(usuario.getContrasena())) {
+                usuario.setContrasena(contraseniaActual);
+                usuario.setEstado(1);
+                usuarioFacade.edit(usuario);
+                estado = 1;
+            } else {
+                estado = 2;
+                contraseniaActual="";
+                confirmacionContrasenia="";
+            }
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error", "En el momento no se pudo procesar su solicitud"));
+        }
+
+    }
     public void cambiarEstado() {
         estado = 0;
     }
@@ -294,14 +320,14 @@ public class UsuarioControlador implements Serializable {
         try {
             if (!usuarioFacade.consultarCorreo(usuario.getIdUsuario()).equalsIgnoreCase("")) {
                 usuario.setDATOSEMPLEADOSidentificacion(usuarioFacade.buscarDocumento(usuario.getIdUsuario()));
-                usuario.setEstado(1);
+                usuario.setEstado(4);
                 contrasenia=getCadenaAlfanumAleatoria(8);
                 usuario.setContrasena(DigestUtils.md5Hex(contrasenia));
                 roles = new ArrayList<>();
                 roles.add(usuarioFacade.buscarRol(usuario.getIdUsuario()));
                 usuario.setRolList(roles);
                 usuarioFacade.edit(usuario);
-                contenido = agregarHtml("/com/wellbeing/util/formatos/recordarContrasenia.xhtml");
+                contenido = correoControlador.getCorreo().agregarHtml("/com/wellbeing/util/formatos/recordarContrasenia.xhtml");
                 contenido = contenido.replace("{nombre}",usuarioFacade.buscarNombre(usuario.getIdUsuario()));
                 contenido = contenido.replace("{usuario.contrasena}", contrasenia);
                 correoControlador.recuperarContrasenia(usuarioFacade.consultarCorreo(usuario.getIdUsuario()), contenido);
@@ -335,23 +361,5 @@ public class UsuarioControlador implements Serializable {
         return cadenaAleatoria;
     }
 
-    public String agregarHtml(String url) {
-        InputStream is = getClass().getResourceAsStream(url);
-        BufferedInputStream bis = new BufferedInputStream(is);
-        ByteArrayOutputStream buf = new ByteArrayOutputStream();
-        int result;
-        try {
-            result = bis.read();
-            while (result != -1) {
-                byte b = (byte) result;
-                buf.write(b);
-                result = bis.read();
-            }
-            return buf.toString("UTF-8");
-        } catch (IOException iOE) {
-            iOE.printStackTrace();
-        }
-        return "";
-    }
-
+    
 }

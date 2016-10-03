@@ -5,6 +5,10 @@
  */
 package com.wellbeing.util;
 
+import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 import javax.mail.Message;
 import javax.mail.Session;
@@ -99,5 +103,25 @@ public class Correo implements ServicioCorreo{
             return false;
         }
     }
+    
+    public String agregarHtml(String url) {
+        InputStream is = getClass().getResourceAsStream(url);
+        BufferedInputStream bis = new BufferedInputStream(is);
+        ByteArrayOutputStream buf = new ByteArrayOutputStream();
+        int result;
+        try {
+            result = bis.read();
+            while (result != -1) {
+                byte b = (byte) result;
+                buf.write(b);
+                result = bis.read();
+            }
+            return buf.toString("UTF-8");
+        } catch (IOException iOE) {
+            iOE.printStackTrace();
+        }
+        return "";
+    }
+
    
 }

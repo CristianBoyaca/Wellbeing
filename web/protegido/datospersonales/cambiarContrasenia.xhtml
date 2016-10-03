@@ -43,7 +43,7 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label" for="contraseniaActual"><font color="red" size="4">*</font>Contraseña Actual:</label>  
                             <div class="col-md-4">
-                                <h:inputSecret id="contraseniaActual"  a:placeholder="Digite su contraseña actual" class="form-control input-md" maxlength="16" value="#{usuarioControlador.contraseniaActual}" required="true"  requiredMessage="Se debe ingresar la contraseña actual"/>
+                                <h:inputSecret id="contraseniaActual"  a:placeholder="Digite su contraseña actual" class="form-control input-md" maxlength="50" value="#{usuarioControlador.contraseniaActual}" required="true"  requiredMessage="Se debe ingresar la contraseña actual"/>
                             </div>
                         </div>
 
@@ -51,7 +51,7 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label" for="contraseniaNueva"><font color="red" size="4">*</font>Contraseña Nueva:</label>  
                             <div class="col-md-4">
-                                <h:inputSecret id="contraseniaNueva"  a:placeholder="Digite su  nueva contraseña" class="form-control input-md" maxlength="16" value="#{usuarioControlador.usuario.contrasena}" required="true"  requiredMessage="Se debe ingresar la nueva contraseña"/>
+                                <h:inputSecret id="contraseniaNueva"  a:placeholder="Digite su  nueva contraseña" class="form-control input-md" maxlength="50" value="#{usuarioControlador.usuario.contrasena}" required="true"  requiredMessage="Se debe ingresar la nueva contraseña"/>
                             </div>
                         </div>
 
@@ -59,7 +59,7 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label" for="confirmarContrasenia"><font color="red" size="4">*</font>Confirmar Contraseña:</label>  
                             <div class="col-md-4">
-                                <h:inputSecret id="confirmarContrasenia" a:placeholder="Repita su nueva contraseña" class="form-control input-md" maxlength="16" value="#{usuarioControlador.confirmacionContrasenia}" required="true"  requiredMessage="Se debe ingresar la confirmación de la contraseña"/>
+                                <h:inputSecret id="confirmarContrasenia" a:placeholder="Repita su nueva contraseña" class="form-control input-md" maxlength="50" value="#{usuarioControlador.confirmacionContrasenia}" required="true"  requiredMessage="Se debe ingresar la confirmación de la contraseña"/>
                             </div>
                         </div>
 
@@ -68,7 +68,7 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label" for="Guardar"></label>
                             <div class="col-md-4">
-                                <h:commandLink onclick=" return validar()"  class="btn btn-success" actionListener="#{usuarioControlador.cambiarContraseña()}" type="submit" value="Cambiar contraseña" ></h:commandLink>
+                                <h:commandLink onclick=" return validar()"  class="btn btn-success" actionListener="#{usuarioControlador.cambiarContrasenia()}" type="submit" value="Cambiar contraseña" ></h:commandLink>
                             </div>
                         </div>
                     </fieldset>
