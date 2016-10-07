@@ -5,6 +5,7 @@
  */
 package com.wellbeing.facade;
 
+import com.wellbeing.controladores.CorreoControlador;
 import com.wellbeing.entidades.DatoEmpleado;
 import com.wellbeing.entidades.Usuario;
 import java.util.Date;
@@ -23,7 +24,10 @@ import javax.persistence.TypedQuery;
  */
 @Stateless
 public class DatoEmpleadoFacade extends AbstractFacade<DatoEmpleado> {
-
+    
+    CorreoControlador correoControlador;
+    
+    
     @PersistenceContext(unitName = "WellbeingPU")
     private EntityManager em;
 
@@ -91,5 +95,8 @@ public class DatoEmpleadoFacade extends AbstractFacade<DatoEmpleado> {
         return datoEmpleado;
 
     }
+    
+    
+    
     
 }

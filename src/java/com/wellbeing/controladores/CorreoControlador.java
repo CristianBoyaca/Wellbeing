@@ -51,6 +51,19 @@ public class CorreoControlador {
         
     }
     
+    public void notifiacionCreacion(String correo,String contenido){
+  
+            this.correo.setCorreoDestinatario(correo);
+            this.correo.setAsunto("Notificaciòn Creaciòn de Usuario Wellbeing");
+            this.correo.setContenido(contenido);
+            //url="formatos/recordarContrasenia.xhtml";
+            enviarMensaje(1);
+        
+    }
+    
+    
+    
+    
     public void enviarMensaje(Integer tipo) {
         if (correo.enviarCorreo()) {
             if(tipo==1){

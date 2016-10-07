@@ -4,7 +4,8 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
 
     <body >
@@ -12,9 +13,26 @@
             <ui:define name="titulo">
                 <title>Creaciòn de Empleado</title>
             </ui:define>
-
-
+                
+            
             <ui:define name="content"> 
+                <c:if test="#{datoEmpleadoControlador.estado==true}">
+                    <script language="JavaScript" type="text/javascript">
+                        $(document).ready(function () {
+                            swal({type: "success", title: "¡Se creo un nuevo empleado exitosamente!", confirmButtonText: "Aceptar", showConfirmButton: true, allowOutsideClick: true, time: 3000}, function () {
+                                window.location.href = "../inicio.xhtml";
+                            });
+                        });
+                    </script></c:if>
+                    #{datoEmpleadoControlador.cambiarEstado()}
+                <c:if test="#{datoEmpleadoControlador.validador==2}">
+                    <script language="JavaScript" type="text/javascript">
+                        $(document).ready(function () {
+                            swal({type: "error", title: "¡El numero de identificación ya se encuentra registrado en el sistema!", confirmButtonText: "Aceptar", showConfirmButton: true, allowOutsideClick: true, time: 3000}, function () {
+                                window.location.href = "";
+                            });
+                        });
+                    </script>#{datoEmpleadoControlador.setValidador(0)}</c:if>
                 <center>
                 <h:form class="container btn-group-sm" style="background-color: rgba(255,255,255,0.7); 
                                                        min-height: 200px; padding: 50px; text-align: center;">
@@ -41,20 +59,21 @@
                     </div>
                     <div class= "col-xs-6">
                         <div class="col-sm-4">
-                            <label id="PrimerApellido" class="col-sm-1 control-label Fuente_Label"><p class="text-nowrap">Primer Apellido</p></label>
-                        </div>
-                        <div class="col-sm-6">
-                            <p:inputText  p:placeholder="Álvarez" maxlength="20" onkeypress="return soloLetras(event)" required="true" value="#{datoEmpleadoControlador.datoEmpleado.primerApellido}" requiredMessage="Se debe ingresar un Primer Apellido" validatorMessage="El primer apellido debe contener minimo 3 caracteres"><f:validateLength for="Primer Apellido" minimum="5" maximum="20"></f:validateLength></p:inputText>
-                        </div>
-                    </div>
-                    <div class= "col-xs-6">
-                        <div class="col-sm-4">
                             <label id="SegundoNombre" class="col-sm-1 control-label Fuente_Label"><p class="text-nowrap">Segundo Nombre</p></label>
                         </div>
                         <div class="col-sm-6">
                             <p:inputText   p:placeholder="David" maxlength="20" onkeypress="return soloLetras(event)" value="#{datoEmpleadoControlador.datoEmpleado.segundoNombre}" ></p:inputText>
                         </div>
                     </div>
+                    <div class= "col-xs-6">
+                        <div class="col-sm-4">
+                            <label id="PrimerApellido" class="col-sm-1 control-label Fuente_Label"><p class="text-nowrap">Primer Apellido</p></label>
+                        </div>
+                        <div class="col-sm-6">
+                            <p:inputText  p:placeholder="Álvarez" maxlength="20" onkeypress="return soloLetras(event)" required="true" value="#{datoEmpleadoControlador.datoEmpleado.primerApellido}" requiredMessage="Se debe ingresar un Primer Apellido" validatorMessage="El primer apellido debe contener minimo 3 caracteres"><f:validateLength for="Primer Apellido" minimum="5" maximum="20"></f:validateLength></p:inputText>
+                        </div>
+                    </div>
+                    
                     <div class= "col-xs-6">
                         <div class="col-sm-4">
                             <label id="SegundoApellido" class="col-sm-1 control-label Fuente_Label"><p class="text-nowrap">Segundo Apellido</p></label>
@@ -112,7 +131,7 @@
                             <label id="EmailPersonal" class="col-sm-1 control-label Fuente_Label"><p class="text-nowrap">Email Personal</p></label>
                         </div>
                         <div class="col-sm-6">
-                            <p:inputText  p:placeholder="hdbravo4@misena.edu.co" maxlength="20" value="#{datoEmpleadoControlador.datoEmpleado.emailPersonal}" requiredMessage="Se debe ingresar un correo electrónico" validatorMessage="Correo personal invalido"><f:validateRegex
+                            <p:inputText  p:placeholder="hdbravo4@misena.edu.co" maxlength="50" value="#{datoEmpleadoControlador.datoEmpleado.emailPersonal}" requiredMessage="Se debe ingresar un correo electrónico" validatorMessage="Correo personal invalido"><f:validateRegex
                                     pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" /></p:inputText>
                         </div>
                     </div>
@@ -255,6 +274,19 @@
 
 
                 </h:form>
+                     <script type="text/javascript">
+                    $(function () {
+                        //Para escribir solo letras
+                        $("#formactualizar\\:barrio").validCampoFranz(' abcdefghijklmnñopqrstuvwxyzáéiou');
+
+                        //Para escribir solo numeros    
+                        $("#formactualizar\\:telefono").keyup(function () {
+
+                            this.value = (this.value + '').replace(/[^0-9-]/g, '');
+                        });
+                    });
+
+                </script>
                     </center>  
             </ui:define>
         </ui:composition>

@@ -8,6 +8,7 @@ package com.wellbeing.controladores;
 import com.wellbeing.entidades.DatoEmpleado;
 import com.wellbeing.entidades.Usuario;
 import com.wellbeing.facade.DatoEmpleadoFacade;
+import com.wellbeing.facade.UsuarioFacade;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
@@ -32,6 +33,10 @@ public class DatoEmpleadoControlador implements Serializable {
     private boolean estado;
     private Integer validador;
     private String identificacionEmpleado;
+    private UsuarioFacade usuarioFacade;
+    private String idUsarioCreado;
+    private CorreoControlador correoControlador;
+    
    
     @PostConstruct()
     public void init() {
@@ -40,7 +45,7 @@ public class DatoEmpleadoControlador implements Serializable {
         validador = 0;
 
     }
-
+    
     public DatoEmpleado getDatoEmpleado() {
         return datoEmpleado;
     }
@@ -120,7 +125,23 @@ public class DatoEmpleadoControlador implements Serializable {
     public void crearDatosEmpleado() {
 
         try {
-            datoEmpleadoFacade.create(datoEmpleado);
+            
+            if ((DatoEmpleado) datoEmpleadoFacade.buscarPorIdentificacion(datoEmpleado.getIdentificacion())!= null){
+                
+                 validador=2;
+            
+            }else{            
+                estado = true;
+                 datoEmpleadoFacade.create(datoEmpleado);
+                 idUsarioCreado=usuarioFacade.retornaIdUsuario(datoEmpleado.getIdentificacion());
+                 String contenido=" ";
+               //  contenido = agregarHtml("/com/wellbeing/util/formatos/notificacionCreacion.xhtml");
+                // contenido = contenido.replace("{idUsarioCreado}",idUsarioCreado);
+                 correoControlador.notifiacionCreacion(datoEmpleado.getEmailCorporativo(), "esto es una prueba señor");
+                 
+           }
+            
+            
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Creaciòn", "Se ha Creado correctamente el empleado"));
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error", "No se pudo Crear correctamente el empleado"));
@@ -147,6 +168,10 @@ public class DatoEmpleadoControlador implements Serializable {
         datoEmpleado = new DatoEmpleado();
         return "";
 
+    }
+
+    private String agregarHtml(String comwellbeingutilformatosrecordarContrasen) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
   

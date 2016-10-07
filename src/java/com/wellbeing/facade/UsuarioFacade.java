@@ -134,4 +134,20 @@ public class UsuarioFacade extends AbstractFacade<Usuario> implements UsuarioFac
         }
         return consulta;
     }
+    
+        public String retornaIdUsuario(String identificacion){
+    
+          String consulta=" ";      
+          Query q = em.createQuery("SELECT u FROM Usuario u WHERE u.DATOSEMPLEADOS_identificacion=?1");
+          q.setParameter(1, identificacion);
+          List<String> results = q.getResultList();
+          for (String p : results) {
+            consulta =p;
+        }
+        return consulta;
+    
+          
+        }
+    
+    
 }
