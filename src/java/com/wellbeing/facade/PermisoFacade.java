@@ -37,7 +37,7 @@ public class PermisoFacade extends AbstractFacade<Permiso> {
         q.setParameter(1, idUsuario);
         return q.getResultList();
     }
-    
-    
-    
+
+   
+       
 }

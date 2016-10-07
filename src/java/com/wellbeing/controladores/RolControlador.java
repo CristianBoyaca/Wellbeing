@@ -10,6 +10,7 @@ import com.wellbeing.entidades.Permiso;
 import com.wellbeing.entidades.Rol;
 import com.wellbeing.facade.RolFacade;
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -33,24 +34,33 @@ public class RolControlador implements Serializable {
     @EJB
     private RolFacade rolFacade;
     private Rol rol;
-    private Permiso permiso;
+    private Permiso[] permisos;
+    private List<Permiso> permisos1;
     private int selectedItemEps;
     private List<Rol> roles;
 
     @PostConstruct
     public void init() {
         rol = new Rol();
-        permiso = new Permiso();
+
     }
 
-    public Permiso getPermiso() {
-        return permiso;
+    public Permiso[] getPermisos() {
+        return permisos;
     }
 
-    public void setPermiso(Permiso permiso) {
-        this.permiso = permiso;
+    public void setPermisos(Permiso[] permisos) {
+        this.permisos = permisos;
     }
-    
+
+    public List<Permiso> getPermisos1() {
+        return permisos1;
+    }
+
+    public void setPermisos1(List<Permiso> permisos1) {
+        this.permisos1 = permisos1;
+    }
+
     public Rol getRol() {
         return rol;
     }
@@ -59,29 +69,27 @@ public class RolControlador implements Serializable {
         this.rol = rol;
     }
 
-    
-  
-    
     public Rol getSelected() {
         if (rol == null) {
             rol = new Rol();
-            selectedItemEps =-1;
+            selectedItemEps = -1;
         }
         return rol;
     }
-    
-    public List<Rol> listarRoles(){
-    return  rolFacade.findAll();
+
+    public List<Rol> listarRoles() {
+        return rolFacade.findAll();
     }
+
     public SelectItem[] getItemsAvailableSelectOne() {
-        return JsfUtil.getSelectItems(rolFacade.findAll(),false);
+        return JsfUtil.getSelectItems(rolFacade.findAll(), false);
     }
-    
-     public Rol getRol(java.lang.Integer id) {
+
+    public Rol getRol(java.lang.Integer id) {
         return rolFacade.find(id);
     }
-     
-     @FacesConverter(forClass = Rol.class)
+
+    @FacesConverter(forClass = Rol.class)
     public static class RolControladorConvertidor implements Converter {
 
         @Override
@@ -118,30 +126,31 @@ public class RolControlador implements Serializable {
                 throw new IllegalArgumentException("object " + object + " is of type " + object.getClass().getName() + "; expected type: " + Rol.class.getName());
             }
         }
-     }
-     
-        
-         public String limpiarRolesUsu(){
-            rol=new Rol();
-            return "";
-         }
-         
-         
-            public String actualizarRolPermiso(Rol role){
-        
-        role.getPermisoList().set(0, permiso);
-        try {    
-        rolFacade.edit(role);
-        FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_INFO, "Actualización","Se ha actualizado correctamente el registro"));
-        }catch(Exception e){
-        FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error","No se pudo actualizar correctamente el registro"));
     }
+
+    public String limpiarRolesUsu() {
+        rol = new Rol();
         return "";
-}
-         
-         
-         
-         
     }
 
+    public List<Permiso> buscarPermisos() {
 
+        permisos1 = rolFacade.buscarPermisosRol(rol.getIdRol());
+        Permiso[] miarray = new Permiso[permisos1.size()];
+        miarray = permisos1.toArray(miarray);
+        permisos = miarray;
+        return rolFacade.buscarPermisosRol(rol.getIdRol());
+
+    }
+
+    public void actualizarPermisos() {
+        try {
+
+            rol.setPermisoList(Arrays.asList(permisos));
+            rolFacade.edit(rol);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Actualización", "Se ha actualizado correctamente los permiso"));
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error", "No se pudo actualizar correctamente los permisos"));
+        }
+    }
+}

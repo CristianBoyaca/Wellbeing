@@ -161,7 +161,7 @@ public class Permiso implements Serializable {
 
     @Override
     public String toString() {
-        return nombreDelPermiso;
+        return idPermiso+"";
     }
     
 }

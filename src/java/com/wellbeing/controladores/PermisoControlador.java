@@ -11,10 +11,16 @@ import java.io.Serializable;
 import javax.ejb.EJB;
 import com.wellbeing.facade.PermisoFacade;
 import com.wellbeing.entidades.Permiso;
+import com.wellbeing.entidades.Rol;
 import com.wellbeing.entidades.Usuario;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+import javax.faces.convert.Converter;
+import javax.faces.convert.FacesConverter;
 import org.primefaces.model.menu.DefaultMenuItem;
 import org.primefaces.model.menu.DefaultMenuModel;
 import org.primefaces.model.menu.DefaultSubMenu;
@@ -56,6 +62,10 @@ public class PermisoControlador implements Serializable {
         this.listaPermisos = listaPermisos;
     }
 
+    public List<Permiso>listarPemisos(){
+    return permisoFacade.findAll();
+    }
+
     public void listarMenus() {
         try {
             Usuario u = (Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario");
@@ -88,6 +98,50 @@ public class PermisoControlador implements Serializable {
                 model.addElement(item);
             }
         }
+    }
+   
+     public Permiso getPermisos(java.lang.Integer id) {
+        return permisoFacade.find(id);
+    }
+
+    @FacesConverter(forClass = Permiso.class)
+    public static class PermisoControladorConvertidor implements Converter {
+
+        @Override
+        public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
+            if (value == null || value.length() == 0) {
+                return null;
+            }
+            PermisoControlador controlador = (PermisoControlador) facesContext.getApplication().getELResolver().
+                    getValue(facesContext.getELContext(), null, "permisoControlador");
+            return controlador.getPermisos(getKey(value));
+        }
+
+        java.lang.Integer getKey(String value) {
+            java.lang.Integer key;
+            key = Integer.valueOf(value);
+            return key;
+        }
+
+        String getStringKey(java.lang.Integer value) {
+            StringBuilder sb = new StringBuilder();
+            sb.append(value);
+            return sb.toString();
+        }
+
+        @Override
+        public String getAsString(FacesContext facesContext, UIComponent component, Object object) {
+            if (object == null) {
+                return null;
+            }
+            if (object instanceof Permiso) {
+                Permiso o = (Permiso) object;
+                return getStringKey(o.getIdPermiso());
+            } else {
+                throw new IllegalArgumentException("object " + object + " is of type " + object.getClass().getName() + "; expected type: " + Permiso.class.getName());
+            }
+        }
+
     }
 
 }
