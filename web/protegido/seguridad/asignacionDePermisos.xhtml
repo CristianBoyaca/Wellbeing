@@ -18,7 +18,7 @@
 
             <ui:define name="content">
 
-                <h:form>      
+                <h:form id="formulario">      
                     <p:growl autoUpdate="true" showSummary="true" showDetail="true"/>
                     <div class="container panel" style="margin-bottom:80px;margin-top: 50px">
                         <table id="tblPermisos" class="table table-striped" data-toggle="table" data-pagination="true" data-sort-name="Registro" data-search="true" data-sort-order="desc"  data-show-columns="true"  data-page-size="8" data-page-list="[4, 8, 16, 32, Todos]">
@@ -34,10 +34,12 @@
                             <tbody>
 
                                 <tr>
-                                        <td><p:selectOneMenu  style="width:200px;margin-top:10px" value="#{rolControlador.rol}">
-                                                <f:selectItems value="#{rolControlador.listarRoles()}" var="rol"  itemLabel="#{rol.nombre}" />
-                                                <p:ajax event="change" listener="#{rolControlador.buscarPermisos()}" update="pr"/>
-                                            </p:selectOneMenu></td>   
+                                    <td><p:selectOneMenu  widgetVar="rol" style="width:200px;margin-top:10px" value="#{rolControlador.rol}" required="true" requiredMessage="Se debe seleccionar un rol">
+                                            <f:selectItem itemLabel="Seleccione un rol" itemValue="" noSelectionOption="true" />
+                                            <f:selectItems value="#{rolControlador.listarRoles()}" var="rol"  itemLabel="#{rol.nombre}" />
+                                            <p:ajax event="change" listener="#{rolControlador.buscarPermisos()}" update="pr"/>
+
+                                        </p:selectOneMenu></td>   
 
                                     <td>
                                         <c:forEach items="#{permisoControlador.listarPemisos()}" var="per">
@@ -64,7 +66,7 @@
 
                                     </td>
                                     <td>
-                                        <h:commandLink type="button" value="Actualizar Permisos" class="btn btn-primary" actionListener="#{rolControlador.actualizarPermisos()}"></h:commandLink>                                           
+                                        <h:commandLink onclick="return validar()" type="button" value="Actualizar Permisos" class="btn btn-primary" actionListener="#{rolControlador.actualizarPermisos()}"></h:commandLink>                                           
                                     </td>
 
                                 </tr>
@@ -82,7 +84,7 @@
                                     $(this).prop("checked", true);
                                 });
 
-                            } else {
+                            } else {    
                                 $("#tblPermisos input[type=checkbox]").each(function () {
                                     $(this).prop("checked", false);
                                 });
@@ -92,7 +94,33 @@
                         $("[data-toggle=tooltip]").tooltip();
                     });
                 </script>
-
+                <script>
+                    function validar() {
+                        
+                        select = PF('rol').getSelectedValue();
+                        
+                        if (select.valueOf() === '') {
+                            swal({
+                                type: "error",
+                                title: "¡Se debe seleccionar un rol!",
+                                confirmButtonText: "Aceptar",
+                                showConfirmButton: true,
+                                allowOutsideClick: true
+                            });
+                            return false;
+                        }
+                        if ($( "input[type=checkbox]:checked" ).length===0){
+                             swal({
+                                type: "error",
+                                title: "¡Se debe seleccionar un permiso!",
+                                confirmButtonText: "Aceptar",
+                                showConfirmButton: true,
+                                allowOutsideClick: true
+                            });
+                            return false;
+                        }
+                    }
+                </script>
             </ui:define>
 
         </ui:composition>

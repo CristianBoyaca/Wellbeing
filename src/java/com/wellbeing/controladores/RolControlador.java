@@ -133,13 +133,12 @@ public class RolControlador implements Serializable {
         return "";
     }
 
-    public List<Permiso> buscarPermisos() {
+    public void buscarPermisos() {
 
         permisos1 = rolFacade.buscarPermisosRol(rol.getIdRol());
         Permiso[] miarray = new Permiso[permisos1.size()];
         miarray = permisos1.toArray(miarray);
         permisos = miarray;
-        return rolFacade.buscarPermisosRol(rol.getIdRol());
 
     }
 
