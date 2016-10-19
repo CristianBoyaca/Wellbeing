@@ -10,10 +10,13 @@ import com.wellbeing.entidades.Rol;
 import com.wellbeing.entidades.Usuario;
 import java.util.List;
 import javax.ejb.Stateless;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import static jdk.nashorn.internal.objects.NativeString.substring;
 
 /**
  *
@@ -123,6 +126,7 @@ public class UsuarioFacade extends AbstractFacade<Usuario> implements UsuarioFac
         return correo;
     }
 
+    @Override
     public String buscarNombre(String usuario) {
         String consulta = " ";
 
@@ -135,18 +139,35 @@ public class UsuarioFacade extends AbstractFacade<Usuario> implements UsuarioFac
         return consulta;
     }
     
-        public String retornaIdUsuario(String identificacion){
+    @Override
+        public String retornaIdUsuario(DatoEmpleado empleado){
+      
+            String consulta="ok";  
+                    
+           
+    /*****extrae la primera letra del nombre y concatena por el apellido*****/
+           consulta=(substring(empleado.getPrimerNombre(),1,1)+empleado.getPrimerApellido());
+         /*  consult = "SELECT u FROM Usuario u WHERE u.idUsuario=?1";
+            Query query = em.createQuery(consult);
+            query.setParameter(1,consulta);
+            List<Usuario> lista = query.getResultList();*/
+    /*****Validación para crear un usuario ****/
     
-          String consulta=" ";      
-          Query q = em.createQuery("SELECT u FROM Usuario u WHERE u.DATOSEMPLEADOS_identificacion=?1");
-          q.setParameter(1, identificacion);
-          List<String> results = q.getResultList();
-          for (String p : results) {
-            consulta =p;
-        }
-        return consulta;
+             /*   if (!result.isEmpty()) {
     
-          
+                  consulta=(substring(empleado.getPrimerNombre(),1,2)+empleado.getPrimerApellido());
+                  Query qu = em.createQuery("SELECT d FROM DatoEmpleado d JOIN d.usuarioList u WHERE u.idUsuario=?1");
+                  qu.setParameter(1, consulta);
+                  List<DatoEmpleado> resul = qu.getResultList();
+                  if (!resul.isEmpty()){
+                      consulta=(substring(empleado.getSegundoNombre(),1,2)+empleado.getPrimerApellido());
+                                       
+                  }
+                }  */
+        
+      
+      return consulta;
+      
         }
     
     

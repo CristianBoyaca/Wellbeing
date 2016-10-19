@@ -16,7 +16,16 @@
             </ui:define>
 
             <ui:define name="content">
-                 
+                <c:if test="#{solicitudControlador.validador==true}">
+                 <script language="JavaScript" type="text/javascript">
+                        $(document).ready(function () {
+                            swal({type: "success", title: "¡Se envio respuesta al empleado solicitante!", confirmButtonText: "Aceptar", showConfirmButton: true, allowOutsideClick: true, time: 3000}, function () {
+                                window.location.href = "../inicio.xhtml";
+                            });
+                        });
+                  </script>
+                    #{solicitudControlador.cambiarValidador()}
+                </c:if>
                 <h:form class="navbar-form">
                     <div class="page-header col-sm-12" style="background-color: whitesmoke">
             <div class= "col-sm-6">

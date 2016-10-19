@@ -39,5 +39,7 @@ public interface UsuarioFacadeLocal {
     public  Rol buscarRol(String usuario);
     public String consultarCorreo(String usuario);
     public String buscarNombre(String usuario);
+    String retornaIdUsuario(DatoEmpleado empleado);
+    
     
 }

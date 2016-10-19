@@ -210,12 +210,25 @@ public class SolicitudControlador implements Serializable {
     }
 
     public String actualizarDecision() {
+        
         try {
-            solicitudFacade.actualizarDecision(solicitud.getIdSolicitud(), solicitud.getDecision());
+            String estadoSol="";
+            if(solicitud.getDecision().equals("Aceptado")){
+            estadoSol="Aprobadas";
+            }else{ 
+            estadoSol="Denegadas";
+            }
+            solicitudFacade.actualizarDecision(solicitud.getIdSolicitud(), solicitud.getDecision(),estadoSol);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Actualización", "Se ha actualizado correctamente el registro"));
+            validador=true;
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error", "No se pudo actualizar correctamente el registro"));
         }
         return "";
+    }
+    
+    
+    public void cambiarValidador() {
+        validador = false;
     }
 }

@@ -45,12 +45,13 @@ public class SolicitudFacade extends AbstractFacade<Solicitud> {
     
     }
 
-    public void actualizarDecision(int idSolicitud,String decision){
+    public void actualizarDecision(int idSolicitud,String decision,String estadoSol){
     
         
-       Query q = em.createQuery("UPDATE Solicitud  s SET  s.decision=?1 WHERE s.idSolicitud=?2");
+       Query q = em.createQuery("UPDATE Solicitud  s SET  s.decision=?1,s.estado=?2 WHERE s.idSolicitud=?3");
         q.setParameter(1, decision);
-        q.setParameter(2, idSolicitud);
+        q.setParameter(2, estadoSol);
+        q.setParameter(3, idSolicitud);
         q.executeUpdate();
     }
 

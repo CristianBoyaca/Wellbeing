@@ -28,14 +28,16 @@ public class DatoEmpleadoControlador implements Serializable {
 
     @EJB
     private DatoEmpleadoFacade datoEmpleadoFacade;
+ //   @EJB
+    private UsuarioFacade usuarioFacadeCrea;
     private DatoEmpleado datoEmpleado;
     private String nombreCompleto;
     private boolean estado;
     private Integer validador;
     private String identificacionEmpleado;
-    private UsuarioFacade usuarioFacade;
     private String idUsarioCreado;
     private CorreoControlador correoControlador;
+    private String contenido;
     
    
     @PostConstruct()
@@ -43,6 +45,8 @@ public class DatoEmpleadoControlador implements Serializable {
         datoEmpleado = new DatoEmpleado();
         estado = false;
         validador = 0;
+        correoControlador = new CorreoControlador();
+        usuarioFacadeCrea = new UsuarioFacade();
 
     }
     
@@ -122,6 +126,7 @@ public class DatoEmpleadoControlador implements Serializable {
         estado = false;
     }
 
+    
     public void crearDatosEmpleado() {
 
         try {
@@ -133,22 +138,22 @@ public class DatoEmpleadoControlador implements Serializable {
             }else{            
                 estado = true;
                  datoEmpleadoFacade.create(datoEmpleado);
-                 idUsarioCreado=usuarioFacade.retornaIdUsuario(datoEmpleado.getIdentificacion());
-                 String contenido=" ";
-               //  contenido = agregarHtml("/com/wellbeing/util/formatos/notificacionCreacion.xhtml");
-                // contenido = contenido.replace("{idUsarioCreado}",idUsarioCreado);
-                 correoControlador.notifiacionCreacion(datoEmpleado.getEmailCorporativo(), "esto es una prueba señor");
-                 
+                 idUsarioCreado=(String)usuarioFacadeCrea.retornaIdUsuario(datoEmpleado);
+                 contenido = correoControlador.getCorreo().agregarHtml("/com/wellbeing/util/formatos/notificacionCreacion.xhtml");
+                 contenido = contenido.replace("{idUsarioCreado}",idUsarioCreado);
+                 contenido = contenido.replace("{NombreCompleto}",(String) datoEmpleado.getPrimerNombre()+" "+datoEmpleado.getPrimerApellido());
+                 correoControlador.notifiacionCreacion(datoEmpleado.getEmailCorporativo(), contenido);
+                 limpiar();
+               
            }
-            
-            
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Creaciòn", "Se ha Creado correctamente el empleado"));
+          FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Creaciòn", "Se ha Creado correctamente el empleado"));
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error", "No se pudo Crear correctamente el empleado"));
         }
 
     }
 
+    
     public void consultarDatosEmpleadoPorIdentificacion() {
 
         this.datoEmpleado = (DatoEmpleado) datoEmpleadoFacade.buscarPorIdentificacion(this.identificacionEmpleado);
@@ -170,10 +175,7 @@ public class DatoEmpleadoControlador implements Serializable {
 
     }
 
-    private String agregarHtml(String comwellbeingutilformatosrecordarContrasen) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
+    
   
 
 }

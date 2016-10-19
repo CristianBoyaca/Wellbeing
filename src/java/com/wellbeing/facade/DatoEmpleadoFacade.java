@@ -7,7 +7,6 @@ package com.wellbeing.facade;
 
 import com.wellbeing.controladores.CorreoControlador;
 import com.wellbeing.entidades.DatoEmpleado;
-import com.wellbeing.entidades.Usuario;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;

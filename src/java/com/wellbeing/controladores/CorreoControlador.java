@@ -61,8 +61,7 @@ public class CorreoControlador {
         
     }
     
-    
-    
+        
     
     public void enviarMensaje(Integer tipo) {
         if (correo.enviarCorreo()) {
