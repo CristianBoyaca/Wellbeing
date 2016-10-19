@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="certificadoLaboral" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4e047003-d556-4ea3-b238-f30ef419ec30">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="198"/>
+	<parameter name="nombre" class="java.lang.String"/>
+	<parameter name="tipo" class="java.lang.String"/>
+	<parameter name="numero" class="java.lang.String"/>
+	<parameter name="diaT" class="java.lang.String"/>
+	<parameter name="mesT" class="java.lang.String"/>
+	<parameter name="anioT" class="java.lang.String"/>
+	<parameter name="cargo" class="java.lang.String"/>
+	<parameter name="dia" class="java.lang.String"/>
+	<parameter name="mes" class="java.lang.String"/>
+	<parameter name="anio" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="70" splitType="Stretch">
+			<staticText>
+				<reportElement x="140" y="12" width="286" height="35" uuid="a5a53bbf-c0c2-4636-8112-9dbc4c41c85c"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Arial" size="24" isBold="true" isStrikeThrough="false"/>
+				</textElement>
+				<text><![CDATA[ISKENDERUN GROUP]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="61" splitType="Stretch">
+			<staticText>
+				<reportElement x="240" y="22" width="100" height="20" uuid="493a5d8e-b87e-453e-b741-171054164926"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Arial" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CERTIFICA]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="445" splitType="Stretch">
+			<staticText>
+				<reportElement x="20" y="82" width="130" height="16" uuid="f9f76af5-0725-4599-9ee6-ca7274ca93b3"/>
+				<textElement>
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<text><![CDATA[ inherentes al cargo de]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="19" y="42" width="26" height="20" uuid="fe8df659-fb0a-40fe-90c7-c8c38745ff9c"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="false" isUnderline="false" isStrikeThrough="false"/>
+				</textElement>
+				<text><![CDATA[Que]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="17" y="155" width="429" height="16" uuid="71cb9a48-0fd2-4d3f-87f8-32e66c25ca3a"/>
+				<textElement>
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<text><![CDATA[Se expide la presente certificación a solicitud del interesado en Bogotá D.C., el ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="17" y="223" width="485" height="20" uuid="455ce11a-2e71-4c24-b82d-e3d42bf4fba6"/>
+				<textElement>
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<text><![CDATA[Para confirmar la presente certificación por favor comunicarse al teléfono:2124299]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="49" y="42" width="171" height="20" uuid="b4f445cc-3284-4345-8ba9-4ce84a1aa213"/>
+				<textElement>
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{nombre}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="219" y="42" width="109" height="20" uuid="dcaec117-c6cd-41a4-b9a5-a68541d30868"/>
+				<textElement>
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<text><![CDATA[,identificado(a)  con]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="370" y="42" width="29" height="20" uuid="892d68a1-003d-48b5-8d15-cc6ddba39e85"/>
+				<textElement>
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<text><![CDATA[No.]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="399" y="42" width="73" height="20" uuid="7f1da03e-b98a-45a1-91f9-cf07d5773014"/>
+				<textElement>
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{numero}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="469" y="42" width="73" height="20" uuid="d9538c7d-41c6-430d-91fe-6e0ab285e3db"/>
+				<textElement>
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<text><![CDATA[,trabaja para ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="19" y="62" width="121" height="20" uuid="33ed1f51-e19d-45bc-b6a6-833c7514993a"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ ISKENDERUN S.A.S ,]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="149" y="62" width="61" height="20" uuid="c4990360-e304-4b7c-a383-0ede603cf78f"/>
+				<textElement>
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<text><![CDATA[desde el]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="200" y="62" width="20" height="20" uuid="5cee1ab9-0dc5-47d4-808a-6ba29c5f8b9d"/>
+				<textElement>
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{diaT}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="220" y="62" width="26" height="20" uuid="9db52987-16d9-4540-89ec-e148e6952384"/>
+				<textElement>
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<text><![CDATA[de]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="246" y="62" width="68" height="20" uuid="f1f708a9-ad05-46a5-92a5-4cebd0c33cf8"/>
+				<textElement>
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{mesT}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="314" y="62" width="26" height="20" uuid="13f986ab-efd0-45c8-aaaf-2d5ebf288dd4"/>
+				<textElement>
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<text><![CDATA[de]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="340" y="62" width="32" height="20" uuid="d4c62e22-9253-454f-94e6-57870bb102b4"/>
+				<textElement>
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{anioT}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="372" y="62" width="170" height="20" uuid="7d8080f9-0aeb-4e90-a176-8d2c9eb6c586"/>
+				<textElement>
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<text><![CDATA[,desempeñando las funciones]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="150" y="82" width="220" height="20" uuid="e0d27637-f0df-4fac-b672-ccc63016f284"/>
+				<textElement>
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{cargo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="448" y="155" width="25" height="16" uuid="ebc170f6-25fa-4c84-aa70-6671d81bb4da"/>
+				<textElement>
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{dia}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="479" y="155" width="20" height="16" uuid="0a5f4695-5948-4a08-b3e6-ee32074607e3"/>
+				<textElement>
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<text><![CDATA[de]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="20" y="171" width="80" height="20" uuid="7bf685c7-c1d2-4b4b-9b19-d2a528b35526"/>
+				<textElement>
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{mes}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="99" y="171" width="31" height="20" uuid="1071b6dc-9811-4224-ae0c-f09140ace4c1"/>
+				<textElement>
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<text><![CDATA[de]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="130" y="171" width="100" height="20" uuid="1c7fdc75-ed67-4613-a4cb-ae4daf95a3e4"/>
+				<textElement>
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{anio}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="17" y="337" width="394" height="89" uuid="402dfe46-c0b8-4708-91dc-8e494cbde452"/>
+				<imageExpression><![CDATA["../certificado/firma.JPG"]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="340" y="42" width="18" height="20" uuid="fbff62f8-fe98-414a-a0ab-e7e953f48790"/>
+				<textFieldExpression><![CDATA[$P{tipo}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="37" splitType="Stretch">
+			<staticText>
+				<reportElement x="37" y="-89" width="218" height="20" uuid="b5fb1fd1-243a-4d8f-a548-2ba6be112bd6"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[AURA CLEMENCIA NEIRA IZQUIERDO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="39" y="-69" width="216" height="20" uuid="309fb048-ffee-4424-97d3-8be904f226dc"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Departamento De Talento Humano]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="39" y="-49" width="130" height="20" uuid="04e297f4-725a-491b-bb86-587a7315830c"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ISKENDERUN S.A.S]]></text>
+			</staticText>
+		</band>
+	</columnFooter>
+</jasperReport>

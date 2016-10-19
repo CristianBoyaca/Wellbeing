@@ -46,7 +46,6 @@ public class CorreoControlador {
             this.correo.setCorreoDestinatario(correo);
             this.correo.setAsunto("Recuperación De Contraseña Sistema Wellbeing");
             this.correo.setContenido(contenido);
-            //url="formatos/recordarContrasenia.xhtml";
             enviarMensaje(1);
         
     }
