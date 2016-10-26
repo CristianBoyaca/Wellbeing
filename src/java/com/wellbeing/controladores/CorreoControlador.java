@@ -9,6 +9,7 @@ import com.wellbeing.entidades.Usuario;
 import com.wellbeing.facade.UsuarioFacade;
 import com.wellbeing.util.Correo;
 import java.io.Serializable;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
@@ -60,6 +61,19 @@ public class CorreoControlador {
         
     }
     
+    public void notificacionMasiva(List<String> correos,String contenido){
+    
+         for (int i = 0; i < correos.size(); i++) {
+            this.correo.setCorreoDestinatario(correos.get(i));
+            this.correo.setAsunto("Notificaciòn Creaciòn de Usuario Wellbeing");
+            this.correo.setContenido(contenido);
+            //url="formatos/recordarContrasenia.xhtml";
+            enviarMensaje(1); 
+             
+        }
+           
+        
+    }
         
     
     public void enviarMensaje(Integer tipo) {

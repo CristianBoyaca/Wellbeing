@@ -5,8 +5,11 @@
  */
 package com.wellbeing.controladores;
 
+import com.wellbeing.entidades.DatoEmpleado;
+import com.wellbeing.entidades.Observacion;
 import com.wellbeing.entidades.Solicitud;
 import com.wellbeing.entidades.Usuario;
+import com.wellbeing.entidades.Vacacion;
 import com.wellbeing.facade.SolicitudFacade;
 import java.io.File;
 import java.io.IOException;
@@ -40,6 +43,7 @@ public class SolicitudControlador implements Serializable {
 
     @EJB
     SolicitudFacade solicitudFacade;
+    ObservacionControlador observacion;
     private Solicitud solicitud;
     private List<Solicitud> solicitudes;
     private PieChartModel pieChartModel;
@@ -48,11 +52,35 @@ public class SolicitudControlador implements Serializable {
     private Integer contador3;
     private Integer tipo;
     private boolean validador;
+    private Date fecha;
+    private Vacacion vacacion;
+    private DatoEmpleadoControlador datoEmpleadoControlador;
+    private List<DatoEmpleado> datoEmpleados;
+    private CorreoControlador correoControlador;
+    private UsuarioControlador usuarioControlador;
 
+   
+
+    
     @PostConstruct
     public void init() {
         solicitud = new Solicitud();
+        observacion=new ObservacionControlador();
+        fecha=new Date();
+        vacacion = new Vacacion();
+        datoEmpleadoControlador=new DatoEmpleadoControlador();
+        usuarioControlador= new UsuarioControlador();
     }
+
+    public Vacacion getVacacion() {
+        return vacacion;
+    }
+
+    public void setVacacion(Vacacion vacacion) {
+        this.vacacion = vacacion;
+    }
+
+
 
     public Solicitud getSolicitud() {
         return solicitud;
@@ -65,11 +93,20 @@ public class SolicitudControlador implements Serializable {
     public List<Solicitud> getSolicitudes() {
         return solicitudes;
     }
-
+        
     public void setSolicitudes(List<Solicitud> solicitudes) {
         this.solicitudes = solicitudes;
     }
 
+    
+     public List<DatoEmpleado> getDatoEmpleados() {
+        return datoEmpleados;
+    }
+
+    public void setDatoEmpleados(List<DatoEmpleado> datoEmpleados) {
+        this.datoEmpleados = datoEmpleados;
+    }
+    
     public PieChartModel getPieChartModel() {
         return pieChartModel;
     }
@@ -107,7 +144,9 @@ public class SolicitudControlador implements Serializable {
 
     public String buscarPorSolicitud(int idSolicitud) {
 
-        this.solicitud = (Solicitud) solicitudFacade.buscarPorSolicitud(idSolicitud);
+        this.solicitud = (Solicitud) solicitudFacade.buscarPorSolicitud(idSolicitud);    
+        if(this.solicitud.getTipoSolicitud().getIdTipoSolicitud()==3){
+        this.vacacion=(Vacacion)this.solicitud.getVacacionList().get(0);}
         return "";
     }
 
@@ -221,20 +260,42 @@ public class SolicitudControlador implements Serializable {
         pieChartModel.setDiameter(150);
     }
 
-    public String actualizarDecision() {
+    public String actualizarDecision(Observacion obs,DatoEmpleado dt) {
         
         try {
+           //datoEmpleados.add((DatoEmpleado) datoEmpleadoControlador.buscarInformacionPorUsuario(solicitud.getUsuarioAsignado()));
+            obs.setFecha(fecha);
+            //obs.setIdentificacion(dt);
+            obs.setIdSolicitud(this.solicitud);
+            List<Observacion> o;
+            o=(List<Observacion>)this.solicitud.getObservacionList();
+            o.add(obs);
             String estadoSol="";
             if(solicitud.getDecision().equals("Aceptado")){
             estadoSol="Aprobadas";
             }else{ 
             estadoSol="Denegadas";
             }
-            solicitudFacade.actualizarDecision(solicitud.getIdSolicitud(), solicitud.getDecision(),estadoSol);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Actualización", "Se ha actualizado correctamente el registro"));
+         //   List<String>usuarioCorreo=null;
+          //  String correoJefe="";
+          //  String CorreoRadicador="";
+          // correoJefe=usuarioControlador.consultarCorreo(solicitud.getUsuarioAsignado());
+           // CorreoRadicador=usuarioControlador.consultarCorreo(solicitud.getUsuarioRadicador().getIdUsuario());
+        //    usuarioCorreo.add(correoJefe);
+         //   usuarioCorreo.add(CorreoRadicador);
+           // String contenido="";
+            //contenido = correoControlador.getCorreo().agregarHtml("/com/wellbeing/util/formatos/notificacionCreacion.xhtml");
+            //correoControlador.notificacionMasiva(usuarioCorreo, contenido);
+            solicitud.setEstado(estadoSol);
+            solicitud.setUsuarioAsignado(solicitud.getUsuarioRadicador().getIdUsuario());
+            solicitud.setObservacionList(o);
+             solicitudFacade.edit(solicitud);
+           //observacion.actualizaUsuarioObserv(solicitud.getIdentificacion().getIdentificacion());
+           // solicitudFacade.actualizarDecision(solicitud.getIdSolicitud(), solicitud.getDecision(),estadoSol,solicitud.getUsuarioRadicador().getIdUsuario());
+            
             validador=true;
         } catch (Exception e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error", "No se pudo actualizar correctamente el registro"));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error"+solicitud.getIdentificacion().getEmailCorporativo(), "No se pudo actualizar correctamente el registro"));
         }
         return "";
     }
@@ -255,7 +316,7 @@ public class SolicitudControlador implements Serializable {
         File archivo = new File(path);
         JasperPrint jasper = JasperFillManager.fillReport(archivo.getPath(), parametros, new JRBeanCollectionDataSource(solicitudes));
         HttpServletResponse response = (HttpServletResponse) fc.getExternalContext().getResponse();
-        response.setHeader("Content-disposition", "attachment;filename=reportedeusuario-" + new Date() + ".pdf");
+        response.setHeader("Content-disposition", "attachment;filename=reporteSolicitudesRespondidas-" + new Date() + ".pdf");
         ServletOutputStream stream = response.getOutputStream();
         JasperExportManager.exportReportToPdfStream(jasper, stream);//Se comenta esta linea si no es para PDF
 

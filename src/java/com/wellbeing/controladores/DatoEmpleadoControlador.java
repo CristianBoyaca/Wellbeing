@@ -99,7 +99,21 @@ public class DatoEmpleadoControlador implements Serializable {
         Usuario u = (Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario");
         return datoEmpleadoFacade.buscarInformacionPersonal(u.getIdUsuario());
     }
-
+    
+    public List<DatoEmpleado> buscarInformacionPorUsuario(String idUsuari) {
+       List<DatoEmpleado> datosemple = null;
+        try{
+        datosemple=datoEmpleadoFacade.buscarInformacionPersonal(idUsuari);
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Actualización", "Se ha actualizado correctamente el registro"));
+       }
+            catch(Exception e ){
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "DAtosEmpleadoControladorr"+datosemple.get(0).getIdentificacion()+"GGG", "DAtosEmpleadoControladorr"));
+            }
+        
+        return datosemple;
+    }
+    
+    
     public void actualizarDatosEmpleado(DatoEmpleado datoEmpleado) {
         this.datoEmpleado = datoEmpleado;
 

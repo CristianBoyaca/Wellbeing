@@ -52,6 +52,8 @@ public class DatoEmpleadoFacade extends AbstractFacade<DatoEmpleado> {
     }
 
     public List<DatoEmpleado> buscarInformacionPersonal(String usuario) {
+        
+        
         Query q = em.createQuery("SELECT d FROM DatoEmpleado d JOIN d.usuarioList u WHERE u.idUsuario=?1");
         q.setParameter(1, usuario);
         return q.getResultList();

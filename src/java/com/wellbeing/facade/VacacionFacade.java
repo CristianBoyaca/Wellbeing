@@ -7,9 +7,12 @@ package com.wellbeing.facade;
 
 import com.wellbeing.entidades.Vacacion;
 import javax.ejb.Stateless;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.ParameterMode;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.StoredProcedureQuery;
 
 /**
@@ -39,5 +42,17 @@ public class VacacionFacade extends AbstractFacade<Vacacion> {
         procedimientoAlmacenado.setParameter("tipo", tipoSolicitud);
         procedimientoAlmacenado.execute();
     }
+    
+    
+    public Vacacion buscarPorSolicitud(int idSolicitud){
+    
+        
+        Query q = em.createQuery("SELECT v from Vacacion v JOIN v.idSolicitud s WHERE s.idSolicitud=?1");
+        q.setParameter(1, idSolicitud);
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Actualización", "Se ha actualizado correctamente el registro"));
+        return  (Vacacion) q.getResultList().get(0);
+        
+    }
+    
     
 }
