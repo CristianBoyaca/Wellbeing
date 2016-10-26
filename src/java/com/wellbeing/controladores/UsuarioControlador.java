@@ -12,6 +12,7 @@ import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import com.wellbeing.facade.UsuarioFacadeLocal;
 import com.wellbeing.entidades.Usuario;
+import com.wellbeing.facade.UsuarioFacade;
 import com.wellbeing.util.Correo;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
@@ -42,6 +43,7 @@ public class UsuarioControlador implements Serializable {
 
     @EJB
     private UsuarioFacadeLocal usuarioFacade;
+    private UsuarioFacadeLocal usuarioFacade2;
     private Usuario usuario;
     private Rol rolUsuario;
     private List<Rol> roles;
@@ -60,6 +62,7 @@ public class UsuarioControlador implements Serializable {
         rolUsuario = new Rol();
         estado = 0;
         correoControlador = new CorreoControlador();
+        usuarioFacade2 = new UsuarioFacade();
     }
 
     public Usuario getUsuario() {
@@ -360,6 +363,12 @@ public class UsuarioControlador implements Serializable {
             }
         }
         return cadenaAleatoria;
+    }
+    
+    public String consultarCorreo(String idusuario){
+    
+     return usuarioFacade2.consultarCorreo(idusuario);
+    
     }
 
 }

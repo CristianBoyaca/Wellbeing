@@ -95,5 +95,14 @@ public class VacacionControlador implements Serializable {
         vacacion.setEstadoPeriodo("Disponible");
 
     }
+    
+    
+    public void vacacionPorSolicitu(int idSolilcitud){
+    
+       
+       vacacion=new Vacacion();
+       vacacionFacade.buscarPorSolicitud(idSolilcitud);
+       
+    }
 
 }
