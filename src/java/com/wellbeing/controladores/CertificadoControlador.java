@@ -42,8 +42,8 @@ import net.sf.jasperreports.engine.JasperRunManager;
  * @author cristian
  */
 @Named
-@RequestScoped
-public class CertificadoControlador{
+@SessionScoped
+public class CertificadoControlador implements Serializable{
 
     @EJB
     private CertificadoFacade certificadoFacade;
@@ -155,6 +155,7 @@ public class CertificadoControlador{
             byte[] bytes = JasperRunManager.runReportToPdf(archivo.getPath(), parametros, new JREmptyDataSource());
             out.write(bytes, 0, bytes.length);
             p = new DefaultStreamedContent(new ByteArrayInputStream(bytes), "application/pdf");
+            out.close();
             fc.responseComplete();
         } catch (Exception e) {
             e.printStackTrace();

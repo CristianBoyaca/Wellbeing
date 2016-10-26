@@ -60,4 +60,10 @@ public class SolicitudFacade extends AbstractFacade<Solicitud> {
         q.setParameter(1, usuario);
         return q.getResultList();
     }
+
+    public List<Solicitud> buscarSolicitudesRespondidas(String usuario) {
+        Query q = em.createQuery("SELECT s FROM Solicitud s WHERE s.usuarioAsignado=?1 AND s.decision!=null");
+        q.setParameter(1, usuario);
+        return q.getResultList();
+    }
 }

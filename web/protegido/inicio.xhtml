@@ -28,7 +28,10 @@
                         <table id="tblSolicitud" class="table table-striped display"  data-toggle="table"  data-sort-name="Registro"  data-sort-order="desc"  data-show-columns="true"  data-page-size="8" ><h3 style="text-align:center">Solicitudes
                                 <button style="margin-left: 10px" id="btnExportar">
                                     <h:graphicImage url="../resources/images/exportar.jpg" width="40px" height="40px"/>
-                                </button></h3>
+                                </button>
+                                <h:commandButton  image="../resources/images/reportes.png" style="width: 70px;height: 70px;margin-left: 70px;margin-top: 10px" actionListener="#{solicitudControlador.exportarPDF()}" />
+                            </h3>
+
 
                             <thead style="background-color:#006dcc">
                                 <tr>
@@ -71,41 +74,41 @@
 
 
                     </div>
-                    </h:form>
+                </h:form>
 
 
-                    <h:outputScript library="js" name="bootstrap-table.min.js"/>
-                    <h:outputScript library="js" name="bootstrap-table-es-ES.min.js"/>
-                    <h:outputScript library="js" name="jquery.btechco.excelexport.js"/>
-                    <h:outputScript library="js" name="jquery.base64.js"/>
+                <h:outputScript library="js" name="bootstrap-table.min.js"/>
+                <h:outputScript library="js" name="bootstrap-table-es-ES.min.js"/>
+                <h:outputScript library="js" name="jquery.btechco.excelexport.js"/>
+                <h:outputScript library="js" name="jquery.base64.js"/>
 
-                    <script>
+                <script>
 
-                        $(document).ready(function () {
-                            $("#btnExportar").click(function () {
-                                $("#tblSolicitud").btechco_excelexport({
-                                    containerid: "tblSolicitud"
-                                    , datatype: $datatype.Table
-                                    , filename: 'Reporte Solicitudes'
-                                });
-                            });
-                            var table = $('#tblSolicitud').DataTable();
-
-                            $("#tblSolicitud tfoot th").each(function (i) {
-                                var select = $('<select><option value=""></option></select>')
-                                        .appendTo($(this).empty())
-                                        .on('change', function () {
-                                            table.column(i)
-                                                    .search($(this).val())
-                                                    .draw();
-                                        });
-
-                                table.column(i).data().unique().sort().each(function (d, j) {
-                                    select.append('<option value="' + d + '">' + d + '</option>')
-                                });
+                    $(document).ready(function () {
+                        $("#btnExportar").click(function () {
+                            $("#tblSolicitud").btechco_excelexport({
+                                containerid: "tblSolicitud"
+                                , datatype: $datatype.Table
+                                , filename: 'Reporte Solicitudes'
                             });
                         });
-                    </script>
+                        var table = $('#tblSolicitud').DataTable();
+
+                        $("#tblSolicitud tfoot th").each(function (i) {
+                            var select = $('<select><option value=""></option></select>')
+                                    .appendTo($(this).empty())
+                                    .on('change', function () {
+                                        table.column(i)
+                                                .search($(this).val())
+                                                .draw();
+                                    });
+
+                            table.column(i).data().unique().sort().each(function (d, j) {
+                                select.append('<option value="' + d + '">' + d + '</option>')
+                            });
+                        });
+                    });
+                </script>
             </ui:define>
 
         </ui:composition>
