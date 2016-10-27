@@ -11,6 +11,7 @@ import com.wellbeing.entidades.Solicitud;
 import com.wellbeing.entidades.Usuario;
 import com.wellbeing.entidades.Vacacion;
 import com.wellbeing.facade.SolicitudFacade;
+import com.wellbeing.facade.UsuarioFacade;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
@@ -46,7 +47,7 @@ public class SolicitudControlador implements Serializable {
     private DatoEmpleadoControlador datoEmpleadoControlador;
     private List<DatoEmpleado> datoEmpleados;
     private CorreoControlador correoControlador;
-    private UsuarioControlador usuarioControlador;
+    private UsuarioFacade usuarioControlador;
 
    
 
@@ -58,7 +59,7 @@ public class SolicitudControlador implements Serializable {
         fecha=new Date();
         vacacion = new Vacacion();
         datoEmpleadoControlador=new DatoEmpleadoControlador();
-        usuarioControlador= new UsuarioControlador();
+        usuarioControlador= new UsuarioFacade();
     }
 
     public Vacacion getVacacion() {
@@ -251,6 +252,9 @@ public class SolicitudControlador implements Serializable {
 
     public String actualizarDecision(Observacion obs,DatoEmpleado dt) {
         
+        
+        String correoJefe="";
+        String correoRadicador="";
         try {
            //datoEmpleados.add((DatoEmpleado) datoEmpleadoControlador.buscarInformacionPorUsuario(solicitud.getUsuarioAsignado()));
             obs.setFecha(fecha);
@@ -265,26 +269,24 @@ public class SolicitudControlador implements Serializable {
             }else{ 
             estadoSol="Denegadas";
             }
-         //   List<String>usuarioCorreo=null;
-          //  String correoJefe="";
-          //  String CorreoRadicador="";
-          // correoJefe=usuarioControlador.consultarCorreo(solicitud.getUsuarioAsignado());
-           // CorreoRadicador=usuarioControlador.consultarCorreo(solicitud.getUsuarioRadicador().getIdUsuario());
-        //    usuarioCorreo.add(correoJefe);
-         //   usuarioCorreo.add(CorreoRadicador);
+              List<String>usuarioCorreo=null;
+              correoJefe=(String)usuarioControlador.consultarCorreo(solicitud.getUsuarioAsignado());
+              correoRadicador=(String)usuarioControlador.consultarCorreo(solicitud.getUsuarioRadicador().getIdUsuario());
+            //  usuarioCorreo.add(correoJefe);
+            //  usuarioCorreo.add(correoRadicador);
            // String contenido="";
             //contenido = correoControlador.getCorreo().agregarHtml("/com/wellbeing/util/formatos/notificacionCreacion.xhtml");
             //correoControlador.notificacionMasiva(usuarioCorreo, contenido);
             solicitud.setEstado(estadoSol);
             solicitud.setUsuarioAsignado(solicitud.getUsuarioRadicador().getIdUsuario());
             solicitud.setObservacionList(o);
-             solicitudFacade.edit(solicitud);
-           //observacion.actualizaUsuarioObserv(solicitud.getIdentificacion().getIdentificacion());
+            solicitudFacade.edit(solicitud);
+            solicitudFacade.actualizarIdentficacionObservacion(solicitud.getIdentificacion().getIdentificacion());
            // solicitudFacade.actualizarDecision(solicitud.getIdSolicitud(), solicitud.getDecision(),estadoSol,solicitud.getUsuarioRadicador().getIdUsuario());
             
             validador=true;
         } catch (Exception e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error"+solicitud.getIdentificacion().getEmailCorporativo(), "No se pudo actualizar correctamente el registro"));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error en ejecucion del metodo"+correoJefe+"--"+correoRadicador, "No se pudo actualizar correctamente el registro"));
         }
         return "";
     }
