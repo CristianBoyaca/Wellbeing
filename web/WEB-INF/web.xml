@@ -9,8 +9,6 @@
         <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
-    
-    
     <context-param>
         <param-name>BootsFaces_USE_VIEWPORT</param-name>
         <param-value>false</param-value>
@@ -19,7 +17,6 @@
         <param-name>BootsFaces_THEME</param-name>
         <param-value>default</param-value>
     </context-param>
-    
     <filter>
         <filter-name>PrimeFaces FileUpload Filter</filter-name>
         <filter-class>org.primefaces.webapp.filter.FileUploadFilter</filter-class>
@@ -28,12 +25,10 @@
         <filter-name>PrimeFaces FileUpload Filter</filter-name>
         <servlet-name>Faces Servlet</servlet-name>
     </filter-mapping>
-    
     <servlet-mapping>
         <servlet-name>Faces Servlet</servlet-name>
         <url-pattern>/faces/*</url-pattern>
     </servlet-mapping>
-    
     <session-config>
         <session-timeout>
             30
@@ -42,10 +37,8 @@
     <welcome-file-list>
         <welcome-file>faces/index.xhtml</welcome-file>
     </welcome-file-list>
-    
-     <context-param>  
-        <param-name>primefaces.THEME</param-name>  
-        <param-value>rocket</param-value>  
-    </context-param> 
+    <context-param>
+        <param-name>primefaces.THEME</param-name>
+        <param-value>rocket</param-value>
+    </context-param>
 </web-app>
-    

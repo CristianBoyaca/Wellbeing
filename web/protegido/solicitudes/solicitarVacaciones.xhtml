@@ -43,7 +43,7 @@
 
                 <!-- formulario-->
 
-                <h:form id="formulario"  class="form-horizontal contenedor" style="margin-bottom:80px">
+                <h:form id="formulario"  class="form-horizontal contenedor" style="margin-bottom:80px" acceptcharset="ISO-8859-1">
                     <fieldset>
                         <p:growl id="mensaje" autoUpdate="false" severity="info,fatal,warn" showSummary="true" showDetail="true"/>
                         <!-- Form Name -->
@@ -59,13 +59,13 @@
 
                         <div class="form-group">
                             <label class="col-md-4 control-label" for="FechaDeInicio"><font color="red" size="4">*</font>Fecha De Inicio:</label><div class="col-md-4"> 
-                                <p:calendar  id="fechaInicio" locale="es" pattern="yyyy-MM-dd" size="24" mindate="2016-07-06" maxdate="2016-12-31" required="true" requiredMessage="Se debe seleccionar una fecha" value="#{vacacionControlador.vacacion.fechaInicial}"/><p:message for="fechaInicio"/></div>
+                                <p:calendar  id="fechaInicio" locale="es" pattern="yyyy-MM-dd" size="24" mindate="#{vacacionControlador.fechaInicio()}" maxdate="#{vacacionControlador.fechaFinal()}" required="true" requiredMessage="Se debe seleccionar una fecha" value="#{vacacionControlador.vacacion.fechaInicial}"><p:ajax event="dateSelect" update="fechaFinal" /></p:calendar><p:message for="fechaInicio"/></div>
                         </div>
 
 
                         <div class="form-group">
                             <label class="col-md-4 control-label" for="FechaFinal"><font color="red" size="4">*</font>Fecha Final:</label><div class="col-md-4"> 
-                                <p:calendar  id="fechaFinal" locale="es" pattern="yyyy-MM-dd" size="24" mindate="2016-07-06" maxdate="2016-12-31" required="true" requiredMessage="Se debe seleccionar una fecha" value="#{vacacionControlador.vacacion.fechaFinal}"/><p:message for="fechaFinal"/></div>
+                                <p:calendar  id="fechaFinal" locale="es" pattern="yyyy-MM-dd" size="24" mindate="#{vacacionControlador.vacacion.fechaInicial}" maxdate="#{vacacionControlador.fechaFinal()}" required="true" requiredMessage="Se debe seleccionar una fecha" value="#{vacacionControlador.vacacion.fechaFinal}"><f:attribute name="fechaInicio" value="#{vacacionControlador.vacacion.fechaInicial}" /> <f:validator validatorId="primeDateRangeValidator" /></p:calendar><p:message for="fechaFinal"/></div>
                         </div>
 
                         <!-- Text input-->

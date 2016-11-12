@@ -73,8 +73,8 @@ public class VacacionControlador implements Serializable {
         Calendar cal = Calendar.getInstance();
         cal.setTime(fecha);
         Integer dia = fecha.getDate();
-        Integer mes = fecha.getMonth()+1;
-        Integer anio = fecha.getYear()+1900;
+        Integer mes = fecha.getMonth() + 1;
+        Integer anio = fecha.getYear() + 1900;
         Calendar fechaInicio = new GregorianCalendar();
 
         fechaInicio.set(anio, mes, dia);
@@ -105,4 +105,21 @@ public class VacacionControlador implements Serializable {
        
     }
 
+    public String fechaInicio() {
+        Date date = new Date();
+        return date.getYear() + 1900 + "-" + (date.getMonth() + 1) + "-" + (date.getDate()+1);
+    }
+    
+    public String fechaFinal() {
+        Date date = new Date();
+        if((date.getMonth() + 6)>12){
+        date.setMonth((date.getMonth()+6)-12);
+        date.setYear(date.getYear()+1900+1);
+        }else{
+        date.setMonth((date.getMonth()+6));
+        date.setYear(date.getYear()+1900);
+        }
+        
+        return date.getYear()+ "-" +date.getMonth()+ "-" +(date.getDate()+1);
+    }
 }

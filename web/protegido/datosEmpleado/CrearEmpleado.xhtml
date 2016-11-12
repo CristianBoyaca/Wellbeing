@@ -35,17 +35,15 @@
                     </script>#{datoEmpleadoControlador.setValidador(0)}</c:if>
                 <center>
                 <h:form class="container btn-group-sm" style="background-color: rgba(255,255,255,0.7); 
-                                                       min-height: 200px; padding: 50px; text-align: center;">
+                                                       min-height: 200px; padding: 50px; text-align: center;" acceptcharset="ISO-8859-1">
                     <!--opciones del formulario-->
                     <nav class="navbar navbar-default">
                         <div class="container-fluid">
                             <div class="navbar-header">
                                 <div class="btn-group" role="group" aria-label="..." style="margin:13px;">
-                                    <h:commandButton value="Guardar" id="Guardar"  type="submit" class="btn btn-primary" action="#{datoEmpleadoControlador.crearDatosEmpleado()}"></h:commandButton>
+                                    <h:commandButton value="Guardar" id="Guardar"  type="submit" class="btn btn-primary" action="#{datoEmpleadoControlador.crearDatosEmpleado()}" style="margin-top: 15px;margin-left:15px"></h:commandButton>
                                 </div>
-                                <div class="btn-group" role="group" aria-label="..." style="margin:13px;">           
-                                    <button   value="Cancelar" id="CancelarCreacion" type="button" class="btn btn-primary"><a href="../inicio.xhtml">Cancelar</a></button>
-                                </div>
+                                     <input type="button"  value="Cancelar" class="btn btn-primary"   onclick="location.href = '../inicio.xhtml'"  style="margin-top: 15px;margin-left:15px"/>
                             </div>
                         </div>                     
                     </nav>
@@ -70,7 +68,7 @@
                             <label id="PrimerApellido" class="col-sm-1 control-label Fuente_Label"><p class="text-nowrap">Primer Apellido</p></label>
                         </div>
                         <div class="col-sm-6">
-                            <p:inputText  p:placeholder="Álvarez" maxlength="20" onkeypress="return soloLetras(event)" required="true" value="#{datoEmpleadoControlador.datoEmpleado.primerApellido}" requiredMessage="Se debe ingresar un Primer Apellido" validatorMessage="El primer apellido debe contener minimo 3 caracteres"><f:validateLength for="Primer Apellido" minimum="5" maximum="20"></f:validateLength></p:inputText>
+                            <p:inputText  p:placeholder="Álvarez" maxlength="20" onkeypress="return soloLetras(event)" required="true" value="#{datoEmpleadoControlador.datoEmpleado.primerApellido}" requiredMessage="Se debe ingresar un Primer Apellido" validatorMessage="El primer apellido debe contener minimo 3 caracteres"><f:validateLength for="Primer Apellido" minimum="3" maximum="20"></f:validateLength></p:inputText>
                         </div>
                     </div>
                     
@@ -97,7 +95,7 @@
                             <label id="FechaNacimiento" class="col-sm-1 control-label "><p class="text-nowrap">Fecha Nacimiento</p></label>
                         </div>
                         <div class="col-sm-6">    
-                            <p:calendar  locale="es" value="#{datoEmpleadoControlador.datoEmpleado.fechaNacimiento}"><f:convertDateTime pattern="dd/MM/yyyy" /></p:calendar>
+                            <p:calendar  locale="es" pattern="yyyy-MM-dd" value="#{datoEmpleadoControlador.datoEmpleado.fechaNacimiento}"/>
                         </div>
                     </div>
                     <div class= "col-xs-6">
@@ -199,7 +197,7 @@
                             <label id="FechaIngreso" class="col-sm-1 control-label Fuente_Label"><p class="text-nowrap">Fecha Ingreso</p></label>
                         </div>
                         <div class="col-sm-6">
-                            <p:calendar locale="es" style="padding: 1px" p:placeholder="16/08/97" value="#{datoEmpleadoControlador.datoEmpleado.fechaIngreso}" ><f:convertDateTime pattern="dd/MM/yyyy" /></p:calendar>
+                            <p:calendar locale="es"  pattern="yyyy-MM-dd" style="padding: 1px" p:placeholder="1997-08-16" value="#{datoEmpleadoControlador.datoEmpleado.fechaIngreso}" />
                         </div>
                     </div>
                     <div class= "col-xs-6">

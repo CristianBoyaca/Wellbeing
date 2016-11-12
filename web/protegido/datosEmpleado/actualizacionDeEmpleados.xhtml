@@ -38,7 +38,7 @@
                 </c:if>
 
                 <nav class="navbar navbar-default">
-                    <h:form class="navbar-form" style="margin-left:20%">
+                    <h:form class="navbar-form" style="margin-left:20%" acceptcharset="ISO-8859-1">
 
                         <div class="form-group">
                             <p:inputText id="identificacion" type="text"  placeholder="Identificaciòn" value="#{datoEmpleadoControlador.identificacionEmpleado}" style="margin-top: 15px" required="true" requiredMessage="Se debe ingresar un numero de identificación"/>
@@ -97,7 +97,7 @@
                             <label id="FechaNacimiento" class="col-sm-1 control-label Fuente_Label"><p class="text-nowrap">Fecha de Nacimiento</p></label>
                         </div>
                         <div class="col-sm-6">
-                            <p:calendar  locale="es" value="#{datoEmpleadoControlador.datoEmpleado.fechaNacimiento}"><f:convertDateTime pattern="dd/MM/yyyy" /></p:calendar>
+                            <p:calendar  locale="es" pattern="yyyy-MM-dd" value="#{datoEmpleadoControlador.datoEmpleado.fechaNacimiento}" />
                         </div>
                     </div>
                     <div class= "col-xs-6">
@@ -199,7 +199,7 @@
                             <label id="FechaIngreso" class="col-sm-1 control-label Fuente_Label"><p class="text-nowrap">Fecha Ingreso</p></label>
                         </div>
                         <div class="col-sm-6">
-                            <p:calendar locale="es" style="padding: 1px" p:placeholder="16/08/97" value="#{datoEmpleadoControlador.datoEmpleado.fechaIngreso}" ><f:convertDateTime pattern="dd/MM/yyyy" /></p:calendar>
+                            <p:calendar locale="es" pattern="yyyy-MM-dd" style="padding: 1px" p:placeholder="1997-08-16" value="#{datoEmpleadoControlador.datoEmpleado.fechaIngreso}" />
                         </div>
                     </div>
                     <div class= "col-xs-6">

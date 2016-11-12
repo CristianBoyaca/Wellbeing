@@ -100,7 +100,7 @@ public class TipoSolicitud implements Serializable {
 
     @Override
     public String toString() {
-        return "com.wellbeing.entidades.TipoSolicitud[ idTipoSolicitud=" + idTipoSolicitud + " ]";
+        return tipoSolicitud;
     }
     
 }

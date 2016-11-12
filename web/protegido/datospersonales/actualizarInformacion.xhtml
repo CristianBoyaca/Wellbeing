@@ -46,7 +46,7 @@
                 <div class="busqueda" style="width:640px;margin-bottom:160px">
                     <div class="panel panel-primary">
                         <div class="panel-heading"><span class="glyphicon glyphicon-pencil"></span> Actualizar Información</div>
-                        <h:form id="formactualizar">
+                        <h:form id="formactualizar" acceptcharset="ISO-8859-1">
                             <c:if test="#{datoEmpleadoControlador.estado==true}">
                                 <script language="JavaScript" type="text/javascript">
                                     $(document).ready(function () {
@@ -84,7 +84,7 @@
                                     <p:message for="direccion" />
 
                                     <h:outputLabel for="barrio" value="Barrio:" style="text-indent:10px;margin-right:120px;font-weight:normal;margin-top:10px"/> 
-                                    <p:inputText style="width:320px;margin-top: 10px" type="text" maxlength="100" required="true" id="barrio" value="#{datoEmpleadoControlador.datoEmpleado.barrio}" requiredMessage="Se debe ingresar un barrio" validatorMessage="El barrio debe contener minimo 5 caracteres"><f:validateLength for="barrio" minimum="5" maximum="100"></f:validateLength></p:inputText>
+                                    <p:inputText style="width:320px;margin-top: 10px" type="text" maxlength="100" required="true" id="barrio" value="#{datoEmpleadoControlador.datoEmpleado.barrio}" requiredMessage="Se debe ingresar un barrio" validatorMessage="El barrio debe contener minimo 5 caracteres"><f:validateLength for="barrio" minimum="5" maximum="100" ></f:validateLength></p:inputText>
                                     <p:message for="barrio" />
 
                                 </h:panelGrid>

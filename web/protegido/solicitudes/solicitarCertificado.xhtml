@@ -12,14 +12,14 @@
         <ui:composition template="./../../WEB-INF/faces/template/plantilla.xhtml">
 
             <ui:define name="titulo">
-                <title>Solicitaar Certificado</title>
+                <title>Solicitar Certificado</title>
             </ui:define>
 
             <ui:define name="content">
                 <a>#{beneficioControlador.cargarDocumento()}</a>
                 <!-- formulario-->
 
-                <h:form id="Formulario"  class="form-horizontal contenedor" style="margin-bottom:80px" enctype="multipart/form-data">
+                <h:form id="Formulario"  class="form-horizontal contenedor" style="margin-bottom:80px" enctype="multipart/form-data" acceptcharset="ISO-8859-1">
                     <fieldset>
 
                         <p:growl id="mensaje" autoUpdate="false" severity="info,fatal,warn" showSummary="true" showDetail="true"/>
