@@ -11,6 +11,7 @@ import com.wellbeing.entidades.Solicitud;
 import com.wellbeing.entidades.Usuario;
 import com.wellbeing.entidades.Vacacion;
 import com.wellbeing.facade.SolicitudFacade;
+import com.wellbeing.facade.UsuarioFacade;
 import java.io.File;
 import java.io.IOException;
 import javax.inject.Named;
@@ -266,6 +267,9 @@ public class SolicitudControlador implements Serializable {
 
     public String actualizarDecision(Observacion obs,DatoEmpleado dt) {
         
+        
+        String correoJefe="";
+        String correoRadicador="";
         try {
            //datoEmpleados.add((DatoEmpleado) datoEmpleadoControlador.buscarInformacionPorUsuario(solicitud.getUsuarioAsignado()));
             obs.setFecha(fecha);
@@ -280,26 +284,24 @@ public class SolicitudControlador implements Serializable {
             }else{ 
             estadoSol="Denegadas";
             }
-         //   List<String>usuarioCorreo=null;
-          //  String correoJefe="";
-          //  String CorreoRadicador="";
-          // correoJefe=usuarioControlador.consultarCorreo(solicitud.getUsuarioAsignado());
-           // CorreoRadicador=usuarioControlador.consultarCorreo(solicitud.getUsuarioRadicador().getIdUsuario());
-        //    usuarioCorreo.add(correoJefe);
-         //   usuarioCorreo.add(CorreoRadicador);
+              //List<String>usuarioCorreo=null;
+            //  correoJefe=usuarioControlador.consultarCorreo(solicitud.getUsuarioAsignado());
+            //  correoRadicador=(String)usuarioControlador.consultarCorreo(solicitud.getUsuarioRadicador().getIdUsuario());
+            //  usuarioCorreo.add(correoJefe);
+            //  usuarioCorreo.add(correoRadicador);
            // String contenido="";
             //contenido = correoControlador.getCorreo().agregarHtml("/com/wellbeing/util/formatos/notificacionCreacion.xhtml");
             //correoControlador.notificacionMasiva(usuarioCorreo, contenido);
             solicitud.setEstado(estadoSol);
             solicitud.setUsuarioAsignado(solicitud.getUsuarioRadicador().getIdUsuario());
             solicitud.setObservacionList(o);
-             solicitudFacade.edit(solicitud);
-           //observacion.actualizaUsuarioObserv(solicitud.getIdentificacion().getIdentificacion());
+            solicitudFacade.edit(solicitud);
+       //     solicitudFacade.actualizarIdentficacionObservacion(solicitud.getIdentificacion().getIdentificacion());
            // solicitudFacade.actualizarDecision(solicitud.getIdSolicitud(), solicitud.getDecision(),estadoSol,solicitud.getUsuarioRadicador().getIdUsuario());
-            
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "No hay error"+correoJefe+"--"+correoRadicador, "Se ejecuto el metodo sin errores"));
             validador=true;
         } catch (Exception e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error"+solicitud.getIdentificacion().getEmailCorporativo(), "No se pudo actualizar correctamente el registro"));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error en ejecucion del metodo"+correoJefe+"--"+correoRadicador, "No se pudo actualizar correctamente el registro"));
         }
         return "";
     }

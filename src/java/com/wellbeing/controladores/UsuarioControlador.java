@@ -28,10 +28,9 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
-import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.model.SelectItem;
 import org.apache.commons.codec.digest.DigestUtils;
-import org.primefaces.component.selectonemenu.SelectOneMenu;
+
 
 /**
  *
@@ -43,7 +42,7 @@ public class UsuarioControlador implements Serializable {
 
     @EJB
     private UsuarioFacadeLocal usuarioFacade;
-    private UsuarioFacadeLocal usuarioFacade2;
+    
     private Usuario usuario;
     private Rol rolUsuario;
     private List<Rol> roles;
@@ -62,7 +61,7 @@ public class UsuarioControlador implements Serializable {
         rolUsuario = new Rol();
         estado = 0;
         correoControlador = new CorreoControlador();
-        usuarioFacade2 = new UsuarioFacade();
+        
     }
 
     public Usuario getUsuario() {
@@ -367,7 +366,7 @@ public class UsuarioControlador implements Serializable {
     
     public String consultarCorreo(String idusuario){
     
-     return usuarioFacade2.consultarCorreo(idusuario);
+     return usuarioFacade.consultarCorreo(idusuario);
     
     }
 

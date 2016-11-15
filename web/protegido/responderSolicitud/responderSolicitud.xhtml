@@ -40,7 +40,7 @@
                                 <h:outputLabel  class="label "  value="#{solicitudControlador.solicitud.idSolicitud}" ></h:outputLabel>
                             </p:panel>
                             <p:panel id="conpn3" header="Fecha de  Radicación">
-                                <h:outputLabel  class="label "  value="#{solicitudControlador.solicitud.fechaRadicacion}" ></h:outputLabel>
+                                <h:outputLabel  class="label "  value="#{solicitudControlador.solicitud.fechaRadicacion}" ><f:convertDateTime pattern="dd/MM/yyyy" /></h:outputLabel>
                             </p:panel>
                             <p:panel id="conpn4" header="Usuario Radicador">
                                 <h:outputLabel  class="label "  value="#{solicitudControlador.solicitud.usuarioRadicador}" ></h:outputLabel>
