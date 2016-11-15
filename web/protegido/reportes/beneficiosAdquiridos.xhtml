@@ -17,19 +17,23 @@
             <ui:define name="content">
                 <a>#{solicitudControlador.setTipo(1)}</a> 
                 <a>#{solicitudControlador.listar()}</a> 
-                 <c:if test="#{solicitudControlador.validador==false}">
+                <c:if test="#{solicitudControlador.validador==false}">
                     <div class="alert alert-info">
                         <strong>¡Información!</strong> No se encuentra registrada ninguna solicitud de bonificación.
                     </div>
                 </c:if>
                 <h:form style="margin-bottom: 40px;margin-left:30%">
-
+                   
+                    <h:commandLink>
+                        <p:graphicImage name="../../resources/images/reportes.png" width="24"/>
+                        <p:dataExporter type="csv" target="panel" fileName="reportes" />
+                    </h:commandLink>
                     <h:panelGroup id="panel" layout="block">
                         <p:chart type="pie" model="#{solicitudControlador.pieChartModel}" style="width:400px;height:300px" rendered="#{solicitudControlador.pieChartModel !=null}" />
                     </h:panelGroup>  
 
                 </h:form>
-               
+
             </ui:define>
 
         </ui:composition>

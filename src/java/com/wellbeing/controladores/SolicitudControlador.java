@@ -16,6 +16,9 @@ import java.io.IOException;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -26,6 +29,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
+import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -305,16 +309,19 @@ public class SolicitudControlador implements Serializable {
         validador = false;
     }
     
-    public void exportarPDF() throws JRException, IOException {
+    public void exportarPDF() throws JRException, IOException, ClassNotFoundException, SQLException {
         //Exportacion a PDF
+        Connection con=null;
+        Class.forName("com.mysql.jdbc.Driver");
+        con=(Connection)DriverManager.getConnection("jdbc:mysql://localhost:3306/bdwellbeing","cristian","123456");
         Usuario u = (Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario");
         solicitudes=solicitudFacade.buscarSolicitudesRespondidas(u.getIdUsuario());
         FacesContext fc = FacesContext.getCurrentInstance();
         Map<String, Object> parametros = new HashMap<>();
         parametros.put("generadoPor",u.getdATOSEMPLEADOSidentificacion().getPrimerNombre()+" "+ u.getdATOSEMPLEADOSidentificacion().getPrimerApellido());
-        String path = fc.getExternalContext().getRealPath("./reportes/solicitudesRespondidas.jasper");
+        String path = fc.getExternalContext().getRealPath("./reportes/reporteGrafico.jasper");
         File archivo = new File(path);
-        JasperPrint jasper = JasperFillManager.fillReport(archivo.getPath(), parametros, new JRBeanCollectionDataSource(solicitudes));
+        JasperPrint jasper = JasperFillManager.fillReport(archivo.getPath(), parametros,con);
         HttpServletResponse response = (HttpServletResponse) fc.getExternalContext().getResponse();
         response.setHeader("Content-disposition", "attachment;filename=reporteSolicitudesRespondidas-" + new Date() + ".pdf");
         ServletOutputStream stream = response.getOutputStream();

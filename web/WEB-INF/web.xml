@@ -41,4 +41,17 @@
         <param-name>primefaces.THEME</param-name>
         <param-value>rocket</param-value>
     </context-param>
+   <error-page>
+        <exception-type>com.sun.faces.context.FacesFileNotFoundException</exception-type>
+        <location>/faces/error404.xhtml</location>
+    </error-page>
+    <error-page>
+        <error-code>404</error-code>
+        <location>/faces/error404.xhtml</location>
+    </error-page>
+    
+    <error-page>
+        <error-code>500</error-code>
+        <location>/faces/error500.xhtml</location>
+    </error-page>
 </web-app>

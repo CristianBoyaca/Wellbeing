@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporteGrafico" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="a33e1c1d-2b9c-48b6-9500-cebad3017663">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="139"/>
+	<parameter name="generadoPor" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT
+    ts.tipoSolicitud  AS solicitudes_tipoSolicitud,
+    COUNT(*) AS  cantidad
+FROM
+       solicitudes s JOIN tiposolicitudes ts ON
+s.tipoSolicitud=ts.idTipoSolicitud
+GROUP BY  s.tipoSolicitud]]>
+	</queryString>
+	<field name="solicitudes_tipoSolicitud" class="java.lang.String"/>
+	<field name="cantidad" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="156" y="12" width="492" height="56" uuid="e48afcab-8666-4520-9e32-0ad96ed00d25"/>
+				<textElement textAlignment="Center">
+					<font size="36" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Solicitudes Registradas]]></text>
+			</staticText>
+		</band>
+	</title>
+	<summary>
+		<band height="417" splitType="Stretch">
+			<pie3DChart>
+				<chart>
+					<reportElement x="30" y="34" width="720" height="355" uuid="6ab31be6-6733-4d12-a27f-759c8bc2100f"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<pieDataset>
+					<keyExpression><![CDATA[$F{cantidad}]]></keyExpression>
+					<valueExpression><![CDATA[$F{cantidad}]]></valueExpression>
+					<labelExpression><![CDATA[$F{solicitudes_tipoSolicitud}]]></labelExpression>
+				</pieDataset>
+				<pie3DPlot>
+					<plot/>
+					<itemLabel/>
+				</pie3DPlot>
+			</pie3DChart>
+			<textField>
+				<reportElement x="648" y="369" width="100" height="20" uuid="ad0d4f86-84f0-4f1a-bb13-c6fe8bab1686"/>
+				<textFieldExpression><![CDATA[$P{generadoPor}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="537" y="369" width="100" height="20" uuid="cc33b002-bae5-40f7-9afe-a3d2c21736fe"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Generado Por:]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>
