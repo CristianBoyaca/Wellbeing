@@ -75,11 +75,22 @@ public class CorreoControlador {
         
     }
         
+    public void contactar(String correo,String contenido){
+  
+            this.correo.setCorreoDestinatario(correo);
+            this.correo.setAsunto("Contáctenos");
+            this.correo.setContenido(contenido);
+            enviarMensaje(2);
+        
+    }
     
     public void enviarMensaje(Integer tipo) {
         if (correo.enviarCorreo()) {
             if(tipo==1){
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Recuperación de cuenta", "Se te ha enviado una nueva contraseña al correo electrónico personal"));
+            }
+            if (tipo==2) {
+                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Contáctenos", "Se ha enviado tu mensaje.Próximamente nos pondremos en contacto contigo."));
             }
         } else {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error", "No se pudo enviar el mensaje.Por favor contacte al administrador"));

@@ -1,14 +1,361 @@
-<?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
-    <head>
-        <title>Facelet Title</title>
-        <f:event type="preRenderView" listener="#{plantillaControlador.verificarSesion()}"/>
-    </head>
-    <body>
-        Hello from Facelets
-    </body>
-</html>
+      xmlns:pr="http://primefaces.org/ui">
+    <h:head>
+        <title>Wellbeing</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="description" content=""/>
+        <meta name="author" content=""/>
+        <title>Agency - Start Bootstrap Theme</title>
 
+        <!-- Bootstrap Core CSS -->
+        <link href="resources/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+        <!-- Custom Fonts -->
+        <link href="resources/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+        <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css"/>
+        <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'/>
+        <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'/>
+        <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'/>
+
+        <!-- Theme CSS -->
+        <link href="resources/css/agency.min.css" rel="stylesheet" type="text/css"/>
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+        <h:outputStylesheet library="css" name="sweetalert.css" />
+    </h:head>
+
+    <body id="page-top" class="index">
+
+        <!-- Navigation -->
+        <nav id="mainNav" class="navbar navbar-default navbar-custom navbar-fixed-top">
+            <div class="container">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header page-scroll">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
+                    </button>
+                    <a class="navbar-brand page-scroll" href="#page-top">Wellbeing</a>
+                </div>
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="hidden">
+                            <a href="#page-top"></a>
+                        </li>
+                        <li>
+                            <a class="page-scroll" href="#services">¿Qué hacemos?</a>
+                        </li>
+
+                        <li>
+                            <a class="page-scroll" href="#about">¿Quiénes Somos?</a>
+                        </li>
+                        <li>
+                            <a class="page-scroll" href="#team">Equipo Wellbeing</a>
+                        </li>
+                        <li>
+                            <a class="page-scroll" href="#contact">Contactenos</a>
+                        </li>
+
+                        <li>
+                            <a href="faces/inicioSesion.xhtml">Ingresar</a>
+                        </li>
+                    </ul>
+
+                </div>
+                <!-- /.navbar-collapse -->
+            </div>
+            <!-- /.container-fluid -->
+        </nav>
+
+        <!-- Header -->
+        <header>
+            <div class="container">
+                <div class="intro-text">
+                    <div class="intro-lead-in">Bienvenido a Wellbeing</div>
+                    <div class="intro-heading"> Procesos de bienestar sistematizados</div>
+                    <a href="#services" class="page-scroll btn btn-xl">Más información</a>
+                </div>
+            </div>
+        </header>
+
+        <!-- Services Section -->
+        <section id="services">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 text-center">
+                        <h2 class="section-heading">¿Qué hacemos?</h2>
+                        <h3 class="section-subheading text-muted">Sistematizamos procesos para el área de bienestar</h3>
+                    </div>
+                </div>
+                <div class="row text-center">
+                    <div class="col-md-4">
+
+                        <h4 class="service-heading">Solicitud de Vacaciones</h4>
+                        <p class="text-muted">Podrás solicituar tus vacaciones y recibir y respuesta por parte de tu jefe inmediato, luego te llegará un email a tu correo con la notificación.</p>
+                    </div>
+                    <div class="col-md-4">
+
+                        <h4 class="service-heading">Solicitud de beneficios</h4>
+                        <p class="text-muted">Podrás solicitar tus beneficios como; cursos de inglés, cupo en parqueadero y también recibirás una respuesta por tu jefe inmediato.</p>
+                    </div>
+                    <div class="col-md-4">
+
+                        <h4 class="service-heading">Gestión de documentos</h4>
+                        <p class="text-muted">Podrás cargar, descargar y solicitar tus certificados laborales y académicos.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <section id="about">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 text-center">
+                        <h2 class="section-heading">¿QUIÉNES SOMOS?</h2>
+                        <h3 class="section-subheading text-muted">Equipo desarrollador y creador del sistema de información para la gestion de solicitudes de beneficios, bonificaciones y vacaciones.</h3>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <ul class="timeline">
+                            <li>
+                                <div class="timeline-image">
+                                    <img class="img-circle img-responsive" src="resources/images/about/1.jpg" alt=""/>
+
+                                </div>
+                                <div class="timeline-panel">
+                                    <div class="timeline-heading">
+                                        <h4>II Semestre 2015</h4>
+                                        <h4 class="subheading">Creación de documentación</h4>
+                                    </div>
+                                    <div class="timeline-body">
+                                        <p class="text-muted">Durante el proceso de la 1ra y 2da fase en el segundo semestre del año 2015 se creó y se documentaron los requerimientos y procesos del proyecto de información con base a las necesidades de la empresa Iskenderun S.A.S.</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="timeline-inverted">
+                                <div class="timeline-image">
+                                    <img class="img-circle img-responsive" src="resources/images/about/2.jpg" alt=""/>
+                                </div>
+                                <div class="timeline-panel">
+                                    <div class="timeline-heading">
+                                        <h4>I Semestre 2016</h4>
+                                        <h4 class="subheading">Diseño y desarollo</h4>
+                                    </div>
+                                    <div class="timeline-body">
+                                        <p class="text-muted">Durante el proceso de la 3ra y 4ta fase en el primer semestre del año 2016 se diseñaron y se desarollaron los módulos propuestos anteriormente en el documento IEEE 830 indicando cada uno de los requerimientos.</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="timeline-image">
+                                    <img class="img-circle img-responsive" src="resources/images/about/3.jpg" alt=""/>
+                                </div>
+                                <div class="timeline-panel">
+                                    <div class="timeline-heading">
+                                        <h4>II Semestre 2016</h4>
+                                        <h4 class="subheading">Montaje y culminación del proyecto</h4>
+                                    </div>
+                                    <div class="timeline-body">
+                                        <p class="text-muted">Durante la fase 4b y 5ta se culminó el desarrollo de nuestro sistema de información de acuerdo a la lógica del negocio y se montó finalmente en un servidor.</p>
+                                    </div>
+                                </div>
+                            </li>
+
+                            <li class="timeline-inverted">
+                                <div class="timeline-image">
+                                    <br/>
+                                    <h4>Continuará...</h4>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Team Section -->
+        <section id="team" class="bg-light-gray">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 text-center">
+                        <h2 class="section-heading">Equipo Wellbeing</h2>
+                        <h3 class="section-subheading text-muted">Estudiantes aprendices SENA</h3>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="team-member">
+                            <img src="resources/images/team/1.jpg" class="img-responsive img-circle" alt="" />
+                            <h4>Holman Bravo</h4>
+                            <p class="text-muted">Programador y diseñador web</p>
+                            <ul class="list-inline social-buttons">
+
+                                <li><a href="https://www.facebook.com/holman.classic?fref=ts"><i class="fa fa-facebook"></i></a>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="team-member">
+                            <img src="resources/images/team/2.jpg" class="img-responsive img-circle" alt=""/>
+                            <h4>Cristian Boyaca</h4>
+                            <p class="text-muted">Programador y diseñador web</p>
+                            <ul class="list-inline social-buttons">
+
+                                <li><a href="https://www.facebook.com/cristiancamilo.boyacaruiz"><i class="fa fa-facebook"></i></a>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="team-member">
+                            <img src="resources/images/team/3.jpg" class="img-responsive img-circle" alt=""/>
+                            <h4>Sebastián Cardona</h4>
+                            <p class="text-muted">Programador y diseñador web</p>
+                            <ul class="list-inline social-buttons">
+
+                                <li><a href="#"><i class="fa fa-facebook"></i></a>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- Contact Section -->
+        <section id="contact">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 text-center">
+                        <h2 class="section-heading">Contáctanos</h2>
+                        <h3 class="section-subheading text-muted">Con gusto lo atenderemos</h3>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+
+                        <h:form id="form">
+                            <pr:growl  autoUpdate="true" severity="info,fatal,warn" showSummary="true" showDetail="true"/>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <h:inputText class="form-control" p:placeholder="Nombre y apellido" id="name" value="#{contactoControlador.nombreCompleto}" />
+                                        <p class="help-block text-danger"></p>
+                                    </div>
+                                    <div class="form-group">
+                                        <h:inputText p:type="email" class="form-control" p:placeholder="Correo electrónico" id="email"  value="#{contactoControlador.correo}"/>
+                                        <p class="help-block text-danger"></p>
+                                    </div>
+                                    <div class="form-group">
+                                        <h:inputText p:type="tel" class="form-control" p:placeholder="Teléfono" id="phone" value="#{contactoControlador.telefono}"/>
+                                        <p class="help-block text-danger"></p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <h:inputTextarea class="form-control" p:placeholder="Mensaje" id="message"  value="#{contactoControlador.mensaje}"></h:inputTextarea>
+                                        <p class="help-block text-danger"></p>
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+                                <div class="col-lg-12 text-center">
+                                    <div id="success"></div>
+                                    <h:commandButton onclick="return  validar()" type="submit" class="btn btn-xl" value="Enviar" action="#{contactoControlador.contactar()}"/>
+                                </div>
+                            </div>
+                        </h:form>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+
+
+
+        <!-- jQuery -->
+        <script src="resources/vendor/jquery/jquery.min.js"></script>
+
+        <!-- Bootstrap Core JavaScript -->
+        <script src="resources/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+        <!-- Plugin JavaScript -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+
+        <!-- Contact Form JavaScript -->
+        <h:outputScript library="js" name="jqBootstrapValidation.js" />
+        <h:outputScript library="js" name="contact_me.js" />
+        <!-- Theme JavaScript -->
+        <h:outputScript library="js" name="agency.min.js" />
+        <h:outputScript library="js" name="validCampoFranz.js"/>
+        <h:outputScript library="js" name="sweetalert-dev.js"/>
+        <h:outputScript library="js" name="sweetalert.min.js"/>
+        <script type="text/javascript">
+            $(function () {
+                //Para escribir solo numeros    
+                $("#form\\:phone").keyup(function () {
+
+                    this.value = (this.value + '').replace(/[^0-9-]/g, '');
+                });
+            });
+
+        </script>
+
+        <script>
+            function validar() {
+                // Expresion regular para validar el correo
+                var regex = /[\w-\.]{2,}@([\w-]{2,}\.)*([\w-]{2,}\.)[\w-]{2,4}/;
+                var tel = /^[0-9]{7,23}/;
+                nombre = document.getElementById("form:name");
+                correo = document.getElementById("form:email");
+                telefono = document.getElementById("form:phone");
+                mensaje = document.getElementById("form:message");
+
+                if (nombre==='' || correo.value === '' || telefono.value === '' || mensaje==='' ) {
+                    swal({type: "error", title: "¡Error!", text: "No se pueden dejar campos vacios", confirmButtonText: "Aceptar", showConfirmButton: true, allowOutsideClick: true});
+                    return false;
+                } else {
+                    // Se utiliza la funcion test() nativa de JavaScript
+                    if (!regex.test($(correo).val().trim())) {
+                        swal({type: "error", title: "¡Error!", text: "Dirección de correo electrónico invalida", confirmButtonText: "Aceptar", showConfirmButton: true, allowOutsideClick: true});
+                        return false;
+                    } else {
+                        if (!tel.test($(telefono).val().trim())) {
+                            swal({type: "error", title: "¡Error!", text: "Teléfono debe tener minimo 7 digitos", confirmButtonText: "Aceptar", showConfirmButton: true, allowOutsideClick: true});
+                            return false;
+                        }
+                    }
+                }
+            }
+        </script>
+        
+        
+        
+        
+    </body>
+
+</html>

@@ -26,7 +26,7 @@
 
                             });
                         </script> </c:if>
-                    #{usuarioControlador.cambiarEstado()}
+                        #{usuarioControlador.cambiarEstado()}
                     <p:dataTable id="tabla" emptyMessage="Ningun rol registrado" value="#{usuarioControlador.listarUsuario()}" 
                                  var="usu" editable="true" editMode="cell" widgetVar="cellTabla" paginator="true" paginatorPosition="bottom" 
                                  paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"

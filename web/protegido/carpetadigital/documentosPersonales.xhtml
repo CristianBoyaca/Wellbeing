@@ -34,8 +34,8 @@
                     </p:selectOneMenu>
                     <h:commandLink  actionListener="#{documentoControlador.descargarDocumento(documentoControlador.documento.nombre)}" class="btn btn-info " style="margin-left:100px;margin-top: 10px;margin-bottom: 10px">
                         <p:fileDownload value="#{documentoControlador.archivo1}"/><span class="glyphicon glyphicon-download-alt" type="submit" update="mensaje">&nbsp;Descargar</span></h:commandLink>
-                        <h:commandLink  actionListener="#{documentoControlador.ver(documentoControlador.documento.nombre)}" class="btn btn-info " style="margin-left:100px"><span class="glyphicon glyphicon-eye-open" type="submit" update="mensaje">&nbsp;Ver</span></h:commandLink>
-       
+                    <h:commandLink  actionListener="#{documentoControlador.ver(documentoControlador.documento.nombre)}" class="btn btn-info " style="margin-left:100px"><span class="glyphicon glyphicon-eye-open" type="submit" update="mensaje">&nbsp;Ver</span></h:commandLink>
+
                 </h:form>
                 <script>
                     function validar() {

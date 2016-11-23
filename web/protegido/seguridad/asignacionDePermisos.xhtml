@@ -84,7 +84,7 @@
                                     $(this).prop("checked", true);
                                 });
 
-                            } else {    
+                            } else {
                                 $("#tblPermisos input[type=checkbox]").each(function () {
                                     $(this).prop("checked", false);
                                 });
@@ -96,9 +96,9 @@
                 </script>
                 <script>
                     function validar() {
-                        
+
                         select = PF('rol').getSelectedValue();
-                        
+
                         if (select.valueOf() === '') {
                             swal({
                                 type: "error",
@@ -109,8 +109,8 @@
                             });
                             return false;
                         }
-                        if ($( "input[type=checkbox]:checked" ).length===0){
-                             swal({
+                        if ($("input[type=checkbox]:checked").length === 0) {
+                            swal({
                                 type: "error",
                                 title: "¡Se debe seleccionar un permiso!",
                                 confirmButtonText: "Aceptar",

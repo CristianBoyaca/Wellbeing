@@ -19,24 +19,24 @@
                 <!-- formulario-->
                 <h:form id="formulario" a:method="post" class="form-horizontal contenedor" style="margin-bottom: 100px;margin-top: 30px" acceptcharset="ISO-8859-1">
                     <c:if test="#{usuarioControlador.estado==1}">
-                                <script language="JavaScript" type="text/javascript">
-                                    $(document).ready(function () {
-                                        swal({type: "success", title: "¡Cambio de contraseña exitoso!", confirmButtonText: "Aceptar", showConfirmButton: true, allowOutsideClick: true, time: 3000}, function () {
-                                            window.location.href = "../inicio.xhtml";
-                                        });
-                                    });
-                                </script> </c:if>
-                         
-                      <c:if test="#{usuarioControlador.estado==2}">
-                                <script language="JavaScript" type="text/javascript">
-                                    $(document).ready(function () {
-                                        swal({type: "error",title: "¡Cambio de contraseña fallida!", text: "¡Contraseña actual incorrecta!", confirmButtonText: "Aceptar", showConfirmButton: true, allowOutsideClick: true});
-                                    });
-                                </script> </c:if>
-                    #{usuarioControlador.cambiarEstado()}
+                        <script language="JavaScript" type="text/javascript">
+                            $(document).ready(function () {
+                                swal({type: "success", title: "¡Cambio de contraseña exitoso!", confirmButtonText: "Aceptar", showConfirmButton: true, allowOutsideClick: true, time: 3000}, function () {
+                                    window.location.href = "../inicio.xhtml";
+                                });
+                            });
+                        </script> </c:if>
+
+                    <c:if test="#{usuarioControlador.estado==2}">
+                        <script language="JavaScript" type="text/javascript">
+                            $(document).ready(function () {
+                                swal({type: "error", title: "¡Cambio de contraseña fallida!", text: "¡Contraseña actual incorrecta!", confirmButtonText: "Aceptar", showConfirmButton: true, allowOutsideClick: true});
+                            });
+                        </script> </c:if>
+                        #{usuarioControlador.cambiarEstado()}
                     <p:growl id="mensaje" autoUpdate="true" severity="info,fatal,warn" showSummary="true" showDetail="true"/>
                     <fieldset>
-                     
+
                         <!-- Form Name -->
                         <legend style="text-align:left;margin-left: 10px"><img src="../../resources/images/logo.JPG" alt="Logo" width="30%" height="200px"/>&nbsp;&nbsp;&nbsp;&nbsp; Cambio de contraseña</legend>
                         <!-- Text input-->
@@ -81,24 +81,24 @@
                         contraseniaActual = document.getElementById("formulario:contraseniaActual");
                         contraseniaNueva = document.getElementById("formulario:contraseniaNueva");
                         confirmarContrasenia = document.getElementById("formulario:confirmarContrasenia");
-                        
+
 
                         if (contraseniaActual.value === '' || contraseniaNueva.value === '' || confirmarContrasenia.value === '') {
                             swal({type: "error", title: "¡Cambio de contraseña fallida!", text: "No se pueden dejar campos vacios", confirmButtonText: "Aceptar", showConfirmButton: true, allowOutsideClick: true});
                             return false;
                         }
-                        if ( !val.test($(contraseniaActual).val().trim()) || !val.test($(contraseniaNueva).val().trim()) || !val.test($(confirmarContrasenia).val().trim())) {
-                                swal({type: "error", title: "¡Cambio de contraseña fallida!", text: "La contraseña debe tener minimo 8 caracteres", confirmButtonText: "Aceptar", showConfirmButton: true, allowOutsideClick: true});
+                        if (!val.test($(contraseniaActual).val().trim()) || !val.test($(contraseniaNueva).val().trim()) || !val.test($(confirmarContrasenia).val().trim())) {
+                            swal({type: "error", title: "¡Cambio de contraseña fallida!", text: "La contraseña debe tener minimo 8 caracteres", confirmButtonText: "Aceptar", showConfirmButton: true, allowOutsideClick: true});
                             return false;
-                            }
-                         if ( contraseniaNueva.value===contraseniaActual.value) {
-                                swal({type: "error", title: "¡Cambio de contraseña fallida!", text: "La contraseña nueva no puede ser igual a la contraseña anterior", confirmButtonText: "Aceptar", showConfirmButton: true, allowOutsideClick: true});
+                        }
+                        if (contraseniaNueva.value === contraseniaActual.value) {
+                            swal({type: "error", title: "¡Cambio de contraseña fallida!", text: "La contraseña nueva no puede ser igual a la contraseña anterior", confirmButtonText: "Aceptar", showConfirmButton: true, allowOutsideClick: true});
                             return false;
-                            }
-                            if ( contraseniaNueva.value!==confirmarContrasenia.value) {
-                                swal({type: "error", title: "¡Cambio de contraseña fallida!", text: "La confirmacion de la nueva contraseña no coincide con la nueva contraseña", confirmButtonText: "Aceptar", showConfirmButton: true, allowOutsideClick: true});
+                        }
+                        if (contraseniaNueva.value !== confirmarContrasenia.value) {
+                            swal({type: "error", title: "¡Cambio de contraseña fallida!", text: "La confirmacion de la nueva contraseña no coincide con la nueva contraseña", confirmButtonText: "Aceptar", showConfirmButton: true, allowOutsideClick: true});
                             return false;
-                            }
+                        }
                     }
                 </script>
             </ui:define>
