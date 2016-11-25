@@ -52,13 +52,13 @@ public class VacacionControlador implements Serializable {
 
     public void registrarVacaciones() {
         try {
+            vacacion.setDiasDisfrutados(null);
             vacacionFacade.create(vacacion);
             String documento = "";
             documento += vacacion.getIdentificacion();
             Integer tipoSolicitud = 3;
             vacacionFacade.registrarSolicitudVacaciones(documento, tipoSolicitud);
             vacacion.setFechaInicial(null);
-            vacacion.setFechaFinal(null);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Registro Vacaciones", "Se ha registrado correctamente su solicitud "));
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error", "No se pudo registrar correctamente su solicitud de vacaciones"));
@@ -76,7 +76,6 @@ public class VacacionControlador implements Serializable {
         Integer mes = fecha.getMonth() + 1;
         Integer anio = fecha.getYear() + 1900;
         Calendar fechaInicio = new GregorianCalendar();
-
         fechaInicio.set(anio, mes, dia);
 
 //fecha fin
@@ -93,33 +92,60 @@ public class VacacionControlador implements Serializable {
 //asi sabemos cuantos dias
         vacacion.setPeriodo(String.valueOf(cal.get(Calendar.DAY_OF_YEAR) * 15 / 365));
         vacacion.setEstadoPeriodo("Disponible");
+        vacacion.setDiasAcumulados(0);
+        vacacion.setDiasDisfrutados(0);
+        if (vacacionFacade.buscarDias(vacacion.getIdentificacion().getIdentificacion()) != null) {
+            if (vacacionFacade.buscarDias(vacacion.getIdentificacion().getIdentificacion()).getDiasAcumulados() != null) {
+                vacacion.setDiasAcumulados(vacacionFacade.buscarDias(vacacion.getIdentificacion().getIdentificacion()).getDiasAcumulados());
+            }
+
+            if (vacacionFacade.buscarDias(vacacion.getIdentificacion().getIdentificacion()).getDiasDisfrutados() != null) {
+                vacacion.setDiasDisfrutados(vacacionFacade.buscarDias(vacacion.getIdentificacion().getIdentificacion()).getDiasDisfrutados());
+            }
+
+            vacacion.setPeriodo(vacacionFacade.buscarDias(vacacion.getIdentificacion().getIdentificacion()).getPeriodo());
+            vacacion.setPeriodo(String.valueOf(Integer.parseInt(vacacion.getPeriodo()) + vacacion.getDiasAcumulados()));
+            SimpleDateFormat formato = new SimpleDateFormat("yyyy/MM/dd");
+            String fecha1 = (getFechaActual().getYear() + 1900) + "/" + mes + "/" + dia;
+            Date date = null;
+            date = formato.parse(fecha1);
+            if (vacacionFacade.buscarDias(vacacion.getIdentificacion().getIdentificacion(), date) == null) {
+                vacacion.setPeriodo(String.valueOf((cal.get(Calendar.DAY_OF_YEAR) * 15 / 365)+ vacacion.getDiasAcumulados()));
+            }
+
+        }
 
     }
-    
-    
-    public void vacacionPorSolicitu(int idSolilcitud){
-    
-       
-       vacacion=new Vacacion();
-       vacacionFacade.buscarPorSolicitud(idSolilcitud);
-       
+
+    public void vacacionPorSolicitu(int idSolilcitud) {
+
+        vacacion = new Vacacion();
+        vacacionFacade.buscarPorSolicitud(idSolilcitud);
+
     }
 
     public String fechaInicio() {
         Date date = new Date();
-        return date.getYear() + 1900 + "-" + (date.getMonth() + 1) + "-" + (date.getDate()+1);
+        return date.getYear() + 1900 + "-" + (date.getMonth() + 1) + "-" + (date.getDate() + 1);
     }
-    
+
     public String fechaFinal() {
         Date date = new Date();
-        if((date.getMonth() + 6)>12){
-        date.setMonth((date.getMonth()+6)-12);
-        date.setYear(date.getYear()+1900+1);
-        }else{
-        date.setMonth((date.getMonth()+6));
-        date.setYear(date.getYear()+1900);
+        if ((date.getMonth() + 6) > 12) {
+            date.setMonth((date.getMonth() + 6) - 12);
+            date.setYear(date.getYear() + 1900 + 1);
+        } else {
+            date.setMonth((date.getMonth() + 6));
+            date.setYear(date.getYear() + 1900);
         }
-        
-        return date.getYear()+ "-" +date.getMonth()+ "-" +(date.getDate()+1);
+
+        return date.getYear() + "-" + date.getMonth() + "-" + (date.getDate() + 1);
+    }
+
+    public Date getFechaActual() throws ParseException {
+        Date ahora = new Date();
+        SimpleDateFormat formateador = new SimpleDateFormat("yyyy-MM-dd");
+        ahora = formateador.parse(formateador.format(ahora));
+        return ahora;
     }
 }

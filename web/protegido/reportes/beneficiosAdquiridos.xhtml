@@ -24,10 +24,7 @@
                 </c:if>
                 <h:form style="margin-bottom: 40px;margin-left:30%">
 
-                    <h:commandLink>
-                        <p:graphicImage name="../../resources/images/reportes.png" width="24"/>
-                        <p:dataExporter type="csv" target="panel" fileName="reportes" />
-                    </h:commandLink>
+                   
                     <h:panelGroup id="panel" layout="block">
                         <p:chart type="pie" model="#{solicitudControlador.pieChartModel}" style="width:400px;height:300px" rendered="#{solicitudControlador.pieChartModel !=null}" />
                     </h:panelGroup>  

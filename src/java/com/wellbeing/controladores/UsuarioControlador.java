@@ -364,10 +364,6 @@ public class UsuarioControlador implements Serializable {
         return cadenaAleatoria;
     }
     
-    public String consultarCorreo(String idusuario){
-    
-     return usuarioFacade.consultarCorreo(idusuario);
-    
-    }
+   
 
 }

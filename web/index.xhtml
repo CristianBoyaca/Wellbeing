@@ -16,7 +16,6 @@ and open the template in the editor.
         <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
         <meta name="description" content=""/>
         <meta name="author" content=""/>
-        <title>Agency - Start Bootstrap Theme</title>
 
         <!-- Bootstrap Core CSS -->
         <link href="resources/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
@@ -92,6 +91,12 @@ and open the template in the editor.
                 </div>
             </div>
         </header>
+        
+        <div  style="margin-bottom: 10px" id="google_translate_element"></div><script type="text/javascript">
+            function googleTranslateElementInit() {
+                new google.translate.TranslateElement({pageLanguage: 'es', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
+            }
+        </script><script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
         <!-- Services Section -->
         <section id="services">
@@ -315,13 +320,13 @@ and open the template in the editor.
         <h:outputScript library="js" name="sweetalert-dev.js"/>
         <h:outputScript library="js" name="sweetalert.min.js"/>
         <script type="text/javascript">
-            $(function () {
-                //Para escribir solo numeros    
-                $("#form\\:phone").keyup(function () {
+                                $(function () {
+                                    //Para escribir solo numeros    
+                                    $("#form\\:phone").keyup(function () {
 
-                    this.value = (this.value + '').replace(/[^0-9-]/g, '');
-                });
-            });
+                                        this.value = (this.value + '').replace(/[^0-9-]/g, '');
+                                    });
+                                });
 
         </script>
 
@@ -335,7 +340,7 @@ and open the template in the editor.
                 telefono = document.getElementById("form:phone");
                 mensaje = document.getElementById("form:message");
 
-                if (nombre==='' || correo.value === '' || telefono.value === '' || mensaje==='' ) {
+                if (nombre === '' || correo.value === '' || telefono.value === '' || mensaje === '') {
                     swal({type: "error", title: "¡Error!", text: "No se pueden dejar campos vacios", confirmButtonText: "Aceptar", showConfirmButton: true, allowOutsideClick: true});
                     return false;
                 } else {
@@ -352,10 +357,10 @@ and open the template in the editor.
                 }
             }
         </script>
-        
-        
-        
-        
+
+
+
+
     </body>
 
 </html>

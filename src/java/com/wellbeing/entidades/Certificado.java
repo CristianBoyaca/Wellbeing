@@ -63,16 +63,17 @@ public class Certificado implements Serializable {
         this.idCertificado = idCertificado;
     }
 
-    public byte[] getImgCertificado() {
+
+    public Solicitud getIdSolicitud() {
+        return idSolicitud;
+    }
+    
+     public byte[] getImgCertificado() {
         return imgCertificado;
     }
 
     public void setImgCertificado(byte[] imgCertificado) {
         this.imgCertificado = imgCertificado;
-    }
-
-    public Solicitud getIdSolicitud() {
-        return idSolicitud;
     }
 
     public void setIdSolicitud(Solicitud idSolicitud) {
@@ -111,5 +112,5 @@ public class Certificado implements Serializable {
     public String toString() {
         return "com.wellbeing.entidades.Certificado[ idCertificado=" + idCertificado + " ]";
     }
-    
+  
 }

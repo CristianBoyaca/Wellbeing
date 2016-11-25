@@ -12,6 +12,7 @@
         <h:outputStylesheet name="./css/estilos.css"/>
         <title>InicioSesión</title>
         <f:event type="preRenderView" listener="#{usuarioControlador.redireccionarPagina()}"></f:event>
+       
     </h:head>
     <body>
 
@@ -22,7 +23,7 @@
 
                         <div class="panel-body">
                             <div class="form-group" style="text-align: center">
-                                <img src="resources/images/logo.JPG" alt="logo" width="80%" height="200px"/>
+                                 <a href="index.xhtml"><img src="resources/images/logo.JPG" alt="logo" width="80%" height="200px"/></a>
                                 <hr/>
                             </div>
                             <h:form acceptcharset="ISO-8859-1">

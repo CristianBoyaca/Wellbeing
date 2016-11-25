@@ -9,6 +9,7 @@ import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 import java.util.Properties;
 import javax.mail.Message;
 import javax.mail.Session;
@@ -32,8 +33,10 @@ public class Correo implements ServicioCorreo{
     private String contenido;
     private Session session;
     private MimeMessage mimeMessage;
+    private InternetAddress[] internetAddresses;
 
     public Correo() {
+       
     }
 
     public Correo(String correoDestinatario) {
@@ -52,7 +55,7 @@ public class Correo implements ServicioCorreo{
             session = Session.getDefaultInstance(propiedades);
             mimeMessage = new MimeMessage(session);
             mimeMessage.setFrom(new InternetAddress(CORREO_REMITENTE));
-            mimeMessage.setRecipient(Message.RecipientType.TO, new InternetAddress(correoDestinatario));
+  
 
         } catch (Exception e) {
             Logger.getLogger(Correo.class.getName()).log(Level.SEVERE, null, e);
@@ -87,14 +90,41 @@ public class Correo implements ServicioCorreo{
     }
 
     
+    
     public boolean enviarCorreo() {
         try {
             init();
+            mimeMessage.setRecipient(Message.RecipientType.TO, new InternetAddress(correoDestinatario));
             mimeMessage.setSubject(asunto);
             //mimeMessage.setText(contenido);
             mimeMessage.setContent(contenido, "text/html");
             Transport transport=session.getTransport("smtp");
             transport.connect(CORREO_REMITENTE,CONTRASENIA_REMITENTE);
+            transport.sendMessage(mimeMessage, mimeMessage.getAllRecipients());
+            transport.close();
+            return true;
+        } catch (Exception e) {
+             Logger.getLogger(Correo.class.getName()).log(Level.SEVERE, null, e);
+            return false;
+        }
+    }
+    
+    public boolean enviarCorreosMasivos(List<String> corrreos) {
+        try {
+            init();
+            
+            mimeMessage.setSubject(asunto);
+            //mimeMessage.setText(contenido);
+            mimeMessage.setContent(contenido, "text/html");
+            Transport transport=session.getTransport("smtp");
+            transport.connect(CORREO_REMITENTE,CONTRASENIA_REMITENTE);
+            internetAddresses=new InternetAddress[2];
+            int i=0;
+            for (String corrreo : corrreos) {
+                  internetAddresses[i] = new InternetAddress(corrreo);
+                  i++;
+            }
+            mimeMessage.setRecipients(Message.RecipientType.TO, internetAddresses);
             transport.sendMessage(mimeMessage, mimeMessage.getAllRecipients());
             transport.close();
             return true;

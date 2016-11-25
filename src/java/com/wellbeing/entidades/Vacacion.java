@@ -57,6 +57,10 @@ public class Vacacion implements Serializable {
     @Size(max = 10)
     @Column(name = "estadoPeriodo")
     private String estadoPeriodo;
+     @Column(name = "diasAcumulados")
+    private Integer diasAcumulados;
+    @Column(name = "diasDisfrutados")
+    private Integer diasDisfrutados;
     @JoinColumn(name = "identificacion", referencedColumnName = "identificacion")
     @ManyToOne
     private DatoEmpleado identificacion;
@@ -110,6 +114,22 @@ public class Vacacion implements Serializable {
     public void setEstadoPeriodo(String estadoPeriodo) {
         this.estadoPeriodo = estadoPeriodo;
     }
+    
+        public Integer getDiasAcumulados() {
+        return diasAcumulados;
+    }
+
+    public void setDiasAcumulados(Integer diasAcumulados) {
+        this.diasAcumulados = diasAcumulados;
+    }
+
+    public Integer getDiasDisfrutados() {
+        return diasDisfrutados;
+    }
+
+    public void setDiasDisfrutados(Integer diasDisfrutados) {
+        this.diasDisfrutados = diasDisfrutados;
+    }
 
     public DatoEmpleado getIdentificacion() {
         return identificacion;
@@ -151,5 +171,5 @@ public class Vacacion implements Serializable {
     public String toString() {
         return "com.wellbeing.entidades.Vacacion[ idVacaciones=" + idVacaciones + " ]";
     }
-    
+  
 }

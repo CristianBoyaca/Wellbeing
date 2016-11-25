@@ -28,11 +28,15 @@
                                             <tr>
                                                 <th>Fecha De Ingreso</th>
                                                 <th>Días legales a solicitar en tiempo</th>
+                                                <th>Días Acumulados</th>
+                                                <th>Días Disfrutados</th>
                                             </tr>
                                         </thead>
                                         <tr>
                                             <td><h:dataTable value="#{datoEmpleadoControlador.buscarInformacion()}" var="dat"><h:column><h:outputText value="#{dat.fechaIngreso}"><f:convertDateTime pattern="dd/MM/yyyy"/></h:outputText></h:column></h:dataTable></td>
                                             <td><h:outputText value="#{vacacionControlador.vacacion.periodo}"/></td>
+                                            <td><h:outputText value="#{vacacionControlador.vacacion.diasAcumulados}"/></td>
+                                            <td><h:outputText value="#{vacacionControlador.vacacion.diasDisfrutados}"/></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -57,7 +61,12 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
+                         <div class="form-group">
+                            <label class="col-md-4 control-label" for="FechaDeInicio"><font color="red" size="4">*</font>Fecha De Inicio:</label><div class="col-md-4"> 
+                                <p:calendar  id="fechaInicio" locale="es" pattern="yyyy-MM-dd" size="24" mindate="#{vacacionControlador.fechaInicio()}" maxdate="#{vacacionControlador.fechaFinal()}" required="true" requiredMessage="Se debe seleccionar una fecha" value="#{vacacionControlador.vacacion.fechaInicial}"></p:calendar><p:message for="fechaInicio"/></div>
+                        </div>
+                        
+                     <!--   <div class="form-group">
                             <label class="col-md-4 control-label" for="FechaDeInicio"><font color="red" size="4">*</font>Fecha De Inicio:</label><div class="col-md-4"> 
                                 <p:calendar  id="fechaInicio" locale="es" pattern="yyyy-MM-dd" size="24" mindate="#{vacacionControlador.fechaInicio()}" maxdate="#{vacacionControlador.fechaFinal()}" required="true" requiredMessage="Se debe seleccionar una fecha" value="#{vacacionControlador.vacacion.fechaInicial}"><p:ajax event="dateSelect" update="fechaFinal" /></p:calendar><p:message for="fechaInicio"/></div>
                         </div>
@@ -66,7 +75,9 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label" for="FechaFinal"><font color="red" size="4">*</font>Fecha Final:</label><div class="col-md-4"> 
                                 <p:calendar  id="fechaFinal" locale="es" pattern="yyyy-MM-dd" size="24" mindate="#{vacacionControlador.vacacion.fechaInicial}" maxdate="#{vacacionControlador.fechaFinal()}" required="true" requiredMessage="Se debe seleccionar una fecha" value="#{vacacionControlador.vacacion.fechaFinal}"><f:attribute name="fechaInicio" value="#{vacacionControlador.vacacion.fechaInicial}" /> <f:validator validatorId="primeDateRangeValidator" /></p:calendar><p:message for="fechaFinal"/></div>
-                        </div>
+                        </div>-->
+
+
 
                         <!-- Text input-->
                         <div class="form-group">

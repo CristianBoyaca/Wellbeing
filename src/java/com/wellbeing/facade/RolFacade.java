@@ -40,5 +40,16 @@ public class RolFacade extends AbstractFacade<Rol> {
         return q.getResultList();
 
     }
+    
+    public Rol buscarRol(String usuario){
+      Rol rol=null; 
+       Query q = em.createQuery("SELECT r FROM Rol r JOIN r.usuarioList u WHERE u.idUsuario=?1");
+        q.setParameter(1, usuario);
+        if (!q.getResultList().isEmpty()) {
+           rol=(Rol) q.getSingleResult();
+       }
+        return rol ;
+    
+    }
 
 }

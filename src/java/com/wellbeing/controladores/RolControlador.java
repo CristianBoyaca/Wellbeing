@@ -8,6 +8,7 @@ package com.wellbeing.controladores;
 import com.wellbeing.controladores.util.JsfUtil;
 import com.wellbeing.entidades.Permiso;
 import com.wellbeing.entidades.Rol;
+import com.wellbeing.entidades.Usuario;
 import com.wellbeing.facade.RolFacade;
 import java.io.Serializable;
 import java.util.Arrays;
@@ -151,5 +152,10 @@ public class RolControlador implements Serializable {
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error", "No se pudo actualizar correctamente los permisos"));
         }
+    }
+
+    public Rol consultarRol() {
+        Usuario u = (Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario");
+        return rolFacade.buscarRol(u.getIdUsuario());
     }
 }

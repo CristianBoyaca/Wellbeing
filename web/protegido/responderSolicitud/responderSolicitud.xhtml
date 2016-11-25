@@ -17,6 +17,8 @@
             </ui:define>
 
             <ui:define name="content">
+                <a>#{beneficioControlador.cargarDocumento()}</a>
+
                 <c:if test="#{solicitudControlador.validador==true}">
                     <script language="JavaScript" type="text/javascript">
                         $(document).ready(function () {
@@ -27,56 +29,72 @@
                     </script>
                     #{solicitudControlador.cambiarValidador()}
                 </c:if>
-                <h:form class="container btn-group-sm" style="background-color: rgba(255,255,255,0.7); 
+                <h:form id="form" class="container btn-group-sm" style="background-color: rgba(255,255,255,0.7); 
                         min-height: 200px; padding: 50px; text-align: center;">
-
+                    <p:growl  autoUpdate="true" severity="info,fatal,warn" showSummary="true" showDetail="true"/>
                     <h:panelGrid columns="3" cellpadding="6" style="width: 100%"> 
-                        <p:outputPanel id="restrictPanel" layout="block" style="width: 300px;height: 200px;border: 1px solid#666666;margin-bottom: 20px">
-                            <p:panel id="conpn1" header="Tipo Solicitud">
-                                <h:outputLabel class="label "  value="#{solicitudControlador.solicitud.tipoSolicitud.tipoSolicitud}" >
-                                </h:outputLabel>
-                            </p:panel>
-                            <p:panel id="conpn2" header="No. Solicitud">
-                                <h:outputLabel  class="label "  value="#{solicitudControlador.solicitud.idSolicitud}" ></h:outputLabel>
-                            </p:panel>
-                            <p:panel id="conpn3" header="Fecha de  Radicación">
-                                <h:outputLabel  class="label "  value="#{solicitudControlador.solicitud.fechaRadicacion}" ><f:convertDateTime pattern="dd/MM/yyyy" /></h:outputLabel>
-                            </p:panel>
-                            <p:panel id="conpn4" header="Usuario Radicador">
-                                <h:outputLabel  class="label "  value="#{solicitudControlador.solicitud.usuarioRadicador}" ></h:outputLabel>
-                            </p:panel>
-                            <p:panel id="conpn5" header="Fecha Inicial">
-                                <h:outputLabel  class="label "  value="#{solicitudControlador.vacacion.fechaInicial}" ><f:convertDateTime pattern="dd/MM/yyyy" /></h:outputLabel>
-                            </p:panel>
-                            <p:panel id="conpn6" header="Fecha Final">
-                                <h:outputLabel  class="label "  value="#{solicitudControlador.vacacion.fechaFinal}" ><f:convertDateTime pattern="dd/MM/yyyy" /></h:outputLabel>
-                            </p:panel>
-                        </p:outputPanel>
-                        <p:outputPanel>
-
-                            <div class="col-lg-12">
-                                <div class="col-lg-6">
-                                    <span class="input-group-lg">
-                                        <p:outputLabel>Decisión</p:outputLabel>
-                                    </span>  
-                                    <div class="input-group-lg">
-                                        <p:selectOneMenu  value="#{solicitudControlador.solicitud.decision}">
-                                            <f:selectItem  itemValue="Aceptado" itemLabel="Aceptado"/>
-                                            <f:selectItem  itemValue="Rechazado" itemLabel="Rechazado"/>
-                                        </p:selectOneMenu>
-                                        <div>    
-                                            <p:outputLabel>Observacion</p:outputLabel>
-                                            <p:inputTextarea value="#{observacionControlador.observacion.observacion}"></p:inputTextarea>
-                                        </div><!-- /input-group -->   
+                        <c:if test="#{rolControlador.consultarRol().idRol==2}">
+                            <p:outputPanel id="restrictPanel" layout="block" style="width: 300px;height: 5  00px;border: 1px solid#666666;margin-bottom: 20px">
+                                <p:panel id="conpn1" header="Tipo Solicitud">
+                                    <h:outputLabel class="label "  value="#{solicitudControlador.solicitud.tipoSolicitud.tipoSolicitud}" >
+                                    </h:outputLabel>
+                                </p:panel>
+                                <p:panel id="conpn2" header="No. Solicitud">
+                                    <h:outputLabel  class="label "  value="#{solicitudControlador.solicitud.idSolicitud}" ></h:outputLabel>
+                                </p:panel>
+                                <p:panel id="conpn3" header="Fecha de  Radicación">
+                                    <h:outputLabel  class="label "  value="#{solicitudControlador.solicitud.fechaRadicacion}" ><f:convertDateTime pattern="dd/MM/yyyy" /></h:outputLabel>
+                                </p:panel>
+                                <p:panel id="conpn4" header="Usuario Radicador">
+                                    <h:outputLabel  class="label "  value="#{solicitudControlador.solicitud.usuarioRadicador}" ></h:outputLabel>
+                                </p:panel>
+                                <p:panel id="conpn5" header="Fecha Inicial">
+                                    <h:outputLabel  class="label "  value="#{solicitudControlador.vacacion.fechaInicial}" ><f:convertDateTime pattern="dd/MM/yyyy" /></h:outputLabel>
+                                </p:panel>
+                                <p:panel id="conpn6" header="Fecha Final">
+                                    <h:outputLabel  class="label "  value="#{solicitudControlador.vacacion.fechaFinal}" ><f:convertDateTime pattern="dd/MM/yyyy" /></h:outputLabel>
+                                </p:panel>
+                            </p:outputPanel>
+                        </c:if>
+                        <c:if test="#{rolControlador.consultarRol().idRol==2}">
+                            <p:outputPanel>
+                                <div class="col-lg-12">
+                                    <div class="col-lg-6">
+                                        <span class="input-group-lg">
+                                            <p:outputLabel>Decisión</p:outputLabel>
+                                        </span>  
                                         <div class="input-group-lg">
-                                            <span class="input-group-btn">
-                                                <h:commandLink value="Enviar" actionListener="#{solicitudControlador.actualizarDecision(observacionControlador.observacion,datoEmpleadoControlador.datoEmpleado)}" class="btn btn-info" type="submit"></h:commandLink>
-                                            </span>
-                                        </div>     
+                                            <p:selectOneMenu  value="#{solicitudControlador.solicitud.decision}">
+                                                <f:selectItem  itemValue="Aceptado" itemLabel="Aceptado"/>
+                                                <f:selectItem  itemValue="Rechazado" itemLabel="Rechazado"/>
+                                            </p:selectOneMenu>
+                                            <c:if test="#{solicitudControlador.solicitud.tipoSolicitud.idTipoSolicitud==3}">
+                                                <div>
+                                                    <label  for="fechaFinal"><font color="red" size="4">*</font> Fecha Final:</label> 
+                                                    <p:calendar  id="fechaFinal" locale="es" pattern="yyyy-MM-dd" size="10" mindate="#{vacacionControlador.fechaInicio()}" maxdate="#{vacacionControlador.fechaFinal()}" required="true" requiredMessage="Se debe seleccionar la fecha de vacaciones" value="#{solicitudControlador.vacacion.fechaFinal}"></p:calendar>
+                                                    <label  for="periodo">Periodo:</label> 
+                                                    <h:inputText  id="periodo"  size="10"  required="true" style="text-align: center" value="#{solicitudControlador.vacacion.periodo}" disabled="true"></h:inputText>
+                                                    <label  for="dias">Dias Acumulados:</label>
+                                                    #{solicitudControlador.vacacion.setDiasAcumulados(0)}
+                                                    <h:inputText  id="dias"  size="10"  required="true" style="text-align: center" value="#{solicitudControlador.vacacion.diasAcumulados}" maxlength="2"></h:inputText>
+                                                    <label  for="diasDisfrutados"><font color="red" size="4">*</font> Dias Disfrutados:</label>
+                                                    <h:inputText  id="diasDisfrutados"  size="10"  required="true" style="text-align: center" value="#{solicitudControlador.vacacion.diasDisfrutados}" maxlength="2" requiredMessage="Se debe seleccionar los dias a disfrutar"></h:inputText>
+                                                </div>
+                                            </c:if>
+                                            <div>    
+                                                <p:outputLabel>Observacion</p:outputLabel>
+                                                <p:inputTextarea value="#{observacionControlador.observacion.observacion}"></p:inputTextarea>
+                                            </div><!-- /input-group -->   
+                                            <div class="input-group-lg">
+                                                <span class="input-group-btn">
+                                                    <h:commandLink value="Enviar" actionListener="#{solicitudControlador.actualizarDecision(observacionControlador.observacion,beneficioControlador.beneficio.identificacion)}" class="btn btn-info" type="submit"></h:commandLink>
+                                                </span>
+                                            </div>     
+                                        </div>
                                     </div>
-                                </div>
-                            </div>    
-                        </p:outputPanel>
+                                </div>    
+                            </p:outputPanel>
+                        </c:if>
                         <p:outputPanel style="width: 100%;position: relative">
 
                             <table id="tblSolicitud" class="table table-striped" data-toggle="table" data-pagination="true" data-sort-name="Registro" data-search="true" data-sort-order="desc"  data-show-columns="true"  data-page-size="8" data-page-list="[4, 8, 16, 32, Todos]">
@@ -102,7 +120,22 @@
                     </h:panelGrid>
 
                     <div Style="padding: 15%" ></div>
-                </h:form>    
+                </h:form> 
+                <h:outputScript library="js" name="validCampoFranz.js"/>
+                <script type="text/javascript">
+                    $(function () {
+                        //Para escribir solo numeros    
+                        $("#form\\:dias").keyup(function () {
+
+                            this.value = (this.value + '').replace(/[^0-9]/g, '');
+                        });
+                        $("#form\\:diasDisfrutados").keyup(function () {
+
+                            this.value = (this.value + '').replace(/[^0-9]/g, '');
+                        });
+                    });
+
+                </script>
             </ui:define>
         </ui:composition>
     </body>

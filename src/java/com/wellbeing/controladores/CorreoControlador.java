@@ -84,6 +84,16 @@ public class CorreoControlador {
         
     }
     
+    public void responderSolicitud(List<String> correos,String contenido){
+        this.correo.setAsunto("Respuesta Solicitud Wellbeing");
+        this.correo.setContenido(contenido);
+        if (correo.enviarCorreosMasivos(correos)) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Responder Solicitud", "Se ha enviado el correo exitosamente"));
+        }else{
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Responder Solicitud", "No se ha enviado el correo exitosamente"));
+        }
+    }
+    
     public void enviarMensaje(Integer tipo) {
         if (correo.enviarCorreo()) {
             if(tipo==1){

@@ -6,6 +6,7 @@
 package com.wellbeing.facade;
 
 import com.wellbeing.entidades.Vacacion;
+import java.util.Date;
 import javax.ejb.Stateless;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -54,5 +55,28 @@ public class VacacionFacade extends AbstractFacade<Vacacion> {
         
     }
     
-    
+   public Vacacion buscarDias(String identificacion) {
+       Vacacion vacacion=null; 
+       Query q = em.createQuery("SELECT v FROM Vacacion v JOIN v.identificacion d  WHERE d.identificacion=?1 AND v.diasDisfrutados!=null ORDER BY v.idVacaciones DESC ");
+        q.setParameter(1, identificacion);
+        q.setMaxResults(1);
+        if (!q.getResultList().isEmpty()) {
+           vacacion=(Vacacion) q.getSingleResult();
+       }
+        return vacacion ;
+   
+   }
+   
+   public Vacacion buscarDias(String identificacion,Date fecha) {
+       Vacacion vacacion=null; 
+       Query q = em.createQuery("SELECT v FROM Vacacion v JOIN v.identificacion d  WHERE d.identificacion=?1 AND v.diasDisfrutados!=null AND v.fechaInicial>=?2 ORDER BY v.idVacaciones DESC ");
+        q.setParameter(1, identificacion);
+        q.setParameter(2,fecha);
+        q.setMaxResults(1);
+        if (!q.getResultList().isEmpty()) {
+           vacacion=(Vacacion) q.getSingleResult();
+       }
+        return vacacion ;
+   
+   }
 }

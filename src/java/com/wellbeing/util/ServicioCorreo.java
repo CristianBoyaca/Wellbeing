@@ -5,10 +5,13 @@
  */
 package com.wellbeing.util;
 
+import java.util.List;
+
 /**
  *
  * @author cristian
  */
 public interface ServicioCorreo {
     public boolean enviarCorreo();
+    public boolean enviarCorreosMasivos(List<String> corrreos);
 }

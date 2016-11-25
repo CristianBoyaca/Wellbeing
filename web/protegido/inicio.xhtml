@@ -26,10 +26,12 @@
                     <div class="container panel" style="margin-bottom:80px;margin-top: 50px">
 
                         <table id="tblSolicitud" class="table table-striped display"  data-toggle="table"  data-sort-name="Registro"  data-sort-order="desc"  data-show-columns="true"  data-page-size="8" ><h3 style="text-align:center">Solicitudes
-                                <button style="margin-left: 10px" id="btnExportar">
-                                    <h:graphicImage url="../resources/images/exportar.jpg" width="40px" height="40px"/>
-                                </button>
-                                <h:commandButton  image="../resources/images/reportes.png" style="width: 70px;height: 70px;margin-left: 70px;margin-top: 10px" actionListener="#{solicitudControlador.exportarPDF()}" />
+                                <c:if test="#{rolControlador.consultarRol().idRol==2}">
+                                    <button style="margin-left: 10px" id="btnExportar">
+                                        <h:graphicImage url="../resources/images/exportar.jpg" width="40px" height="40px"/>
+                                    </button>
+                                    <h:commandButton  image="../resources/images/reportes.png" style="width: 70px;height: 70px;margin-left: 70px;margin-top: 10px" actionListener="#{solicitudControlador.exportarPDF()}" />
+                                </c:if>
                             </h3>
 
 
@@ -39,8 +41,12 @@
                                     <th data-halign="center" data-align="center" data-sortable="true" data-field="Fecha de radicación" >Fecha de radicación</th>
                                     <th data-halign="center" data-align="center" data-sortable="true" data-field="Tipo de solicitud" >Tipo de solicitud</th>
                                     <th data-halign="center" data-align="center" data-sortable="true" data-field="Estado de solicitud" data-switchable="true">Estado de solicitud</th>                                          
-                                    <th data-halign="center" data-align="center" data-sortable="true" data-field="Responder solicitud" data-switchable="true">Responder Solicitud</th>                                          
-
+                                    <c:if test="#{rolControlador.consultarRol().idRol==2}">
+                                        <th data-halign="center" data-align="center" data-sortable="true" data-field="Responder solicitud" data-switchable="true">Responder Solicitud</th>                                          
+                                    </c:if>
+                                    <c:if test="#{rolControlador.consultarRol().idRol!=2}">
+                                        <th data-halign="center" data-align="center" data-sortable="true" data-field="Responder solicitud" data-switchable="true">Ver Detalle</th>                                          
+                                    </c:if>
                                 </tr>
                             </thead>
 
@@ -81,34 +87,35 @@
                 <h:outputScript library="js" name="bootstrap-table-es-ES.min.js"/>
                 <h:outputScript library="js" name="jquery.btechco.excelexport.js"/>
                 <h:outputScript library="js" name="jquery.base64.js"/>
+                <c:if test="#{solicitudControlador.buscarPorUsuario().size()!=0}">
+                    <script>
 
-                <script>
+                        $(document).ready(function () {
+                            $("#btnExportar").click(function () {
+                                $("#tblSolicitud").btechco_excelexport({
+                                    containerid: "tblSolicitud"
+                                    , datatype: $datatype.Table
+                                    , filename: 'Reporte Solicitudes'
+                                });
+                            });
+                            var table = $('#tblSolicitud').DataTable();
 
-                    $(document).ready(function () {
-                        $("#btnExportar").click(function () {
-                            $("#tblSolicitud").btechco_excelexport({
-                                containerid: "tblSolicitud"
-                                , datatype: $datatype.Table
-                                , filename: 'Reporte Solicitudes'
+                            $("#tblSolicitud tfoot th").each(function (i) {
+                                var select = $('<select><option value=""></option></select>')
+                                        .appendTo($(this).empty())
+                                        .on('change', function () {
+                                            table.column(i)
+                                                    .search($(this).val())
+                                                    .draw();
+                                        });
+
+                                table.column(i).data().unique().sort().each(function (d, j) {
+                                    select.append('<option value="' + d + '">' + d + '</option>')
+                                });
                             });
                         });
-                        var table = $('#tblSolicitud').DataTable();
-
-                        $("#tblSolicitud tfoot th").each(function (i) {
-                            var select = $('<select><option value=""></option></select>')
-                                    .appendTo($(this).empty())
-                                    .on('change', function () {
-                                        table.column(i)
-                                                .search($(this).val())
-                                                .draw();
-                                    });
-
-                            table.column(i).data().unique().sort().each(function (d, j) {
-                                select.append('<option value="' + d + '">' + d + '</option>')
-                            });
-                        });
-                    });
-                </script>
+                    </script>
+                </c:if>
             </ui:define>
 
         </ui:composition>

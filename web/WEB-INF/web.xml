@@ -50,8 +50,8 @@
         <location>/faces/error404.xhtml</location>
     </error-page>
     
-    <!--<error-page>
+    <error-page>
         <error-code>500</error-code>
         <location>/faces/error500.xhtml</location>
-    </error-page>-->
+    </error-page>
 </web-app>
