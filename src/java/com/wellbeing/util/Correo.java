@@ -118,7 +118,7 @@ public class Correo implements ServicioCorreo{
             mimeMessage.setContent(contenido, "text/html");
             Transport transport=session.getTransport("smtp");
             transport.connect(CORREO_REMITENTE,CONTRASENIA_REMITENTE);
-            internetAddresses=new InternetAddress[2];
+            internetAddresses=new InternetAddress[corrreos.size()];
             int i=0;
             for (String corrreo : corrreos) {
                   internetAddresses[i] = new InternetAddress(corrreo);

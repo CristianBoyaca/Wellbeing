@@ -229,7 +229,7 @@ public class Solicitud implements Serializable {
 
     @Override
     public String toString() {
-        return "com.wellbeing.entidades.Solicitud[ idSolicitud=" + idSolicitud + " ]";
+         return "com.wellbeing.entidades.Solicitud[ idSolicitud=" + idSolicitud + " ]";
     }
     
 }

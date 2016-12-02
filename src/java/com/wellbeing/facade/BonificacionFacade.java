@@ -8,7 +8,9 @@ package com.wellbeing.facade;
 import com.wellbeing.entidades.Bonificacion;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.ParameterMode;
 import javax.persistence.PersistenceContext;
+import javax.persistence.StoredProcedureQuery;
 
 /**
  *
@@ -27,6 +29,15 @@ public class BonificacionFacade extends AbstractFacade<Bonificacion> {
 
     public BonificacionFacade() {
         super(Bonificacion.class);
+    }
+
+    public void registrarSolicitudBonificacion(String documento, Integer tipoSolicitud) {
+        StoredProcedureQuery procedimientoAlmacenado = em.createStoredProcedureQuery("insertarSolicitud");
+        procedimientoAlmacenado.registerStoredProcedureParameter("iden", String.class, ParameterMode.IN);
+        procedimientoAlmacenado.registerStoredProcedureParameter("tipo", Integer.class, ParameterMode.IN);
+        procedimientoAlmacenado.setParameter("iden", documento);
+        procedimientoAlmacenado.setParameter("tipo", tipoSolicitud);
+        procedimientoAlmacenado.execute();
     }
     
 }

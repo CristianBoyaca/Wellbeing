@@ -113,5 +113,5 @@ public class TipoCertificado implements Serializable {
     public String toString() {
         return "com.wellbeing.entidades.TipoCertificado[ idTipoCertificados=" + idTipoCertificados + " ]";
     }
-    
+
 }

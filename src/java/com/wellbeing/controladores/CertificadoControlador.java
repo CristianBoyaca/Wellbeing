@@ -16,6 +16,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -33,8 +34,8 @@ import javax.servlet.http.HttpServletResponse;
 import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
 import org.primefaces.model.DefaultStreamedContent;
-import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
+import org.primefaces.model.StreamedContent;
 import net.sf.jasperreports.engine.JasperRunManager;
 
 /**
@@ -43,7 +44,7 @@ import net.sf.jasperreports.engine.JasperRunManager;
  */
 @Named
 @SessionScoped
-public class CertificadoControlador implements Serializable{
+public class CertificadoControlador implements Serializable {
 
     @EJB
     private CertificadoFacade certificadoFacade;
@@ -54,6 +55,7 @@ public class CertificadoControlador implements Serializable{
     private List<DatoEmpleado> lista;
     private UploadedFile archivo;
     private StreamedContent streamedContent;
+    private StreamedContent archivo1;
 
     @PostConstruct
     public void init() {
@@ -101,6 +103,14 @@ public class CertificadoControlador implements Serializable{
 
     public void setLista(List<DatoEmpleado> lista) {
         this.lista = lista;
+    }
+
+    public StreamedContent getArchivo1() {
+        return archivo1;
+    }
+
+    public void setArchivo1(StreamedContent archivo1) {
+        this.archivo1 = archivo1;
     }
 
     public void registrarCertificado() {
@@ -161,6 +171,21 @@ public class CertificadoControlador implements Serializable{
             e.printStackTrace();
         }
         return p;
+    }
+
+    public List<Certificado> listarCertificados() {
+        Usuario usuario = (Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario");
+        return certificadoFacade.listarCertificados(usuario.getIdUsuario());
+    }
+
+    public void descargarCertificado(Integer idCertificado) {
+        archivo1 = certificadoFacade.descargarCertificado(idCertificado);
+        certificado.setIdCertificado(0);
+    }
+
+    public void verCertificado(Integer idCertificado) {
+        certificadoFacade.ver(idCertificado);
+        certificado.setIdCertificado(0);
     }
 
 }

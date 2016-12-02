@@ -5,46 +5,34 @@
  */
 package com.wellbeing.controladores;
 
-import com.wellbeing.controladores.util.JsfUtil;
 import com.wellbeing.entidades.TipoBonificacion;
 import com.wellbeing.facade.TipoBonificacionFacade;
+import javax.inject.Named;
+import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
-import javax.faces.model.SelectItem;
-import javax.inject.Named;
 
 /**
  *
- * @author Usuario
+ * @author cristian
  */
 @Named(value = "tipoBonificacionControlador")
 @SessionScoped
-public class TipoBonificacionControlador implements Serializable{
- 
+public class TipoBonificacionControlador implements Serializable {
 
-   @EJB
-   private TipoBonificacion tipoBonificacion;
-   private TipoBonificacionFacade tipoBonificacionFacade;
-   private int selectiTemtiposBonifi;
-   
-   @PostConstruct
-   public void init(){
-    this.tipoBonificacion= new TipoBonificacion();
-   }
+    @EJB
+    private TipoBonificacionFacade tipoBonificacionFacade;
+    private TipoBonificacion tipoBonificacion;
 
-    public TipoBonificacionFacade getTipoBonificacionFacade() {
-        return tipoBonificacionFacade;
-    }
-
-    public void setTipoBonificacionFacade(TipoBonificacionFacade tipoBonificacionFacade) {
-        this.tipoBonificacionFacade = tipoBonificacionFacade;
+    @PostConstruct
+    public void init() {
+        tipoBonificacion = new TipoBonificacion();
     }
 
     public TipoBonificacion getTipoBonificacion() {
@@ -55,29 +43,15 @@ public class TipoBonificacionControlador implements Serializable{
         this.tipoBonificacion = tipoBonificacion;
     }
 
-    public List<TipoBonificacion> listarTipoBonificacion(){
-        
-        return  tipoBonificacionFacade.findAll();
-                
+    public List<TipoBonificacion> getListarTipos() {
+        return tipoBonificacionFacade.findAll();
     }
-    
-    public TipoBonificacion getSelected() {
-        if (tipoBonificacion == null) {
-            tipoBonificacion = new TipoBonificacion();
-            selectiTemtiposBonifi =-1;
-        }
-        return tipoBonificacion;
-    }
-   
-    public SelectItem[] getItemsAvailableSelectOne() {
-        return JsfUtil.getSelectItems(tipoBonificacionFacade.findAll(),false);
-    }
-   
+
     public TipoBonificacion getTipoBonificacion(java.lang.Integer id) {
         return tipoBonificacionFacade.find(id);
     }
-     
-     @FacesConverter(forClass = TipoBonificacion.class)
+
+    @FacesConverter(forClass = TipoBonificacion.class)
     public static class TipoBonificacionControladorConvertidor implements Converter {
 
         @Override
@@ -115,11 +89,6 @@ public class TipoBonificacionControlador implements Serializable{
             }
         }
 
-     
-
-      
     }
-    
-    
-    
+
 }

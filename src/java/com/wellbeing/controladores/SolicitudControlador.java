@@ -5,17 +5,20 @@
  */
 package com.wellbeing.controladores;
 
+import com.wellbeing.entidades.Certificado;
 import com.wellbeing.entidades.DatoEmpleado;
 import com.wellbeing.entidades.Observacion;
 import com.wellbeing.entidades.Solicitud;
 import com.wellbeing.entidades.Usuario;
 import com.wellbeing.entidades.Vacacion;
+import com.wellbeing.facade.CertificadoFacade;
 import com.wellbeing.facade.SolicitudFacade;
 import com.wellbeing.facade.UsuarioFacade;
 import com.wellbeing.facade.UsuarioFacadeLocal;
 import com.wellbeing.facade.VacacionFacade;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
@@ -41,6 +44,7 @@ import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import org.primefaces.model.UploadedFile;
 import org.primefaces.model.chart.PieChartModel;
 
 /**
@@ -55,6 +59,8 @@ public class SolicitudControlador implements Serializable {
     SolicitudFacade solicitudFacade;
     @EJB
     VacacionFacade vacacionFacade;
+    @EJB
+    CertificadoFacade certificadoFacade;
     @EJB
     private UsuarioFacadeLocal usuarioFacadeLocal;
     ObservacionControlador observacion;
@@ -71,6 +77,8 @@ public class SolicitudControlador implements Serializable {
     private DatoEmpleadoControlador datoEmpleadoControlador;
     private List<DatoEmpleado> datoEmpleados;
     private CorreoControlador correoControlador;
+    private UploadedFile archivo;
+    private Certificado certificado;
 
     @PostConstruct
     public void init() {
@@ -79,6 +87,7 @@ public class SolicitudControlador implements Serializable {
         fecha = new Date();
         vacacion = new Vacacion();
         datoEmpleadoControlador = new DatoEmpleadoControlador();
+        certificado = new Certificado();
     }
 
     public Vacacion getVacacion() {
@@ -143,6 +152,22 @@ public class SolicitudControlador implements Serializable {
 
     public void setCorreoControlador(CorreoControlador correoControlador) {
         this.correoControlador = correoControlador;
+    }
+
+    public UploadedFile getArchivo() {
+        return archivo;
+    }
+
+    public void setArchivo(UploadedFile archivo) {
+        this.archivo = archivo;
+    }
+
+    public Certificado getCertificado() {
+        return certificado;
+    }
+
+    public void setCertificado(Certificado certificado) {
+        this.certificado = certificado;
     }
 
     public List<Solicitud> buscarPorUsuario() {
@@ -281,7 +306,7 @@ public class SolicitudControlador implements Serializable {
         String correoRadicador = "";
         correoControlador = new CorreoControlador();
         try {
-           Pattern p = Pattern.compile("[a-zA-Z]");
+            Pattern p = Pattern.compile("[a-zA-Z]");
             Matcher m = p.matcher(obs.getObservacion());
             //datoEmpleados.add((DatoEmpleado) datoEmpleadoControlador.buscarInformacionPorUsuario(solicitud.getUsuarioAsignado()));
             if (!obs.getObservacion().equals("") && m.find()) {
@@ -309,13 +334,13 @@ public class SolicitudControlador implements Serializable {
             // String contenido="";
             //contenido = correoControlador.getCorreo().agregarHtml("/com/wellbeing/util/formatos/notificacionCreacion.xhtml");
             //correoControlador.notificacionMasiva(usuarioCorreo, contenido);
-            
+
             solicitud.setEstado(estadoSol);
-            List<String>correos=new ArrayList<>();
-            correoJefe=usuarioFacadeLocal.consultarCorreo(solicitud.getUsuarioAsignado());
-            correoRadicador=usuarioFacadeLocal.consultarCorreo(solicitud.getUsuarioRadicador().getIdUsuario());
-            correos.add(0,correoJefe);
-            correos.add(1,correoRadicador);
+            List<String> correos = new ArrayList<>();
+            correoJefe = usuarioFacadeLocal.consultarCorreo(solicitud.getUsuarioAsignado());
+            correoRadicador = usuarioFacadeLocal.consultarCorreo(solicitud.getUsuarioRadicador().getIdUsuario());
+            correos.add(0, correoJefe);
+            correos.add(1, correoRadicador);
             String formato = correoControlador.getCorreo().agregarHtml("/com/wellbeing/util/formatos/responderSolicitud.xhtml");
             formato = formato.replace("{nombre}", solicitud.getIdentificacion().getPrimerNombre() + " " + solicitud.getIdentificacion().getPrimerApellido());
             formato = formato.replace("{numero}", String.valueOf(solicitud.getIdSolicitud()));
@@ -331,14 +356,32 @@ public class SolicitudControlador implements Serializable {
                 vacacion = new Vacacion();
             }
 
+            if (archivo.getSize() > 0) {
+                InputStream fi;
+                fi = archivo.getInputstream();
+                // archivo.getContentType();
+                // creamos el buffer
+                byte[] buffer = new byte[(int) archivo.getSize()];
+                // Leer al buffer
+                int readers = fi.read(buffer);
+
+                for (Certificado certificado : solicitud.getCertificadoList()) {
+                    this.certificado.setIdCertificado(certificado.getIdCertificado());
+                    this.certificado.setTipoCertificado(certificado.getTipoCertificado());
+                    this.certificado.setIdSolicitud(certificado.getIdSolicitud());
+                    this.certificado.setImgCertificado(buffer);
+                }
+                certificadoFacade.edit(this.certificado);
+                this.certificado = new Certificado();
+            }
+
             solicitudFacade.edit(solicitud);
-            
 
             //     solicitudFacade.actualizarIdentficacionObservacion(solicitud.getIdentificacion().getIdentificacion());
             // solicitudFacade.actualizarDecision(solicitud.getIdSolicitud(), solicitud.getDecision(),estadoSol,solicitud.getUsuarioRadicador().getIdUsuario());
             validador = true;
         } catch (Exception e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error en ejecucion del metodo" + correoJefe + "--" + correoRadicador, "No se pudo actualizar correctamente el registro"));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error en ejecucion del metodo", "No se pudo actualizar correctamente el registro " + e.getMessage()));
         }
         return "";
     }
